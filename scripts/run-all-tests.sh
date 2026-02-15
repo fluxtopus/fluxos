@@ -114,22 +114,22 @@ if [ "$RUN_UNIT" = true ]; then
         local env_args=()
         if [ ! -d "$path" ]; then
             echo -e "${YELLOW}○${NC} $name skipped (missing $path)"
-            ((TESTS_SKIPPED++))
+            TESTS_SKIPPED=$((TESTS_SKIPPED + 1))
             return 0
         fi
         if [ ! -f "$path/requirements.txt" ]; then
             echo -e "${YELLOW}○${NC} $name skipped (no requirements.txt)"
-            ((TESTS_SKIPPED++))
+            TESTS_SKIPPED=$((TESTS_SKIPPED + 1))
             return 0
         fi
         if [ ! -d "$path/tests" ]; then
             echo -e "${YELLOW}○${NC} $name skipped (no tests/)"
-            ((TESTS_SKIPPED++))
+            TESTS_SKIPPED=$((TESTS_SKIPPED + 1))
             return 0
         fi
         if [ ! -d "$path/tests/unit" ]; then
             echo -e "${YELLOW}○${NC} $name skipped (no tests/unit)"
-            ((TESTS_SKIPPED++))
+            TESTS_SKIPPED=$((TESTS_SKIPPED + 1))
             return 0
         fi
 
@@ -324,10 +324,10 @@ if [ "$RUN_UNIT" = true ]; then
             python:3.11-slim \
             bash -lc "DEBIAN_FRONTEND=noninteractive apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq gcc >/dev/null && pip install -q -r requirements.txt pytest pytest-asyncio && python -m pytest tests/unit -v --tb=short --no-cov -p no:cacheprovider"; then
             echo -e "${GREEN}✓ $name unit tests passed${NC}"
-            ((TESTS_PASSED++))
+            TESTS_PASSED=$((TESTS_PASSED + 1))
         else
             echo -e "${RED}✗ $name unit tests failed${NC}"
-            ((TESTS_FAILED++))
+            TESTS_FAILED=$((TESTS_FAILED + 1))
         fi
 
         if [ -n "$redis_container" ]; then
@@ -374,10 +374,10 @@ if [ "$RUN_E2E" = true ]; then
         "$PLAYWRIGHT_IMAGE" \
         bash -lc "npm ci --silent && npx playwright test ${PLAYWRIGHT_ARGS[*]}"; then
         echo -e "${GREEN}✓ E2E tests passed${NC}"
-        ((TESTS_PASSED++))
+        TESTS_PASSED=$((TESTS_PASSED + 1))
     else
         echo -e "${RED}✗ E2E tests failed${NC}"
-        ((TESTS_FAILED++))
+        TESTS_FAILED=$((TESTS_FAILED + 1))
     fi
 
     echo ""
