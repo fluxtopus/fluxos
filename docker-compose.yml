@@ -116,7 +116,7 @@ services:
       # CORS origins for frontend access
       - CORS_ORIGINS=http://localhost:3000,http://localhost:5173
     env_file:
-      - ./apps/tentackl/.env.example
+      - ./apps/tentackl/.env
     volumes:
       - ./apps/tentackl/src:/app/src
       - ./apps/tentackl/tests:/app/tests
@@ -160,7 +160,7 @@ services:
       - MIMIC_URL=http://mimic:8000
       - MIMIC_API_KEY=sk_mimic_service_dev
     env_file:
-      - ./apps/tentackl/.env.example
+      - ./apps/tentackl/.env
     volumes:
       - ./apps/tentackl/src:/app/src
       - ./apps/tentackl/config:/app/config
@@ -192,7 +192,7 @@ services:
       - INKPASS_JWT_SECRET=${INKPASS_JWT_SECRET_KEY:-dev-jwt-secret-key-change-in-production}
       - INKPASS_SERVICE_API_KEY=${TENTACKL_API_KEY:-sk_tentackl_dev}
     env_file:
-      - ./apps/tentackl/.env.example
+      - ./apps/tentackl/.env
     volumes:
       - ./apps/tentackl/src:/app/src
       - ./packages:/app/packages
