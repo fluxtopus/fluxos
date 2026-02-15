@@ -1,0 +1,190 @@
+name: communication-coordinator-porto
+type: notifier
+version: 1.0.0
+description: Multi-channel communication coordinator for weather notifications
+
+capabilities:
+  - tool: message_generation
+    config:
+      templates:
+        sms:
+          max_length: 160
+          encoding: gsm7
+          personalization: high
+        email:
+          format: html
+          sections:
+            - greeting
+            - weather_update
+            - booking_impact
+            - rescheduling_options
+            - call_to_action
+        push:
+          max_length: 100
+          rich_media: true
+      languages:
+        - pt_PT
+        - en_GB
+        - es_ES
+  
+  - tool: channel_selection
+    config:
+      priorities:
+        urgent: ["sms", "push", "email"]
+        normal: ["email", "push", "sms"]
+        informational: ["email", "app"]
+      customer_preferences: true
+      time_aware: true
+      quiet_hours:
+        start: 22:00
+        end: 08:00
+  
+  - tool: personalization
+    config:
+      data_points:
+        - customer_name
+        - booking_history
+        - communication_preferences
+        - language_preference
+      tone_adjustment:
+        - formal
+        - friendly
+        - urgent
+  
+  - tool: rate_limiting
+    config:
+      per_customer:
+        sms: 2/hour
+        email: 5/day
+        push: 10/day
+      global:
+        sms: 100/minute
+        email: 500/minute
+      burst_protection: true
+
+prompt_template: |
+  You are a communication coordinator for Porto football fields.
+  Generate personalized messages for weather-affected bookings.
+  
+  Customer Information:
+  {customer_info}
+  
+  Booking Details:
+  {booking_details}
+  
+  Weather Situation:
+  {weather_info}
+  
+  Rescheduling Options:
+  {rescheduling_options}
+  
+  Message Parameters:
+  - Type: {message_type}
+  - Channel: {channel}
+  - Language: {language}
+  - Urgency: {urgency}
+  
+  Guidelines:
+  1. Be empathetic about the inconvenience
+  2. Clearly explain the weather situation
+  3. Present rescheduling options attractively
+  4. Include clear call-to-action
+  5. Maintain brand voice: professional yet friendly
+  
+  Channel-specific requirements:
+  - SMS: Maximum 160 characters, include essential info only
+  - Email: Detailed explanation, HTML formatting, multiple options
+  - Push: Concise, actionable, under 100 characters
+  
+  Generate message that:
+  - Addresses customer by name
+  - States the problem clearly
+  - Offers solutions proactively
+  - Provides easy next steps
+  - Includes contact information
+  
+  Return JSON with:
+  - message: string (formatted for channel)
+  - subject: string (for email only)
+  - preview_text: string (for email only)
+  - call_to_action: string
+  - action_url: string (if applicable)
+  - urgency: string (low/medium/high)
+  - estimated_read_time: integer (seconds)
+  - personalization_score: float (0-1)
+
+execution_strategy: parallel
+
+state_schema:
+  required:
+    - customer_info
+    - booking_details
+    - weather_info
+    - message_type
+    - channel
+  output:
+    - message
+    - subject
+    - call_to_action
+    - urgency
+    - delivery_status
+    - personalization_score
+  checkpoint:
+    enabled: true
+    interval: 10
+  validation_rules:
+    personalization_score:
+      type: float
+      min: 0
+      max: 1
+    urgency:
+      type: str
+      enum: ["low", "medium", "high"]
+
+resources:
+  model: gpt-3.5-turbo
+  max_tokens: 500
+  timeout: 20
+  temperature: 0.7
+  max_retries: 2
+
+success_metrics:
+  - metric: personalization_score
+    threshold: 0.8
+    operator: gte
+  - metric: message_length
+    threshold: 160
+    operator: lte
+    condition: "channel == 'sms'"
+
+dependencies:
+  - field_scheduler
+  - customer_database
+  - notification_gateway
+
+performance:
+  batch_size: 50
+  parallel_channels: true
+  delivery_timeout: 30
+  retry_failed: true
+
+notification_tracking:
+  track_delivery: true
+  track_opens: true
+  track_clicks: true
+  track_responses: true
+  analytics_enabled: true
+
+compliance:
+  gdpr_compliant: true
+  opt_out_check: true
+  consent_required: true
+  data_retention: 90  # days
+
+budget:
+  max_cost: 2.00
+  warn_at: 1.50
+  cost_per_message:
+    sms: 0.02
+    email: 0.001
+    push: 0.0001

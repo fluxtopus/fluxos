@@ -1,0 +1,73 @@
+# Production Dockerfile for Tentackl Service
+# Multi-stage build for optimal image size
+
+# Stage 1: Builder
+FROM python:3.11-slim as builder
+
+WORKDIR /app
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy and install Python dependencies
+COPY apps/tentackl/requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+# Install gunicorn for production
+RUN pip install --user --no-cache-dir gunicorn
+
+# Stage 2: Runtime
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    redis-tools \
+    curl \
+    ca-certificates \
+    && update-ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy Python packages from builder
+COPY --from=builder /root/.local /root/.local
+
+# Copy packages directory (for inkpass SDK)
+COPY packages/ /app/packages/
+
+# Install inkpass SDK if available
+RUN if [ -f "/app/packages/inkpass-sdk-python/setup.py" ] || [ -f "/app/packages/inkpass-sdk-python/pyproject.toml" ]; then \
+        pip install -e /app/packages/inkpass-sdk-python; \
+    fi
+
+# Install mimic SDK if available (required for integrations router)
+RUN if [ -f "/app/packages/mimic-sdk-python/setup.py" ] || [ -f "/app/packages/mimic-sdk-python/pyproject.toml" ]; then \
+        pip install -e /app/packages/mimic-sdk-python; \
+    fi
+
+# Copy application code
+COPY apps/tentackl/ .
+
+# Create necessary directories
+RUN mkdir -p /app/logs /app/data
+
+# Set Python path and update PATH
+ENV PYTHONPATH=/app
+ENV PATH=/root/.local/bin:$PATH
+
+# Make startup script executable
+RUN chmod +x start.sh
+
+# Expose port (hosting platforms may provide PORT env var)
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:${PORT:-8000}/health || exit 1
+
+# Use startup script with migrations
+CMD ["./start.sh"]

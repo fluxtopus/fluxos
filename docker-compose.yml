@@ -1,0 +1,383 @@
+# Unified Development Docker Compose
+# This file runs ALL services together for local development
+# For production, each service has its own docker-compose.prod.yml
+
+name: aios
+
+services:
+  # ============================================================================
+  # SHARED INFRASTRUCTURE
+  # ============================================================================
+
+  postgres:
+    image: pgvector/pgvector:pg16  # pgvector extension for semantic search
+    environment:
+      # Creates multiple databases on startup
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_master_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-multiple-databases.sh/init-databases.sh:/docker-entrypoint-initdb.d/init-databases.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - aios-network
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - aios-network
+
+  # ============================================================================
+  # SERVICES
+  # ============================================================================
+
+  # InkPass (authn/authz)
+  inkpass:
+    build:
+      context: .
+      dockerfile: ./apps/inkpass/Dockerfile
+    command: ./start.sh
+    ports:
+      - "8004:8000"
+    environment:
+      - APP_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres_master_pass@postgres:5432/aios_inkpass
+      - REDIS_URL=redis://redis:6379/4
+      - ENCRYPTION_KEY=${INKPASS_ENCRYPTION_KEY:-dev-encryption-key-32-chars-long}
+      - SECRET_KEY=${INKPASS_SECRET_KEY:-dev-secret-key-change-in-production}
+      - JWT_SECRET_KEY=${INKPASS_JWT_SECRET_KEY:-dev-jwt-secret-key-change-in-production}
+      # CORS: Allow all frontend origins
+      - CORS_ORIGINS=http://localhost:3000,http://localhost:3001,http://localhost:3002,http://localhost:8000,http://localhost:8001
+      # Dev Permissions: Auto-assign all permissions to admin user on startup
+      - DEV_PERMISSIONS=admin
+      - DEV_USER_EMAIL=admin@fluxtopus.com
+      # Service API keys for agent file operations (format: service:key,service:key)
+      - SERVICE_API_KEYS=tentackl:${TENTACKL_API_KEY:-sk_tentackl_dev}
+      # Mimic integration for sending emails
+      - MIMIC_URL=http://mimic:8000
+      - MIMIC_API_KEY=sk_mimic_service_dev
+    volumes:
+      - ./apps/inkpass/src:/app/src
+      - ./apps/inkpass/tests:/app/tests
+      - ./apps/inkpass/scripts:/app/scripts
+      - ./apps/inkpass/alembic:/app/alembic
+      - ./packages:/app/packages
+      - den-storage:/tmp/den-storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - aios-network
+
+  # Tentackl (orchestration API)
+  tentackl:
+    build:
+      context: .
+      dockerfile: ./apps/tentackl/Dockerfile
+    command: ./start.sh
+    ports:
+      - "8005:8000"
+    environment:
+      - APP_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres_master_pass@postgres:5432/aios_tentackl
+      - REDIS_URL=redis://redis:6379/5
+      - CELERY_BROKER_URL=redis://redis:6379/5
+      - CELERY_RESULT_BACKEND=redis://redis:6379/5
+      - INKPASS_URL=http://inkpass:8000
+      - INKPASS_JWT_SECRET=${INKPASS_JWT_SECRET_KEY:-dev-jwt-secret-key-change-in-production}
+      - INKPASS_SERVICE_API_KEY=${TENTACKL_API_KEY:-sk_tentackl_dev}
+      # Mimic integration for sending emails/notifications
+      - MIMIC_URL=http://mimic:8000
+      - MIMIC_API_KEY=sk_mimic_service_dev
+      - MIMIC_SERVICE_API_KEY=${MIMIC_SERVICE_API_KEY:-sk_mimic_service_dev}
+      # CORS origins for frontend access
+      - CORS_ORIGINS=http://localhost:3000,http://localhost:5173
+    env_file:
+      - ./apps/tentackl/.env.example
+    volumes:
+      - ./apps/tentackl/src:/app/src
+      - ./apps/tentackl/tests:/app/tests
+      - ./apps/tentackl/config:/app/config
+      - ./apps/tentackl/configs:/app/configs
+      - ./apps/tentackl/logs:/app/logs
+      - ./apps/tentackl/scripts:/app/scripts
+      - ./apps/tentackl/alembic:/app/alembic
+      - ./packages:/app/packages
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      inkpass:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - aios-network
+
+  # Tentackl worker (Celery)
+  tentackl-worker:
+    build:
+      context: .
+      dockerfile: ./apps/tentackl/Dockerfile
+    command: ./start-worker.sh
+    environment:
+      - APP_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres_master_pass@postgres:5432/aios_tentackl
+      - REDIS_URL=redis://redis:6379/5
+      - CELERY_BROKER_URL=redis://redis:6379/5
+      - CELERY_RESULT_BACKEND=redis://redis:6379/5
+      - INKPASS_URL=http://inkpass:8000
+      - INKPASS_JWT_SECRET=${INKPASS_JWT_SECRET_KEY:-dev-jwt-secret-key-change-in-production}
+      - INKPASS_SERVICE_API_KEY=${TENTACKL_API_KEY:-sk_tentackl_dev}
+      - MIMIC_URL=http://mimic:8000
+      - MIMIC_API_KEY=sk_mimic_service_dev
+    env_file:
+      - ./apps/tentackl/.env.example
+    volumes:
+      - ./apps/tentackl/src:/app/src
+      - ./apps/tentackl/config:/app/config
+      - ./apps/tentackl/logs:/app/logs
+      - ./packages:/app/packages
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      tentackl:
+        condition: service_healthy
+    networks:
+      - aios-network
+
+  # Tentackl scheduler (Celery beat)
+  tentackl-beat:
+    build:
+      context: .
+      dockerfile: ./apps/tentackl/Dockerfile
+    command: ./start-beat.sh
+    environment:
+      - APP_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres_master_pass@postgres:5432/aios_tentackl
+      - REDIS_URL=redis://redis:6379/5
+      - CELERY_BROKER_URL=redis://redis:6379/5
+      - CELERY_RESULT_BACKEND=redis://redis:6379/5
+      - INKPASS_URL=http://inkpass:8000
+      - INKPASS_JWT_SECRET=${INKPASS_JWT_SECRET_KEY:-dev-jwt-secret-key-change-in-production}
+      - INKPASS_SERVICE_API_KEY=${TENTACKL_API_KEY:-sk_tentackl_dev}
+    env_file:
+      - ./apps/tentackl/.env.example
+    volumes:
+      - ./apps/tentackl/src:/app/src
+      - ./packages:/app/packages
+    depends_on:
+      redis:
+        condition: service_healthy
+      tentackl-worker:
+        condition: service_started
+    networks:
+      - aios-network
+
+  # Mimic (notifications + webhook gateway)
+  mimic:
+    build:
+      context: .
+      dockerfile: ./apps/mimic/Dockerfile
+    command: ./start.sh
+    ports:
+      - "8006:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres_master_pass@postgres:5432/aios_mimic
+      - REDIS_URL=redis://redis:6379/6
+      - TENTACKL_URL=http://tentackl:8000
+      - INKPASS_URL=http://inkpass:8000
+      - ENCRYPTION_KEY=${MIMIC_ENCRYPTION_KEY:-dev-encryption-key-32-chars-long}
+      - SECRET_KEY=${MIMIC_SECRET_KEY:-dev-secret-key-change-in-production}
+      # Webhook Gateway Configuration
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET:-}
+      - INKPASS_INTERNAL_URL=http://inkpass:8000
+      - MIMIC_SERVICE_API_KEY=${MIMIC_SERVICE_API_KEY:-sk_mimic_service_dev}
+      - CELERY_BROKER_URL=redis://redis:6379/6
+      - CELERY_RESULT_BACKEND=redis://redis:6379/6
+      # Dev SMTP via Mailpit for local email testing
+      - EMAIL_PROVIDER=dev
+      - DEV_SMTP_ENABLED=true
+      - DEV_SMTP_HOST=mailpit
+      - DEV_SMTP_PORT=1025
+      - DEV_SMTP_USER=
+      - DEV_SMTP_PASSWORD=
+      - DEV_SMTP_FROM=noreply@fluxtopus.com
+    env_file:
+      - ./apps/mimic/.env.example
+    volumes:
+      - ./apps/mimic/src:/app/src
+      - ./apps/mimic/tests:/app/tests
+      - ./apps/mimic/alembic:/app/alembic
+      - ./apps/mimic/scripts:/app/scripts
+      - ./packages:/app/packages
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      inkpass:
+        condition: service_healthy
+      tentackl:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - aios-network
+
+  # Mimic worker (Celery)
+  mimic-worker:
+    build:
+      context: .
+      dockerfile: ./apps/mimic/Dockerfile
+    command: ./start-worker.sh
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres_master_pass@postgres:5432/aios_mimic
+      - REDIS_URL=redis://redis:6379/6
+      - CELERY_BROKER_URL=redis://redis:6379/6
+      - CELERY_RESULT_BACKEND=redis://redis:6379/6
+      - CELERY_CONCURRENCY=2
+      - TENTACKL_URL=http://tentackl:8000
+      - TENTACKL_INTERNAL_URL=http://tentackl:8000
+      - INKPASS_INTERNAL_URL=http://inkpass:8000
+      - MIMIC_SERVICE_API_KEY=${MIMIC_SERVICE_API_KEY:-sk_mimic_service_dev}
+      - ENCRYPTION_KEY=${MIMIC_ENCRYPTION_KEY:-dev-encryption-key-32-chars-long}
+    env_file:
+      - ./apps/mimic/.env.example
+    volumes:
+      - ./apps/mimic/src:/app/src
+      - ./packages:/app/packages
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      tentackl:
+        condition: service_healthy
+      mimic:
+        condition: service_healthy
+    networks:
+      - aios-network
+
+  # Tentackl UI
+  tentackl-ui:
+    build:
+      context: ./frontends/tentackl-ui
+      dockerfile: Dockerfile.dev
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    environment:
+      - API_URL=http://tentackl:8000
+      - INKPASS_API_URL=http://inkpass:8000
+      - NEXT_PUBLIC_API_URL=http://localhost:8005
+      - NEXT_PUBLIC_INKPASS_API_URL=http://localhost:8004
+      - NODE_ENV=development
+    volumes:
+      - ./frontends/tentackl-ui:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - tentackl
+    networks:
+      - aios-network
+
+  landing:
+    build:
+      context: ./frontends/aios-landing
+      dockerfile: Dockerfile.dev
+    command: npm run dev
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=development
+      - TENTACKL_API_URL=http://tentackl:8000
+      - TENTACKL_SERVICE_TOKEN=${TENTACKL_API_KEY:-sk_tentackl_dev}
+    volumes:
+      - ./frontends/aios-landing:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - tentackl
+    networks:
+      - aios-network
+
+  mimic-ui:
+    build:
+      context: ./frontends/mimic-ui
+      dockerfile: Dockerfile
+    command: npm run dev
+    ports:
+      - "3001:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8006
+      - NODE_ENV=development
+    volumes:
+      - ./frontends/mimic-ui:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - mimic
+    networks:
+      - aios-network
+
+  # ============================================================================
+  # MONITORING & TOOLS
+  # ============================================================================
+
+  # Mailpit - Email testing tool (open source Mailtrap alternative)
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"   # Web UI
+      - "1025:1025"   # SMTP
+    environment:
+      - MP_SMTP_AUTH_ACCEPT_ANY=true
+      - MP_SMTP_AUTH_ALLOW_INSECURE=true
+    networks:
+      - aios-network
+
+  # (Optional) Flower, Grafana, etc can be added back as needed.
+
+volumes:
+  postgres_data:
+  redis_data:
+  den-storage:
+
+networks:
+  aios-network:
+    driver: bridge

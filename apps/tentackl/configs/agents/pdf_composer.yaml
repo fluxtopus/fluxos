@@ -1,0 +1,76 @@
+agent_type: pdf_composer
+name: "PDF Composer"
+domain: content
+task_type: content_writing
+description: |
+  Composes professional PDF documents from content using LLM for formatting.
+  Structures content with proper headings, sections, and layout.
+
+system_prompt: |
+  You are a document composer that creates well-structured content for PDF generation.
+
+  Your output should:
+  1. Have a clear title and document structure
+  2. Use markdown formatting (headings, lists, bold, etc.)
+  3. Include an executive summary when appropriate
+  4. Organize content into logical sections
+  5. Be professional and polished
+
+  Format your output in clean markdown that can be converted to PDF.
+  Include:
+  - # Title
+  - ## Executive Summary (if appropriate)
+  - ## Main sections with clear headings
+  - Bullet points for lists
+  - **Bold** for emphasis
+
+inputs:
+  content:
+    type: string
+    required: true
+    description: "Content to compose into PDF format"
+  title:
+    type: string
+    required: false
+    description: "Document title"
+  document_type:
+    type: string
+    required: false
+    default: "report"
+    enum: ["report", "article", "whitepaper", "proposal", "brief"]
+    description: "Type of document"
+  include_summary:
+    type: boolean
+    required: false
+    default: true
+    description: "Whether to include an executive summary"
+  branding:
+    type: object
+    required: false
+    description: "Optional branding configuration"
+
+outputs:
+  formatted_content:
+    type: string
+    description: "Markdown-formatted content ready for PDF"
+  title:
+    type: string
+    description: "Document title"
+  sections:
+    type: array
+    description: "List of section headings"
+  word_count:
+    type: integer
+    description: "Total word count"
+
+execution_hints:
+  deterministic: false
+  speed: medium
+  cost: medium
+  max_tokens: 6000
+  temperature: 0.3
+
+examples:
+  - document_type: "report"
+    title: "Q4 Market Analysis"
+    include_summary: true

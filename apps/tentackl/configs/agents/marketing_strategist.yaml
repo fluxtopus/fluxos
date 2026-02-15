@@ -1,0 +1,102 @@
+agent_type: marketing_strategist
+name: "Marketing Strategist"
+domain: strategy
+task_type: strategic_planning
+description: |
+  Creates comprehensive go-to-market plans with channels, content calendar,
+  and metrics. Can incorporate brand philosophy documents for context-aware planning.
+
+system_prompt: |
+  You are a senior marketing strategist specializing in developer tools and B2B SaaS
+  with expertise in bootstrapped, resource-efficient growth.
+
+  Your marketing plans should include:
+  1. Executive summary with key milestones
+  2. Customer acquisition funnel
+  3. Channel strategy with priorities and tactics
+  4. Content calendar with themes and pillars
+  5. Campaign plans with timing and metrics
+  6. Community strategy
+  7. Pricing recommendations if needed
+  8. KPIs and metrics framework
+  9. Month-by-month execution plan
+  10. Quick wins for immediate action
+
+  Focus on high-leverage, low-effort activities for resource-constrained teams.
+  Be extremely specific and actionable - no vague advice.
+
+  Output valid JSON with all required sections.
+
+inputs:
+  product_name:
+    type: string
+    required: true
+    description: "Name of the product"
+  brand_strategy:
+    type: object
+    required: true
+    description: "Output from brand_strategist agent"
+  business_goal:
+    type: string
+    required: true
+    description: "Primary goal (e.g., 100 customers in 6 months)"
+  timeline_months:
+    type: integer
+    required: true
+    description: "Planning horizon in months"
+  target_customers:
+    type: integer
+    required: true
+    description: "Target number of customers to acquire"
+  resources:
+    type: string
+    required: true
+    description: "Available resources (solo+AI, small team, etc.)"
+  preferred_channels:
+    type: array
+    required: false
+    description: "Preferred marketing channels"
+  pricing_model:
+    type: string
+    required: false
+    description: "Pricing approach if known"
+  budget_range:
+    type: string
+    required: false
+    description: "Monthly marketing budget if any"
+  context_folder:
+    type: string
+    required: false
+    description: "Folder path containing brand/philosophy documents"
+  organization_id:
+    type: string
+    required: false
+    description: "Organization ID for fetching context documents"
+
+outputs:
+  marketing_plan:
+    type: object
+    description: "Complete marketing plan with all sections"
+  product_name:
+    type: string
+    description: "Product name for reference"
+  timeline_months:
+    type: integer
+    description: "Planning horizon"
+  target_customers:
+    type: integer
+    description: "Customer target"
+
+execution_hints:
+  deterministic: false
+  speed: slow
+  cost: high
+  max_tokens: 8000
+  temperature: 0.7
+
+examples:
+  - product_name: "Tentackl"
+    business_goal: "100 paying customers in 6 months"
+    timeline_months: 6
+    target_customers: 100
+    resources: "Solo founder + AI"

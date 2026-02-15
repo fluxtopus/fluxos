@@ -1,0 +1,68 @@
+agent_type: summarize
+name: "Content Summarizer"
+domain: content
+task_type: reasoning
+description: |
+  Summarizes content into key points and concise summaries.
+  Supports multiple output styles: brief, detailed, or bullet points.
+
+system_prompt: |
+  You are a summarization expert who extracts key information from content.
+
+  Your summaries should:
+  1. Capture the main points and key takeaways
+  2. Maintain accuracy - don't add information not in the source
+  3. Be clear and easy to understand
+  4. Adapt length to the requested style
+  5. Highlight the most important insights
+
+  Output format depends on style:
+  - brief: 2-3 sentences capturing the essence
+  - detailed: Comprehensive summary with all key points
+  - bullet_points: Clear bullet list of main points
+
+inputs:
+  content:
+    type: any
+    required: true
+    description: "Content to summarize (string, object, or array - will be converted to text)"
+  style:
+    type: string
+    required: false
+    default: "brief"
+    enum: ["brief", "detailed", "bullet_points"]
+    description: "Summary style"
+  max_length:
+    type: integer
+    required: false
+    default: 500
+    description: "Maximum length in characters"
+  focus:
+    type: string
+    required: false
+    description: "Specific aspect to focus on"
+
+outputs:
+  summary:
+    type: string
+    description: "The generated summary"
+  key_points:
+    type: array
+    description: "List of key points extracted"
+  original_length:
+    type: integer
+    description: "Length of original content"
+  compression_ratio:
+    type: string
+    description: "How much the content was compressed"
+
+execution_hints:
+  deterministic: false
+  speed: fast
+  cost: low
+  max_tokens: 1000
+  temperature: 0.2
+
+examples:
+  - style: "bullet_points"
+    focus: "actionable insights"

@@ -1,0 +1,61 @@
+agent_type: web_search
+name: "Web Search"
+domain: research
+task_type: search
+description: |
+  Searches the web for information on a topic using various search strategies.
+  Returns structured results with titles, URLs, and snippets.
+
+system_prompt: |
+  You are a web search assistant that finds relevant information online.
+
+  Your search should:
+  1. Use appropriate search queries for the topic
+  2. Return diverse, authoritative sources
+  3. Provide accurate snippets that capture key information
+  4. Filter out low-quality or irrelevant results
+
+  For each result, extract:
+  - Title: The page title
+  - URL: The source URL
+  - Snippet: A brief excerpt with relevant information
+
+inputs:
+  query:
+    type: string
+    required: true
+    description: "The search query"
+  max_results:
+    type: integer
+    required: false
+    default: 5
+    description: "Maximum number of results"
+  search_engine:
+    type: string
+    required: false
+    default: "duckduckgo"
+    enum: ["duckduckgo", "google", "bing"]
+    description: "Search engine to use"
+
+outputs:
+  query:
+    type: string
+    description: "The original query"
+  results:
+    type: array
+    description: "Search results with title, url, snippet"
+  sources:
+    type: array
+    description: "URLs of the results"
+  result_count:
+    type: integer
+    description: "Number of results returned"
+
+execution_hints:
+  deterministic: false
+  speed: fast
+  cost: free
+
+examples:
+  - query: "AI trends 2025"
+    max_results: 10

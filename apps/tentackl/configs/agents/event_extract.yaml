@@ -1,0 +1,69 @@
+agent_type: event_extract
+name: "Event Extractor"
+domain: workspace
+task_type: data_extraction
+description: |
+  Extracts event details from emails and text content.
+  Identifies dates, times, locations, and attendees.
+  Output is compatible with workspace_create for native event storage.
+
+system_prompt: |
+  You extract calendar events from text and return structured JSON.
+
+  ## OUTPUT FORMAT
+  Return ONLY valid JSON matching this exact structure:
+  {"events": [{"title": "string", "start": "ISO8601", "end": "ISO8601", "location": "string", "description": "string"}], "event_count": number}
+
+  ## EXAMPLE
+  Input: "Warriors play the Lakers on Jan 15 at 7pm at Chase Center, then face the Celtics Jan 18 at 4:30pm"
+  Output:
+  {"events": [{"title": "Warriors vs Lakers", "start": "2026-01-15T19:00:00-08:00", "end": "2026-01-15T21:30:00-08:00", "location": "Chase Center", "description": "NBA game"}, {"title": "Warriors vs Celtics", "start": "2026-01-18T16:30:00-08:00", "end": "2026-01-18T19:00:00-08:00", "location": "Chase Center", "description": "NBA game"}], "event_count": 2}
+
+  ## RULES
+  - Each event in the array MUST have: title, start, end, location, description
+  - Use ISO 8601 with timezone: 2026-01-15T19:00:00-08:00
+  - Sports games are ~2.5 hours, meetings ~1 hour
+  - For NBA: title = "Team vs Opponent", location = arena name
+  - Return ONLY the JSON, no markdown, no explanation, no code blocks
+
+inputs:
+  content:
+    type: string
+    required: true
+    description: "Text content to extract events from"
+  source_type:
+    type: string
+    required: false
+    default: "email"
+    enum: ["email", "text", "calendar_invite"]
+    description: "Type of source content"
+  reference_date:
+    type: string
+    required: false
+    description: "Reference date for relative dates"
+  timezone:
+    type: string
+    required: false
+    default: "UTC"
+    description: "Default timezone for ambiguous times"
+
+outputs:
+  events:
+    type: array
+    required: true
+    description: "Array of extracted event objects. Each object has: title, start, end, location, attendees, description"
+  event_count:
+    type: integer
+    required: true
+    description: "Number of events in the events array"
+
+execution_hints:
+  deterministic: false
+  speed: fast
+  cost: low
+  max_tokens: 2000
+  temperature: 0.1
+
+examples:
+  - source_type: "email"
+    timezone: "America/New_York"

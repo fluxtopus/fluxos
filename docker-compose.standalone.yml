@@ -1,0 +1,94 @@
+# Standalone Tentackl — no InkPass, no Mimic
+#
+# Usage:
+#   cp .env.standalone.example .env.standalone
+#   docker compose -f docker-compose.standalone.yml up -d
+#
+# This runs Tentackl with local auth (API key + local JWT).
+# Authenticate with:
+#   curl -H "X-API-Key: <your TENTACKL_API_KEY>" http://localhost:${TENTACKL_API_PORT:-8000}/api/health
+
+name: aios-standalone
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tentackl
+    ports:
+      - "${TENTACKL_POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - tentackl_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tentackl-network
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    ports:
+      - "${TENTACKL_REDIS_PORT:-6379}:6379"
+    volumes:
+      - tentackl_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tentackl-network
+
+  tentackl:
+    build:
+      context: .
+      dockerfile: ./apps/tentackl/Dockerfile
+    command: ./start.sh
+    ports:
+      - "${TENTACKL_API_PORT:-8000}:8000"
+    env_file:
+      - .env.standalone.example
+    environment:
+      - APP_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/tentackl
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+      # No InkPass — standalone local auth
+      - INKPASS_URL=
+      # No Mimic — notifications disabled
+      - MIMIC_URL=
+    volumes:
+      - ./apps/tentackl/src:/app/src
+      - ./apps/tentackl/tests:/app/tests
+      - ./apps/tentackl/config:/app/config
+      - ./apps/tentackl/configs:/app/configs
+      - ./apps/tentackl/logs:/app/logs
+      - ./apps/tentackl/scripts:/app/scripts
+      - ./apps/tentackl/alembic:/app/alembic
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - tentackl-network
+
+volumes:
+  tentackl_postgres_data:
+  tentackl_redis_data:
+
+networks:
+  tentackl-network:
+    driver: bridge

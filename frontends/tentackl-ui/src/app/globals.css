@@ -1,0 +1,283 @@
+/* Fonts loaded via next/font/google in layout.tsx (Orbitron + Share Tech Mono) */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* OKLCH Color System - Futuristic Theme */
+:root {
+  --background: oklch(0.97 0.005 260);
+  --foreground: oklch(0.15 0.015 260);
+  --card: oklch(0.99 0.003 260);
+  --card-foreground: oklch(0.15 0.015 260);
+  --primary: oklch(0.45 0.15 180);
+  --primary-foreground: oklch(0.98 0.005 90);
+  --secondary: oklch(0.93 0.005 260);
+  --secondary-foreground: oklch(0.15 0.015 260);
+  --muted: oklch(0.94 0.005 260);
+  --muted-foreground: oklch(0.45 0.01 260);
+  --accent: oklch(0.45 0.15 180);
+  --accent-foreground: oklch(0.98 0.005 90);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.98 0.005 90);
+  --border: oklch(0.89 0.008 260);
+  --input: oklch(0.89 0.008 260);
+  --ring: oklch(0.45 0.15 180);
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: oklch(0.08 0.02 260);
+  --foreground: oklch(0.97 0.005 90);
+  --card: oklch(0.12 0.02 260);
+  --card-foreground: oklch(0.97 0.005 90);
+  --primary: oklch(0.65 0.25 180);
+  --primary-foreground: oklch(0.08 0.02 260);
+  --secondary: oklch(0.18 0.02 260);
+  --secondary-foreground: oklch(0.97 0.005 90);
+  --muted: oklch(0.22 0.02 260);
+  --muted-foreground: oklch(0.68 0.01 260);
+  --accent: oklch(0.65 0.25 180);
+  --accent-foreground: oklch(0.08 0.02 260);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.97 0.005 90);
+  --border: oklch(0.25 0.03 260);
+  --input: oklch(0.18 0.02 260);
+  --ring: oklch(0.65 0.25 180);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-share-tech), sans-serif;
+  }
+
+  /* Body text class for improved readability on text blocks */
+  .text-body {
+    font-family: var(--font-share-tech), sans-serif;
+    letter-spacing: 0.01em;
+    font-weight: 400;
+  }
+
+  /* Dark mode: improved readability for body text blocks only */
+  .dark .prose p,
+  .dark .prose li,
+  .dark .body-text,
+  .dark [data-body-text] {
+    font-family: var(--font-share-tech), sans-serif;
+    letter-spacing: 0.01em;
+    font-weight: 400;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+/* Light mode: use antialiased for crisp thin text */
+:root:not(.dark) body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code, .font-mono {
+  font-family: var(--font-share-tech-mono), monospace;
+}
+
+/* Pulse Glow Animation */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px oklch(0.65 0.25 180 / 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px oklch(0.65 0.25 180 / 0.8);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Scan Line Animation */
+@keyframes scan-line {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.scan-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, oklch(0.65 0.25 180 / 0.5), transparent);
+  animation: scan-line 3s linear infinite;
+}
+
+/* Glow Text */
+.glow-text {
+  text-shadow: 0 0 10px oklch(0.65 0.25 180 / 0.7);
+}
+
+/* Tactical Card Hover Effect */
+.tactical-hover {
+  transition: all 0.3s ease;
+}
+
+.tactical-hover:hover {
+  box-shadow: 0 0 20px oklch(0.65 0.25 180 / 0.3);
+  border-color: oklch(0.65 0.25 180 / 0.5);
+}
+
+/* Grid Background Pattern (dots) */
+.grid-pattern {
+  background-image: radial-gradient(circle, oklch(0.65 0.25 180 / 0.25) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Select options */
+select option {
+  background-color: var(--card);
+  color: var(--card-foreground);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: oklch(0.65 0.25 180 / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: oklch(0.65 0.25 180 / 0.5);
+}
+
+/* React Flow styles are imported in WorkflowVisualization.tsx */
+
+/* React Flow edge customization for better visibility */
+.react-flow__edge-path {
+  stroke: oklch(0.65 0.25 180 / 0.6) !important;
+  stroke-width: 2 !important;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: oklch(0.65 0.25 180) !important;
+  stroke-width: 3 !important;
+}
+
+.react-flow__arrowhead {
+  fill: oklch(0.65 0.25 180 / 0.6) !important;
+}
+
+.react-flow__edge.selected .react-flow__arrowhead {
+  fill: oklch(0.65 0.25 180) !important;
+}
+
+/* Status Colors */
+.status-online {
+  color: oklch(0.78 0.22 150);
+  text-shadow: 0 0 10px oklch(0.78 0.22 150 / 0.5);
+}
+
+.status-running {
+  color: oklch(0.65 0.25 180);
+  text-shadow: 0 0 10px oklch(0.65 0.25 180 / 0.5);
+}
+
+.status-error {
+  color: oklch(0.65 0.25 27);
+  text-shadow: 0 0 10px oklch(0.65 0.25 27 / 0.5);
+}
+
+.status-warning {
+  color: oklch(0.75 0.2 85);
+  text-shadow: 0 0 10px oklch(0.75 0.2 85 / 0.5);
+}
+
+/* Delegation State Colors */
+.delegation-running {
+  color: oklch(0.65 0.25 180);
+  background: oklch(0.65 0.25 180 / 0.1);
+  border-color: oklch(0.65 0.25 180 / 0.3);
+}
+
+.delegation-waiting {
+  color: oklch(0.7 0.2 60);
+  background: oklch(0.7 0.2 60 / 0.1);
+  border-color: oklch(0.7 0.2 60 / 0.3);
+}
+
+.delegation-done {
+  color: oklch(0.78 0.22 150);
+  background: oklch(0.78 0.22 150 / 0.1);
+  border-color: oklch(0.78 0.22 150 / 0.3);
+}
+
+.delegation-error {
+  color: oklch(0.65 0.25 27);
+  background: oklch(0.65 0.25 27 / 0.1);
+  border-color: oklch(0.65 0.25 27 / 0.3);
+}
+
+/* Delegation Progress Animation */
+@keyframes delegation-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.delegation-pulse {
+  animation: delegation-pulse 1.5s ease-in-out infinite;
+}
+
+/* Soft CTA glow for primary actions */
+.delegation-cta {
+  background: linear-gradient(135deg, oklch(0.65 0.25 180) 0%, oklch(0.55 0.2 200) 100%);
+  box-shadow: 0 4px 14px oklch(0.65 0.25 180 / 0.3);
+  transition: all 0.2s ease;
+}
+
+.delegation-cta:hover {
+  box-shadow: 0 6px 20px oklch(0.65 0.25 180 / 0.4);
+  transform: translateY(-1px);
+}
+
+/* Touch target utility — ensures 44x44px minimum for WCAG compliance */
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Hide scrollbar while keeping scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safe area utility */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}

@@ -1,0 +1,64 @@
+workflow:
+  metadata:
+    name: notification_delivery_v1
+    description: "Standard notification delivery workflow with BYOK support"
+    version_tag: "1.0"
+  
+  parameters: {}
+  
+  parameter_schema:
+    - name: recipient
+      type: string
+      required: false
+      description: "Notification recipient (email, phone, channel, etc.)"
+    - name: content
+      type: string
+      required: false
+      description: "Notification content/message"
+    - name: provider
+      type: string
+      required: false
+      default: "email"
+      description: "Provider type (email, sms, slack, discord, telegram, webhook)"
+    - name: template_id
+      type: string
+      required: false
+      description: "Optional template ID for message formatting"
+    - name: provider_credentials
+      type: object
+      required: false
+      description: "Provider credentials from Mimic (BYOK) - encrypted keys decrypted on-the-fly"
+    - name: metadata
+      type: object
+      required: false
+      default: {}
+      description: "Additional metadata for notification"
+  
+  nodes:
+    - id: delivery_step
+      name: delivery_step
+      type: task
+      executor: agent
+      agent:
+        agent_type: notifier
+        config:
+          timeout: 60
+          max_retries: 3
+      inputs:
+        provider: "${parameters.provider}"
+        recipient: "${parameters.recipient}"
+        content: "${parameters.content}"
+        template_id: "${parameters.template_id}"
+        provider_credentials: "${parameters.provider_credentials}"
+        metadata: "${parameters.metadata}"
+      policies:
+        timeout_seconds: 60
+        retry:
+          max_attempts: 3
+          delay_seconds: 5
+          backoff: exponential
+        priority: normal
+  
+  edges: []
+  
+  budgets: {}

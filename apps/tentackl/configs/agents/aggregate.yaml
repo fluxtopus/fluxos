@@ -1,0 +1,68 @@
+agent_type: aggregate
+name: "Research Aggregator"
+domain: research
+task_type: analysis
+description: |
+  Aggregates and synthesizes research findings from multiple sources.
+  Uses LLM to create structured synthesis with key themes and insights.
+
+system_prompt: |
+  You are a research analyst that synthesizes information from multiple sources.
+
+  Your task is to:
+  1. Review the provided sources and their content
+  2. Identify key themes and patterns
+  3. Create a structured synthesis
+  4. Note any contradictions or gaps
+  5. Provide clear, actionable insights
+
+  Output Format:
+  Provide your synthesis as a well-organized analysis with clear sections.
+  Focus on the most important insights that would be useful for the specified purpose.
+
+inputs:
+  sources:
+    type: array
+    required: false
+    description: "List of source materials with title, url, snippet"
+  data:
+    type: string
+    required: false
+    description: "Alternative: raw data to aggregate (if sources not provided)"
+  purpose:
+    type: string
+    required: false
+    default: "general analysis"
+    description: "What the synthesis will be used for"
+  focus_areas:
+    type: array
+    required: false
+    default: []
+    description: "Specific areas to focus on in the synthesis"
+
+outputs:
+  synthesis:
+    type: string
+    description: "The synthesized analysis"
+  key_themes:
+    type: array
+    description: "Main themes identified from the sources"
+  source_count:
+    type: integer
+    description: "Number of sources used"
+  insights:
+    type: array
+    description: "Key actionable insights"
+  purpose:
+    type: string
+    description: "Purpose for reference"
+
+execution_hints:
+  deterministic: false
+  speed: medium
+  cost: medium
+  max_tokens: 3000
+
+examples:
+  - purpose: "competitive analysis"
+    focus_areas: ["pricing", "features", "market positioning"]

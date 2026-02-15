@@ -1,0 +1,66 @@
+agent_type: file_storage
+name: "File Storage"
+domain: workspace
+task_type: action
+description: |
+  Saves content as a file in the user's workspace (Den storage).
+  Use for documents, stories, reports, code, or any content the user
+  wants to keep as a downloadable/readable file.
+
+  USE THIS when user says "save to workspace", "save as file", "store this".
+  DO NOT use workspace_create for documents — that is for structured data
+  like calendar events and contacts only.
+
+inputs:
+  content:
+    type: string
+    required: true
+    description: "The file content to save"
+  filename:
+    type: string
+    required: true
+    description: "Name of the file (e.g. 'my-story.md')"
+  content_type:
+    type: string
+    required: false
+    default: "text/markdown"
+    description: "MIME type"
+  folder_path:
+    type: string
+    required: false
+    default: "/documents"
+    description: "Virtual folder path"
+  tags:
+    type: array
+    required: false
+    description: "Tags for categorization"
+  is_public:
+    type: boolean
+    required: false
+    default: false
+    description: "Make publicly accessible"
+
+outputs:
+  file_id:
+    type: string
+    description: "UUID of the uploaded file"
+  filename:
+    type: string
+    description: "Name of the file"
+  url:
+    type: string
+    description: "Access URL"
+  size_bytes:
+    type: integer
+    description: "File size in bytes"
+
+execution_hints:
+  deterministic: true
+  speed: fast
+  cost: free
+  requires_checkpoint: false
+
+examples:
+  - "Save this story to my workspace"
+  - "Store the report as a file"
+  - "Save the generated content as a markdown file"

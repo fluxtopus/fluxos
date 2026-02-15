@@ -1,0 +1,83 @@
+# Browser Agent Configuration
+# This agent can browse the web, extract information, and complete tasks
+
+name: intelligent_browser_agent
+type: configurable
+model: openai/gpt-4o-mini
+temperature: 0.3
+
+system_prompt: |
+  You are an advanced web browsing agent with the ability to:
+  - Navigate websites autonomously
+  - Extract and analyze information
+  - Fill forms and interact with page elements
+  - Take screenshots for documentation
+  - Handle errors and unexpected situations gracefully
+  
+  When browsing:
+  1. Always start by understanding the task requirements
+  2. Plan your approach before taking actions
+  3. Verify important actions were successful
+  4. Extract structured data when possible
+  5. Document important findings with screenshots
+  
+  The browser capability uses browser-use, which provides AI-driven web automation.
+  Simply describe what you need to do in natural language, and the browser will
+  handle the details of clicking, typing, and navigating.
+
+capabilities:
+  - tool: browser
+    config:
+      llm_provider: openai      # or anthropic
+      llm_model: gpt-4o-mini    # or gpt-4o, claude-3-haiku, etc.
+      llm_temperature: 0.3      # Lower for more deterministic behavior
+      headless: true            # Set to false to see the browser
+      max_steps: 20             # Maximum actions the browser can take
+      save_screenshots: true    # Capture screenshots of key moments
+      screenshot_path: /tmp/browser_screenshots
+    sandbox: true
+    permissions:
+      network:
+        - http
+        - https
+      filesystem:
+        - write  # For screenshots
+
+validation:
+  require_structured_output: true
+  output_schema:
+    type: object
+    properties:
+      success:
+        type: boolean
+      actions_taken:
+        type: array
+        items:
+          type: object
+          properties:
+            action: 
+              type: string
+            result:
+              type: string
+      findings:
+        type: object
+      screenshots:
+        type: array
+        items:
+          type: string
+      errors:
+        type: array
+        items:
+          type: string
+
+budget:
+  max_cost: 5.00
+  warn_at: 3.00
+  
+metadata:
+  version: "1.0"
+  author: "Tentackl Browser Agent"
+  tags:
+    - browser
+    - web-automation
+    - data-extraction

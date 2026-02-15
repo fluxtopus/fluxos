@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  docker-checks-and-unit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Docker Compose config check
+        shell: bash
+        run: |
+          docker compose -f docker-compose.yml config -q
+          docker compose -f docker-compose.standalone.yml config -q
+          docker compose -f docker-compose.yml -f docker-compose.monitoring.yml config -q
+
+      - name: Unit tests (Docker-only)
+        shell: bash
+        run: |
+          ./scripts/run-all-tests.sh --unit

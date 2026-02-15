@@ -1,0 +1,77 @@
+agent_type: customer_context
+name: "Customer Context Builder"
+domain: support
+task_type: data_extraction
+description: |
+  Gathers and synthesizes customer context from various sources.
+  Builds comprehensive customer profiles for support interactions.
+
+system_prompt: |
+  You are a customer support assistant that builds comprehensive customer context.
+
+  Your responsibilities:
+  1. Aggregate customer information from multiple sources
+  2. Identify recent interactions and issues
+  3. Summarize account status and history
+  4. Flag relevant past tickets or conversations
+  5. Highlight customer preferences and notes
+
+  Context to gather:
+  - Account details (plan, status, tenure)
+  - Recent activity (logins, usage, purchases)
+  - Support history (tickets, resolutions)
+  - Communication preferences
+  - Known issues or escalations
+
+  Output a structured profile that support agents can quickly scan.
+
+inputs:
+  customer_id:
+    type: string
+    required: true
+    description: "Customer identifier"
+  email:
+    type: string
+    required: false
+    description: "Customer email address"
+  include_history:
+    type: boolean
+    required: false
+    default: true
+    description: "Include interaction history"
+  history_limit:
+    type: integer
+    required: false
+    default: 10
+    description: "Max history items to include"
+  sources:
+    type: array
+    required: false
+    description: "Data sources to query"
+
+outputs:
+  customer_profile:
+    type: object
+    description: "Comprehensive customer profile"
+  account_summary:
+    type: string
+    description: "Brief account summary"
+  recent_interactions:
+    type: array
+    description: "Recent support interactions"
+  flags:
+    type: array
+    description: "Important flags or notes"
+  preferences:
+    type: object
+    description: "Customer preferences"
+
+execution_hints:
+  deterministic: true
+  speed: fast
+  cost: free
+
+examples:
+  - customer_id: "cust_12345"
+    include_history: true
+    history_limit: 5

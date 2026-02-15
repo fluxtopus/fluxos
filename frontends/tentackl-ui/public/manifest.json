@@ -1,0 +1,12 @@
+{
+  "name": "AIOS",
+  "short_name": "aios",
+  "start_url": "/inbox",
+  "display": "standalone",
+  "background_color": "#0d0f18",
+  "theme_color": "#0d0f18",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

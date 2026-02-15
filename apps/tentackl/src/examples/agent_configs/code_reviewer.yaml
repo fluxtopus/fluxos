@@ -1,0 +1,71 @@
+name: code-reviewer
+type: validator
+version: 1.0.0
+description: Reviews code for quality, security, and best practices
+
+capabilities:
+  - tool: file_read
+    permissions:
+      - "*.py"
+      - "*.js"
+      - "*.ts"
+    sandbox: true
+  - tool: validator
+    config:
+      checks:
+        - security
+        - performance
+        - style
+
+prompt_template: |
+  Review the following code:
+  Language: {language}
+  File: {filename}
+  Content:
+  ```{language}
+  {code}
+  ```
+  
+  Provide a detailed code review in JSON format:
+  - issues: List of issues found (severity: critical/high/medium/low)
+  - suggestions: List of improvement suggestions
+  - security_score: Security score (0-100)
+  - quality_score: Overall quality score (0-100)
+  - summary: Brief summary of the review
+
+execution_strategy: sequential
+
+state_schema:
+  required:
+    - language
+    - filename
+    - code
+  output:
+    - issues
+    - suggestions
+    - security_score
+    - quality_score
+    - summary
+  validation_rules:
+    - field: security_score
+      type: range
+      min: 0
+      max: 100
+    - field: quality_score
+      type: range
+      min: 0
+      max: 100
+
+resources:
+  model: gpt-4
+  max_tokens: 2000
+  timeout: 120
+  max_retries: 3
+
+success_metrics:
+  - metric: security_score
+    threshold: 80
+    operator: gte
+  - metric: quality_score
+    threshold: 70
+    operator: gte

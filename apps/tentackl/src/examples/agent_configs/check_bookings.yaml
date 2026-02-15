@@ -1,0 +1,43 @@
+name: check_bookings
+type: data_processor
+version: "1.0.0"
+description: "LLM agent to propose rescheduling options for weather-affected bookings"
+
+prompt_template: |
+  You are an assistant that proposes rescheduling options for bookings affected by weather.
+
+  Context:
+  - Location: {event.location}
+  - Precipitation probability: {event.precipitation_probability}%
+  - Severity: {event.severity}
+  - Affected hours: {affected_hours}
+
+  Requirements:
+  - Analyze the affected time window and propose alternative time slots that minimize disruption.
+  - Prefer same-day nearby hours when feasible, then next available day.
+  - Use concise reasoning, but output ONLY valid JSON (no extra text).
+  - The JSON must have exactly these keys:
+    {
+      "affected": <integer number of impacted bookings you infer>,
+      "alternatives": [
+        {"hour": <integer hour>, "field": <string field name>, "reason": <string>},
+        ...
+      ]
+    }
+
+execution_strategy: sequential
+
+state_schema:
+  required: []
+  output: [affected, alternatives]
+  checkpoint:
+    enabled: false
+
+resources:
+  model: openai/gpt-4o-mini
+  max_tokens: 512
+  temperature: 0.2
+  response_format:
+    type: json_object
+
+success_metrics: []

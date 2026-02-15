@@ -1,0 +1,133 @@
+name: field-scheduler-porto
+type: data_processor
+version: 1.0.0
+description: Field scheduling agent for managing weather-affected bookings
+
+capabilities:
+  - tool: booking_queries
+    config:
+      database: bookings_db
+      query_types:
+        - by_time_range
+        - by_field
+        - by_customer
+        - by_status
+      cache_ttl: 300  # seconds
+  
+  - tool: schedule_optimization
+    config:
+      algorithm: greedy_best_fit
+      optimization_criteria:
+        - minimize_disruption
+        - maximize_field_utilization
+        - respect_customer_preferences
+      constraints:
+        - same_day_preference
+        - similar_time_slot
+        - group_bookings
+  
+  - tool: conflict_resolution
+    config:
+      strategies:
+        - first_come_first_served
+        - priority_based
+        - fair_distribution
+      max_iterations: 10
+
+prompt_template: |
+  You are a field scheduling agent responsible for finding alternative slots for weather-affected bookings.
+  
+  Affected Bookings:
+  {affected_bookings}
+  
+  Available Slots:
+  {available_slots}
+  
+  Optimization Goals:
+  1. Minimize disruption to customers
+  2. Keep bookings at similar times when possible
+  3. Prefer same field if available
+  4. Group related bookings together
+  5. Ensure fair distribution of prime slots
+  
+  Customer Preferences:
+  - Same day rescheduling preferred
+  - Evening slots acceptable as alternative
+  - Notification lead time important
+  
+  For each affected booking, analyze:
+  - Original booking details
+  - Customer history and preferences
+  - Available alternatives
+  - Optimization score for each option
+  
+  Generate rescheduling proposals with:
+  1. Original slot details
+  2. Proposed new slot(s) - provide up to 3 options
+  3. Reasoning for each proposal
+  4. Customer impact assessment
+  
+  Return JSON with:
+  - proposals: list of proposal objects
+  - optimization_score: float (0-1)
+  - conflicts_resolved: boolean
+  - alternative_count: integer
+  - estimated_satisfaction: float (0-1)
+
+execution_strategy: sequential
+
+state_schema:
+  required:
+    - affected_bookings
+    - available_slots
+  output:
+    - proposals
+    - optimization_score
+    - conflicts_resolved
+    - alternative_count
+    - estimated_satisfaction
+    - scheduling_metadata
+  checkpoint:
+    enabled: true
+    interval: 5
+  validation_rules:
+    optimization_score:
+      type: float
+      min: 0
+      max: 1
+    alternative_count:
+      type: int
+      min: 0
+
+resources:
+  model: gpt-3.5-turbo
+  max_tokens: 1500
+  timeout: 45
+  temperature: 0.1
+  max_retries: 3
+
+success_metrics:
+  - metric: optimization_score
+    threshold: 0.7
+    operator: gte
+  - metric: conflicts_resolved
+    threshold: true
+    operator: eq
+  - metric: alternative_count
+    threshold: 1
+    operator: gte
+
+dependencies:
+  - weather_monitor
+  - booking_system_api
+
+performance:
+  max_bookings_per_batch: 50
+  parallel_optimization: false
+  cache_results: true
+  cache_duration: 3600
+
+budget:
+  max_cost: 3.00
+  warn_at: 2.50
+  cost_per_booking: 0.05

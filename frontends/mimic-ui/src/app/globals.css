@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Tactical/technical color scheme for light mode (fallback) */
+  --background: oklch(0.95 0.01 90);
+  --foreground: oklch(0.12 0.01 260);
+  --card: oklch(0.98 0.01 90);
+  --card-foreground: oklch(0.12 0.01 260);
+  --popover: oklch(0.98 0.01 90);
+  --popover-foreground: oklch(0.12 0.01 260);
+  --primary: oklch(0.65 0.15 45);
+  --primary-foreground: oklch(0.98 0.01 90);
+  --secondary: oklch(0.9 0.01 90);
+  --secondary-foreground: oklch(0.12 0.01 260);
+  --muted: oklch(0.92 0.01 90);
+  --muted-foreground: oklch(0.48 0.01 260);
+  --accent: oklch(0.65 0.15 45);
+  --accent-foreground: oklch(0.98 0.01 90);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.98 0.01 90);
+  --border: oklch(0.88 0.01 90);
+  --input: oklch(0.88 0.01 90);
+  --ring: oklch(0.65 0.15 45);
+  --chart-1: oklch(0.65 0.15 45);
+  --chart-2: oklch(0.6 0.12 180);
+  --chart-3: oklch(0.7 0.15 280);
+  --chart-4: oklch(0.65 0.14 320);
+  --chart-5: oklch(0.72 0.16 100);
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* Dark tactical theme - primary mode for MIMIC */
+  --background: oklch(0.12 0.01 260);
+  --foreground: oklch(0.95 0.01 90);
+  --card: oklch(0.16 0.01 260);
+  --card-foreground: oklch(0.95 0.01 90);
+  --popover: oklch(0.14 0.01 260);
+  --popover-foreground: oklch(0.95 0.01 90);
+  --primary: oklch(0.75 0.15 45);
+  --primary-foreground: oklch(0.12 0.01 260);
+  --secondary: oklch(0.22 0.01 260);
+  --secondary-foreground: oklch(0.95 0.01 90);
+  --muted: oklch(0.22 0.01 260);
+  --muted-foreground: oklch(0.58 0.01 260);
+  --accent: oklch(0.75 0.15 45);
+  --accent-foreground: oklch(0.12 0.01 260);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.95 0.01 90);
+  --border: oklch(0.26 0.01 260);
+  --input: oklch(0.22 0.01 260);
+  --ring: oklch(0.75 0.15 45);
+  --chart-1: oklch(0.75 0.15 45);
+  --chart-2: oklch(0.6 0.12 180);
+  --chart-3: oklch(0.7 0.15 280);
+  --chart-4: oklch(0.65 0.14 320);
+  --chart-5: oklch(0.72 0.16 100);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom animations for tactical effects */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px oklch(0.75 0.15 45 / 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px oklch(0.75 0.15 45 / 0.8);
+  }
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes slide-in-right {
+  0% {
+    transform: translateX(100%) scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Added animation for message relay waves */
+@keyframes message-wave {
+  0% {
+    r: 0;
+    opacity: 0.8;
+  }
+  50% {
+    r: 30;
+    opacity: 0.4;
+  }
+  100% {
+    r: 60;
+    opacity: 0;
+  }
+}
+
+.scanline {
+  animation: scanline 8s linear infinite;
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.flicker {
+  animation: flicker 0.15s ease-in-out infinite;
+}
+
+.slide-in-right {
+  animation: slide-in-right 1.5s ease-out forwards;
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.message-wave {
+  animation: message-wave 3s ease-out infinite;
+}

@@ -1,0 +1,54 @@
+agent_type: workspace_search
+name: "Workspace Object Search"
+domain: workspace
+task_type: retrieval
+description: |
+  Full-text search across workspace objects.
+  Searches event titles, descriptions, contact names, and custom object data.
+
+system_prompt: |
+  You are a workspace search agent that finds objects by text matching.
+
+  Your responsibilities:
+  1. Search across all object fields
+  2. Optionally filter by object type
+  3. Return ranked results by relevance
+  4. Include highlights showing matched terms
+
+  Output format:
+  {
+    "results": [{ id, type, data, score, highlights }],
+    "total": number of results
+  }
+
+inputs:
+  query:
+    type: string
+    required: true
+    description: "Search query text"
+  type:
+    type: string
+    required: false
+    description: "Filter by object type"
+  limit:
+    type: integer
+    required: false
+    default: 20
+    description: "Maximum results"
+
+outputs:
+  results:
+    type: array
+    description: "Matching objects with relevance scores"
+  total:
+    type: integer
+    description: "Total matches"
+
+execution_hints:
+  deterministic: true
+  speed: fast
+  cost: free
+
+examples:
+  - "Search for 'standup' in calendar events"
+  - "Find contacts matching 'john'"

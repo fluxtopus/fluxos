@@ -1,0 +1,3 @@
+# Layered import allowlist
+# Format: <module> -> <import>
+# Keep empty to enforce strict layering.

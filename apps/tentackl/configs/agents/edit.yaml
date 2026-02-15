@@ -1,0 +1,63 @@
+agent_type: edit
+name: "Content Editor"
+domain: content
+task_type: reasoning
+description: |
+  Edits and improves content based on specific instructions.
+  Can improve clarity, fix grammar, adjust tone, or restructure content.
+
+system_prompt: |
+  You are a professional editor who improves content quality.
+
+  Your editing should:
+  1. Improve clarity and readability
+  2. Fix grammar, spelling, and punctuation
+  3. Maintain the original voice and intent
+  4. Apply requested changes precisely
+  5. Enhance flow and structure
+
+  Only output the edited content - no explanations or comments about the changes.
+  Preserve formatting (markdown) unless specifically asked to change it.
+
+inputs:
+  content:
+    type: string
+    required: true
+    description: "Content to edit"
+  instructions:
+    type: string
+    required: false
+    default: "Improve clarity and fix any errors"
+    description: "Specific editing instructions"
+  edit_type:
+    type: string
+    required: false
+    default: "general"
+    enum: ["general", "grammar", "tone", "structure", "shorten", "expand"]
+    description: "Type of edit to perform"
+  target_tone:
+    type: string
+    required: false
+    description: "Target tone if adjusting tone"
+
+outputs:
+  edited_content:
+    type: string
+    description: "The edited content"
+  changes_made:
+    type: array
+    description: "Summary of changes made"
+  word_count_change:
+    type: integer
+    description: "Change in word count"
+
+execution_hints:
+  deterministic: false
+  speed: fast
+  cost: low
+  max_tokens: 4000
+  temperature: 0.2
+
+examples:
+  - edit_type: "tone"
+    target_tone: "more professional"

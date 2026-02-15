@@ -1,0 +1,172 @@
+agent:
+  metadata:
+    name: workflow_verification_agent
+    version: "1.0.0"
+    description: |
+      Verifies workflow execution results match the original plan.
+      Checks success criteria, validates outputs, identifies gaps.
+      Provides quality score and recommendations for improvements.
+    category: orchestration
+    tags:
+      - verification
+      - quality-assurance
+      - validation
+      - testing
+
+  state_schema:
+    type: llm_worker
+    config:
+      model: google/gemini-2.5-flash
+      temperature: 0.2
+      response_format:
+        type: json_object
+        schema:
+          type: object
+          required: ["verification_status", "quality_score", "checks_performed", "success_criteria_met", "gaps_identified", "summary"]
+          properties:
+            verification_status:
+              type: string
+              enum: ["passed", "passed_with_warnings", "failed"]
+            quality_score:
+              type: number
+              minimum: 0
+              maximum: 1
+            checks_performed:
+              type: array
+              items:
+                type: object
+                properties:
+                  check:
+                    type: string
+                  status:
+                    type: string
+                    enum: ["pass", "fail"]
+                  details:
+                    type: string
+            success_criteria_met:
+              type: object
+              additionalProperties:
+                type: boolean
+            gaps_identified:
+              type: array
+              items:
+                type: object
+                properties:
+                  issue:
+                    type: string
+                  severity:
+                    type: string
+                    enum: ["critical", "warning", "info"]
+                  impact:
+                    type: string
+            data_quality:
+              type: object
+              properties:
+                completeness:
+                  type: number
+                correctness:
+                  type: number
+                consistency:
+                  type: number
+            files_verified:
+              type: array
+              items:
+                type: object
+                properties:
+                  file:
+                    type: string
+                  exists:
+                    type: boolean
+                  size_bytes:
+                    type: integer
+                  row_count:
+                    type: integer
+            summary:
+              type: string
+            next_steps:
+              type: array
+              items:
+                type: string
+      system_prompt: |
+        You are a workflow verification expert. Your job is to verify that workflow execution results match the original plan and meet success criteria.
+
+        **Your Task:**
+        1. Compare execution results against the original plan
+        2. Check if success criteria were met
+        3. Validate that expected outputs were produced
+        4. Verify files were created (if applicable)
+        5. Identify any gaps or issues
+        6. Calculate a quality score (0.0 - 1.0)
+        7. Provide recommendations for improvements
+
+        **Verification Checks:**
+        - Were all planned steps executed successfully?
+        - Do the results match expected outputs?
+        - Were success criteria satisfied?
+        - Were expected files created?
+        - Is the data quality acceptable?
+        - Are there any errors or warnings?
+
+        **Quality Scoring:**
+        - 1.0: Perfect execution, all criteria met
+        - 0.8-0.9: Success with minor issues
+        - 0.6-0.7: Partial success, some criteria not met
+        - 0.4-0.5: Significant issues, limited success
+        - 0.0-0.3: Failure, most criteria not met
+
+        **CRITICAL: You MUST return ONLY valid JSON matching the required schema.**
+        
+        **The response MUST be a JSON object with the required keys. No explanations, no markdown - ONLY the raw JSON object.**
+        
+        **Required JSON Schema:**
+        - "verification_status" (string, required, enum: "passed", "passed_with_warnings", "failed")
+        - "quality_score" (number, required, 0.0-1.0)
+        - "checks_performed" (array, required): List of check objects
+        - "success_criteria_met" (object, required): Map of criterion to boolean
+        - "gaps_identified" (array, required): List of gap objects
+        - "summary" (string, required): Overall assessment
+        - "next_steps" (array): List of recommendation strings
+        - "data_quality" (object, optional): Quality metrics
+        - "files_verified" (array, optional): List of file verification objects
+
+        **Important:**
+        - Be objective in your assessment
+        - Provide specific, actionable feedback
+        - Don't inflate scores - be realistic
+        - Identify root causes of failures
+        - Suggest concrete improvements
+
+    required_inputs:
+      - name: plan
+        type: object
+        description: The original execution plan
+      - name: execution_results
+        type: object
+        description: Results from the execution agent
+      - name: expected_files
+        type: array
+        description: Files that should have been created
+        optional: true
+
+    outputs:
+      - name: verification_status
+        type: string
+        description: Overall verification status
+      - name: quality_score
+        type: number
+        description: Quality score from 0.0 to 1.0
+      - name: checks_performed
+        type: array
+        description: List of verification checks
+      - name: success_criteria_met
+        type: object
+        description: Which success criteria were met
+      - name: gaps_identified
+        type: array
+        description: Issues and gaps found
+      - name: summary
+        type: string
+        description: Overall assessment
+      - name: next_steps
+        type: array
+        description: Recommended next actions

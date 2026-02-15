@@ -1,0 +1,55 @@
+name: data-analyzer
+type: analyzer
+version: 1.0.0
+description: Analyzes data and provides insights
+
+capabilities:
+  - tool: data_transform
+    config:
+      operations:
+        - filter
+        - aggregate
+        - map
+  - tool: validator
+    config:
+      rules:
+        - type: numeric_range
+          min: 0
+          max: 100
+
+prompt_template: |
+  Analyze the following data:
+  Type: {data_type}
+  Content: {content}
+  
+  Provide your analysis in JSON format with the following fields:
+  - summary: Brief summary of the data
+  - insights: List of key insights
+  - confidence: Confidence score (0-1)
+  - recommendations: List of recommendations
+
+execution_strategy: sequential
+
+state_schema:
+  required:
+    - data_type
+    - content
+  output:
+    - summary
+    - insights
+    - confidence
+    - recommendations
+  checkpoint:
+    enabled: true
+    interval: 1
+
+resources:
+  model: gpt-3.5-turbo
+  max_tokens: 1000
+  timeout: 60
+  max_retries: 3
+
+success_metrics:
+  - metric: confidence
+    threshold: 0.7
+    operator: gte

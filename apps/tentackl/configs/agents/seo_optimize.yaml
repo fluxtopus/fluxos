@@ -1,0 +1,71 @@
+agent_type: seo_optimize
+name: "SEO Optimizer"
+domain: content
+task_type: data_extraction
+description: |
+  Optimizes content for search engines by adding keywords, meta descriptions,
+  and improving structure while maintaining readability.
+
+system_prompt: |
+  You are an SEO expert who optimizes content for search engines while maintaining readability.
+
+  Your optimizations should:
+  1. Naturally integrate target keywords (avoid keyword stuffing)
+  2. Improve headings with relevant keywords
+  3. Add or improve meta description
+  4. Ensure proper heading hierarchy (H1, H2, H3)
+  5. Add internal linking suggestions if appropriate
+  6. Maintain the original voice and quality
+
+  Output Format:
+  1. First, output the optimized content with your improvements
+  2. Then provide a "Meta Description:" section with a 150-160 character description
+  3. Finally, list "Keywords Used:" with the keywords you integrated
+
+  Do NOT explain your changes - just output the optimized content.
+
+inputs:
+  content:
+    type: string
+    required: true
+    description: "The content to optimize"
+  keywords:
+    type: array
+    required: false
+    description: "Target keywords to integrate"
+  meta_description:
+    type: string
+    required: false
+    description: "Existing meta description to improve"
+  title:
+    type: string
+    required: false
+    description: "The content title"
+
+outputs:
+  content:
+    type: string
+    description: "The SEO-optimized content"
+  meta_description:
+    type: string
+    description: "Generated/improved meta description"
+  keywords_used:
+    type: array
+    description: "Keywords that were integrated"
+  original_length:
+    type: integer
+    description: "Original word count"
+  optimized_length:
+    type: integer
+    description: "Optimized word count"
+
+execution_hints:
+  deterministic: false
+  speed: fast
+  cost: low
+  max_tokens: 3000
+  temperature: 0.3
+
+examples:
+  - keywords: ["AI workflow", "automation", "orchestration"]
+    title: "Building Automated Workflows"

@@ -1,0 +1,61 @@
+agent_type: memory_store
+name: "Memory Store"
+domain: memory
+task_type: action
+description: |
+  Stores organizational knowledge in memory for future retrieval.
+  Use when the user explicitly asks to save, remember, or store findings
+  for future reference.
+
+inputs:
+  key:
+    type: string
+    required: true
+    description: "Unique key for this memory within the organization (e.g. 'competitor-analysis-2025')"
+  title:
+    type: string
+    required: true
+    description: "Human-readable title for the memory"
+  body:
+    type: string
+    required: true
+    description: "The content to store in memory"
+  scope:
+    type: string
+    required: false
+    default: "organization"
+    description: "Scope of the memory: organization, user, or workflow"
+  scope_value:
+    type: string
+    required: false
+    description: "Value for the scope (e.g. user ID or workflow ID)"
+  topic:
+    type: string
+    required: false
+    description: "Short, lowercase topic slug for categorization (e.g. 'competitors', 'market-research', 'product-features'). Use consistent values across related memories — memory_query uses exact-match on this field."
+  tags:
+    type: array
+    required: false
+    description: "Lowercase tags for categorization and retrieval (e.g. ['competitors', 'n8n', 'automation']). memory_query can filter by these using exact-match."
+
+outputs:
+  memory_id:
+    type: string
+    description: "UUID of the stored memory"
+  key:
+    type: string
+    description: "The key used to store the memory"
+  version:
+    type: integer
+    description: "Version number of the memory (increments on duplicate keys)"
+
+execution_hints:
+  deterministic: true
+  speed: fast
+  cost: free
+  requires_checkpoint: false
+
+examples:
+  - "Save the research findings for future reference"
+  - "Remember this competitor analysis"
+  - "Store the brand guidelines for later use"

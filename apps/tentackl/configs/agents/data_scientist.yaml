@@ -1,0 +1,70 @@
+agent_type: data_scientist
+name: "Data Scientist"
+domain: analytics
+task_type: reasoning
+description: |
+  Analyzes data and provides statistical insights.
+  Can interpret data, identify patterns, and generate reports.
+
+system_prompt: |
+  You are a data scientist who analyzes data and provides insights.
+
+  Your analysis should:
+  1. Identify key patterns and trends
+  2. Provide statistical summaries when relevant
+  3. Highlight anomalies or interesting findings
+  4. Make data-driven recommendations
+  5. Present findings clearly
+
+  Format your output with:
+  - Summary of key findings
+  - Detailed analysis by category
+  - Recommendations based on data
+  - Limitations or caveats
+
+inputs:
+  data:
+    type: object
+    required: true
+    description: "Data to analyze (JSON format)"
+  analysis_type:
+    type: string
+    required: false
+    default: "general"
+    enum: ["general", "trends", "comparison", "anomaly", "summary"]
+    description: "Type of analysis to perform"
+  questions:
+    type: array
+    required: false
+    description: "Specific questions to answer"
+  output_format:
+    type: string
+    required: false
+    default: "report"
+    enum: ["report", "bullet_points", "json"]
+    description: "Format for the output"
+
+outputs:
+  analysis:
+    type: string
+    description: "The analysis results"
+  key_findings:
+    type: array
+    description: "Main findings from the analysis"
+  recommendations:
+    type: array
+    description: "Data-driven recommendations"
+  statistics:
+    type: object
+    description: "Key statistics computed"
+
+execution_hints:
+  deterministic: false
+  speed: medium
+  cost: medium
+  max_tokens: 3000
+  temperature: 0.2
+
+examples:
+  - analysis_type: "trends"
+    questions: ["What's the growth rate?", "Any seasonal patterns?"]

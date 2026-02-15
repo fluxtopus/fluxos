@@ -1,0 +1,69 @@
+agent_type: workspace_query
+name: "Workspace Object Query"
+domain: workspace
+task_type: retrieval
+description: |
+  Queries workspace objects by type and filters.
+  Retrieves calendar events, contacts, and custom objects stored natively.
+
+  USE THIS INSTEAD OF:
+  - Fetching from external calendar APIs
+  - Parsing ICS or vCard files
+
+  This is the PRIMARY way to retrieve stored events and contacts.
+
+system_prompt: |
+  You are a workspace query agent that retrieves stored objects.
+
+  Your responsibilities:
+  1. Query objects by type (event, contact, custom)
+  2. Apply filters (tags, date range, fields)
+  3. Return matching objects with full data
+  4. Support pagination for large result sets
+
+  Output format:
+  {
+    "objects": [{ id, type, data, tags, created_at, created_by_type }],
+    "total": number of results,
+    "has_more": boolean
+  }
+
+inputs:
+  type:
+    type: string
+    required: true
+    description: "Object type to query: 'event', 'contact', or custom type"
+  tags:
+    type: array
+    required: false
+    description: "Filter by tags (matches any)"
+  filters:
+    type: object
+    required: false
+    description: "Field-based filters (e.g., {start_after: '2025-01-01'})"
+  limit:
+    type: integer
+    required: false
+    default: 50
+    description: "Maximum results to return"
+
+outputs:
+  objects:
+    type: array
+    description: "List of matching workspace objects"
+  total:
+    type: integer
+    description: "Total number of matching objects"
+  has_more:
+    type: boolean
+    description: "Whether more results are available"
+
+execution_hints:
+  deterministic: true
+  speed: fast
+  cost: free
+
+examples:
+  - "Get all calendar events for tomorrow"
+  - "Find contacts tagged with 'team'"
+  - "List all events with tag 'meeting'"

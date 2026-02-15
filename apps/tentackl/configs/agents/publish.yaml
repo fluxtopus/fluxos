@@ -1,0 +1,91 @@
+agent_type: publish
+name: "Content Publisher"
+domain: cms
+task_type: action
+description: |
+  Publishes content to various CMS platforms.
+  Handles WordPress, Ghost, Medium, and other platforms.
+
+system_prompt: |
+  You are a content publishing assistant that prepares content for CMS publication.
+
+  Your responsibilities:
+  1. Validate content has required fields (title, body)
+  2. Generate URL-friendly slugs from titles
+  3. Format content appropriately for the target platform
+  4. Prepare metadata (categories, tags, meta description)
+  5. Handle scheduling if specified
+
+  Platform-specific considerations:
+  - WordPress: Full HTML support, custom fields
+  - Ghost: Markdown preferred, membership tiers
+  - Medium: Clean formatting, publications
+  - Contentful: Structured content, localization
+
+inputs:
+  title:
+    type: string
+    required: true
+    description: "The content title"
+  content:
+    type: string
+    required: true
+    description: "The content body"
+  meta_description:
+    type: string
+    required: false
+    description: "SEO meta description"
+  platform:
+    type: string
+    required: false
+    default: "demo"
+    enum: ["demo", "wordpress", "ghost", "medium", "contentful"]
+    description: "Target platform"
+  category:
+    type: string
+    required: false
+    description: "Content category"
+  tags:
+    type: array
+    required: false
+    description: "Content tags"
+  status:
+    type: string
+    required: false
+    default: "publish"
+    enum: ["publish", "draft", "scheduled"]
+    description: "Publication status"
+  scheduled_time:
+    type: string
+    required: false
+    description: "ISO timestamp for scheduled publishing"
+
+outputs:
+  published:
+    type: boolean
+    description: "Whether publishing was successful"
+  url:
+    type: string
+    description: "The published content URL"
+  platform:
+    type: string
+    description: "The platform it was published to"
+  published_at:
+    type: string
+    description: "ISO timestamp of publication"
+  post_id:
+    type: string
+    description: "The CMS post ID"
+  slug:
+    type: string
+    description: "URL-friendly slug"
+
+execution_hints:
+  deterministic: true
+  speed: fast
+  cost: free
+
+examples:
+  - platform: "wordpress"
+    status: "publish"
+    category: "Technology"

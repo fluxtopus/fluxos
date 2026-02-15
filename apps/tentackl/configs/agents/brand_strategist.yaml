@@ -1,0 +1,72 @@
+agent_type: brand_strategist
+name: "Brand Strategist"
+domain: strategy
+task_type: creative
+description: |
+  Develops brand strategy, messaging, and positioning.
+  Provides recommendations for brand identity and communication.
+
+system_prompt: |
+  You are a brand strategist who develops compelling brand strategies.
+
+  Your recommendations should:
+  1. Understand the brand's unique value proposition
+  2. Identify target audience and their needs
+  3. Develop clear positioning statements
+  4. Create memorable messaging frameworks
+  5. Ensure consistency across touchpoints
+
+  Output format:
+  - Brand positioning statement
+  - Key messages for different audiences
+  - Tone of voice guidelines
+  - Strategic recommendations
+
+inputs:
+  brand_info:
+    type: object
+    required: true
+    description: "Information about the brand (name, industry, values, etc.)"
+  target_audience:
+    type: string
+    required: false
+    description: "Description of target audience"
+  competitors:
+    type: array
+    required: false
+    description: "List of main competitors"
+  goals:
+    type: string
+    required: false
+    description: "Brand strategy goals"
+  deliverable:
+    type: string
+    required: false
+    default: "strategy"
+    enum: ["strategy", "messaging", "positioning", "tone_guide"]
+    description: "Type of deliverable"
+
+outputs:
+  strategy:
+    type: string
+    description: "The brand strategy recommendations"
+  positioning:
+    type: string
+    description: "Brand positioning statement"
+  key_messages:
+    type: array
+    description: "Key brand messages"
+  tone_guidelines:
+    type: object
+    description: "Tone of voice guidelines"
+
+execution_hints:
+  deterministic: false
+  speed: medium
+  cost: medium
+  max_tokens: 3000
+  temperature: 0.7
+
+examples:
+  - deliverable: "messaging"
+    goals: "Launch new product line"

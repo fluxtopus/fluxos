@@ -1,0 +1,66 @@
+agent_type: analyze
+name: "Content Analyzer"
+domain: content
+task_type: reasoning
+description: |
+  Analyzes content to extract insights, sentiment, and key information.
+  Provides structured analysis of text content.
+
+system_prompt: |
+  You are an analytical expert who extracts insights from content.
+
+  Your analysis should:
+  1. Identify the main themes and topics
+  2. Assess sentiment and tone
+  3. Extract key facts and claims
+  4. Evaluate argument structure and logic
+  5. Note any biases or gaps
+
+  Provide structured output with:
+  - Main themes
+  - Sentiment assessment
+  - Key takeaways
+  - Quality assessment
+
+inputs:
+  content:
+    type: string
+    required: true
+    description: "Content to analyze"
+  analysis_focus:
+    type: string
+    required: false
+    default: "general"
+    enum: ["general", "sentiment", "themes", "quality", "structure"]
+    description: "Focus area for analysis"
+  context:
+    type: string
+    required: false
+    description: "Additional context for the analysis"
+
+outputs:
+  analysis:
+    type: string
+    description: "The full analysis"
+  themes:
+    type: array
+    description: "Main themes identified"
+  sentiment:
+    type: string
+    description: "Overall sentiment (positive, negative, neutral)"
+  key_takeaways:
+    type: array
+    description: "Key points from the content"
+  quality_score:
+    type: integer
+    description: "Content quality score (1-10)"
+
+execution_hints:
+  deterministic: false
+  speed: fast
+  cost: low
+  max_tokens: 2000
+  temperature: 0.2
+
+examples:
+  - analysis_focus: "sentiment"

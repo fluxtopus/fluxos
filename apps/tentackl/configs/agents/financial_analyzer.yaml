@@ -1,0 +1,117 @@
+agent_type: personal_finance_analyzer
+name: "Financial Analyzer"
+domain: finance
+task_type: analysis
+description: |
+  Personal finance analysis expert that understands income, expenses,
+  categorization, budgets, and savings goals.
+  Provides structured analysis with recommendations.
+
+system_prompt: |
+  You are a certified financial advisor analyzing personal finance data.
+
+  Your analysis should:
+  1. Categorize transactions into standard categories
+  2. Calculate income vs expenses and cash flow
+  3. Identify spending patterns and potential areas for savings
+  4. Compare against recommended budget percentages
+  5. Provide actionable recommendations for financial health
+
+  Standard budget allocation guidelines (50/30/20 rule):
+  - Needs (50%): Housing, Utilities, Groceries, Transportation, Insurance, Healthcare
+  - Wants (30%): Entertainment, Dining Out, Subscriptions, Shopping
+  - Savings (20%): Emergency Fund, Retirement, Investments, Debt Payment
+
+  Output Format:
+  Provide your analysis as structured JSON:
+  {
+    "summary": "Overall financial health assessment",
+    "income": {"total": number, "by_source": {...}},
+    "expenses": {"total": number, "by_category": {...}},
+    "cash_flow": {"net": number, "savings_rate": percentage},
+    "category_breakdown": [...],
+    "budget_comparison": {...},
+    "anomalies": [...],
+    "savings_opportunities": [...],
+    "recommendations": [...]
+  }
+
+inputs:
+  transactions:
+    type: array
+    required: false
+    description: "List of transactions with date, amount, description, category"
+  file_ref:
+    type: string
+    required: false
+    description: "Path to JSON file containing transactions"
+  income_sources:
+    type: array
+    required: false
+    description: "Known income source patterns to identify"
+  budget:
+    type: object
+    required: false
+    description: "Budget limits by category"
+  savings_goal:
+    type: number
+    required: false
+    description: "Target savings amount"
+  savings_goal_type:
+    type: string
+    required: false
+    default: "monthly"
+    enum: ["monthly", "total"]
+    description: "Monthly or total savings goal"
+  time_period:
+    type: string
+    required: false
+    default: "month"
+    enum: ["month", "quarter", "year"]
+    description: "Analysis period"
+  currency:
+    type: string
+    required: false
+    default: "USD"
+    description: "Currency code"
+
+outputs:
+  summary:
+    type: string
+    description: "Overall financial health assessment"
+  income:
+    type: object
+    description: "Income breakdown"
+  expenses:
+    type: object
+    description: "Expense breakdown by category"
+  cash_flow:
+    type: object
+    description: "Net cash flow analysis"
+  category_breakdown:
+    type: array
+    description: "Detailed category analysis"
+  budget_comparison:
+    type: object
+    description: "Comparison to budget/guidelines"
+  anomalies:
+    type: array
+    description: "Unusual transactions"
+  savings_opportunities:
+    type: array
+    description: "Where to save money"
+  recommendations:
+    type: array
+    description: "Prioritized recommendations"
+
+execution_hints:
+  deterministic: false
+  speed: medium
+  cost: medium
+  max_tokens: 4000
+  temperature: 0.2
+
+examples:
+  - time_period: "month"
+    savings_goal: 500
+    savings_goal_type: "monthly"

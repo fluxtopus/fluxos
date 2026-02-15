@@ -1,0 +1,226 @@
+agent:
+  metadata:
+    name: prompt_evaluation_agent
+    version: "1.0.0"
+    description: |
+      Evaluates prompts using LLM-as-judge methodology with rubric scoring.
+      Assesses prompts across multiple dimensions: clarity, specificity, safety,
+      output format, context, and constraints. Returns pass/fail decision with
+      detailed feedback and improvement suggestions.
+    category: evaluation
+    tags:
+      - evaluation
+      - quality-assurance
+      - prompt-engineering
+      - llm-judge
+
+  state_schema:
+    type: llm_worker
+    config:
+      model: google/gemini-2.5-flash
+      temperature: 0.1
+      response_format:
+        type: json_object
+        schema:
+          type: object
+          required: ["evaluation_result", "dimension_scores", "overall_score", "passed", "justification"]
+          properties:
+            evaluation_result:
+              type: string
+              enum: ["pass", "pass_with_warnings", "fail"]
+            dimension_scores:
+              type: object
+              required: ["clarity", "specificity", "safety", "output_format", "context", "constraints"]
+              properties:
+                clarity:
+                  type: object
+                  required: ["score", "feedback"]
+                  properties:
+                    score:
+                      type: integer
+                      minimum: 1
+                      maximum: 5
+                    feedback:
+                      type: string
+                specificity:
+                  type: object
+                  required: ["score", "feedback"]
+                  properties:
+                    score:
+                      type: integer
+                      minimum: 1
+                      maximum: 5
+                    feedback:
+                      type: string
+                safety:
+                  type: object
+                  required: ["score", "feedback"]
+                  properties:
+                    score:
+                      type: integer
+                      minimum: 1
+                      maximum: 5
+                    feedback:
+                      type: string
+                output_format:
+                  type: object
+                  required: ["score", "feedback"]
+                  properties:
+                    score:
+                      type: integer
+                      minimum: 1
+                      maximum: 5
+                    feedback:
+                      type: string
+                context:
+                  type: object
+                  required: ["score", "feedback"]
+                  properties:
+                    score:
+                      type: integer
+                      minimum: 1
+                      maximum: 5
+                    feedback:
+                      type: string
+                constraints:
+                  type: object
+                  required: ["score", "feedback"]
+                  properties:
+                    score:
+                      type: integer
+                      minimum: 1
+                      maximum: 5
+                    feedback:
+                      type: string
+            overall_score:
+              type: number
+              minimum: 1.0
+              maximum: 5.0
+            passed:
+              type: boolean
+            justification:
+              type: string
+            improvement_suggestions:
+              type: array
+              items:
+                type: object
+                required: ["dimension", "suggestion", "priority"]
+                properties:
+                  dimension:
+                    type: string
+                  suggestion:
+                    type: string
+                  priority:
+                    type: string
+                    enum: ["high", "medium", "low"]
+      system_prompt: |
+        You are an expert prompt evaluator specializing in LLM prompt engineering. Your task is to assess prompts using a rubric-based scoring system and provide actionable feedback.
+
+        **Evaluation Dimensions (1-5 scale each):**
+
+        1. **Clarity** - Is the prompt clear and unambiguous?
+           - 5: Crystal clear, no ambiguity whatsoever
+           - 4: Very clear with minor ambiguities
+           - 3: Generally clear but some parts unclear
+           - 2: Confusing in several places
+           - 1: Extremely unclear or contradictory
+
+        2. **Specificity** - Are instructions specific enough?
+           - 5: Highly specific with exact requirements
+           - 4: Specific with minor gaps
+           - 3: Moderately specific
+           - 2: Vague in key areas
+           - 1: No specific guidance
+
+        3. **Safety** - Does it avoid encouraging harmful outputs?
+           - 5: Explicitly guards against harmful outputs with clear boundaries
+           - 4: Generally safe with minor concerns
+           - 3: Neutral - no explicit safety considerations
+           - 2: Could potentially lead to harmful outputs
+           - 1: Actively encourages or lacks guardrails for harmful outputs
+
+        4. **Output Format** - Does it specify expected output format?
+           - 5: Exact format specified with examples
+           - 4: Format clearly described
+           - 3: Format mentioned but not detailed
+           - 2: Format implied but unclear
+           - 1: No format guidance
+
+        5. **Context** - Does it provide sufficient context?
+           - 5: Complete context with background, purpose, and constraints
+           - 4: Good context with minor gaps
+           - 3: Basic context provided
+           - 2: Insufficient context
+           - 1: No context provided
+
+        6. **Constraints** - Are constraints clearly stated?
+           - 5: All constraints explicit with clear boundaries
+           - 4: Most constraints clear
+           - 3: Some constraints mentioned
+           - 2: Few constraints specified
+           - 1: No constraints defined
+
+        **Pass/Fail Criteria:**
+        - **PASS**: Overall score >= threshold AND no dimension score < 2
+        - **PASS_WITH_WARNINGS**: Overall score >= threshold but has dimension scores of 2
+        - **FAIL**: Overall score < threshold OR any dimension score = 1 OR safety score < 3
+
+        **Scoring Calculation:**
+        - Apply weights: clarity (1.0), specificity (1.0), safety (1.5), output_format (1.0), context (0.8), constraints (0.8)
+        - Weighted average = sum(score * weight) / sum(weights)
+        - Round to 2 decimal places
+
+        **CRITICAL: You MUST return ONLY valid JSON matching the required schema.**
+
+        **The response MUST be a JSON object with these required keys:**
+        - "evaluation_result" (string): "pass", "pass_with_warnings", or "fail"
+        - "dimension_scores" (object): Scores and feedback for each dimension
+        - "overall_score" (number): Weighted average score (1.0-5.0)
+        - "passed" (boolean): Whether the prompt passes evaluation
+        - "justification" (string): Clear explanation of the decision
+        - "improvement_suggestions" (array): Specific suggestions to improve the prompt
+
+        **Important Guidelines:**
+        - Be objective and consistent in your scoring
+        - Provide specific, actionable feedback for each dimension
+        - Don't inflate scores - be realistic and constructive
+        - For system prompts: emphasize safety and clarity
+        - For agent prompts: emphasize specificity and output format
+        - Always suggest improvements, even for passing prompts
+
+    required_inputs:
+      - name: prompt
+        type: string
+        description: The prompt text to evaluate
+      - name: threshold
+        type: number
+        description: Minimum weighted score to pass (default 3.0)
+        optional: true
+      - name: prompt_type
+        type: string
+        description: Type of prompt being evaluated (system_prompt, agent_prompt, workflow_prompt, general)
+        optional: true
+      - name: rubric
+        type: object
+        description: Custom rubric configuration (optional, uses standard rubric if not provided)
+        optional: true
+
+    outputs:
+      - name: evaluation_result
+        type: string
+        description: Overall result - pass, pass_with_warnings, or fail
+      - name: dimension_scores
+        type: object
+        description: Individual scores and feedback for each evaluation dimension
+      - name: overall_score
+        type: number
+        description: Weighted average score across all dimensions (1.0-5.0)
+      - name: passed
+        type: boolean
+        description: Whether the prompt passed evaluation
+      - name: justification
+        type: string
+        description: Explanation of the evaluation decision
+      - name: improvement_suggestions
+        type: array
+        description: Specific suggestions to improve the prompt

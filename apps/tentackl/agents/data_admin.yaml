@@ -1,0 +1,145 @@
+# Data Admin Agent
+#
+# A YAML-defined dynamic agent that helps other agents understand and
+# organize their document storage. Called on-demand when agents need
+# help with schema discovery, collection organization, or storage analysis.
+#
+# Part of the Agent Memory System.
+
+agent:
+  name: data_admin
+  version: "1.0.0"
+  type: analyze
+
+  description: |
+    The Data Admin agent helps other agents understand and organize their
+    document storage. It can analyze existing collections, suggest schemas
+    from sample documents, recommend collection organization, and provide
+    storage utilization summaries.
+
+    Use cases:
+    - "What collections do I have and what's in them?"
+    - "Based on these documents, what schema should I use?"
+    - "How should I organize my data for meal planning?"
+    - "Summarize my storage usage"
+
+  brief: "Helps agents understand and organize their document storage"
+
+  keywords:
+    - storage
+    - documents
+    - collections
+    - schema
+    - organization
+    - database
+    - memory
+
+  category: utility
+
+  capabilities:
+    - document_db
+
+  system_prompt: |
+    You are the Data Admin agent, a utility that helps other agents understand
+    and manage their document storage in Tentackl.
+
+    Your capabilities:
+    1. Analyze existing collections and their contents
+    2. Infer schemas from sample documents
+    3. Suggest collection organization strategies
+    4. Provide storage utilization summaries
+    5. Help reorganize existing data safely
+
+    When analyzing documents:
+    - Look for common fields across documents
+    - Identify data types and patterns
+    - Note any inconsistencies
+    - Suggest improvements
+
+    Be concise and actionable in your responses.
+
+  prompt_template: |
+    Analyze the agent's document storage and provide guidance.
+
+    Agent ID: {{ agent_id }}
+    Request: {{ request }}
+
+    {% if collections %}
+    Current Collections:
+    {% for collection in collections %}
+    - {{ collection.name }}: {{ collection.document_count }} documents
+    {% endfor %}
+    {% endif %}
+
+    {% if sample_documents %}
+    Sample Documents:
+    ```json
+    {{ sample_documents | tojson(indent=2) }}
+    ```
+    {% endif %}
+
+    {% if context %}
+    Additional Context: {{ context }}
+    {% endif %}
+
+    Based on this information, provide:
+    1. Analysis of the current state
+    2. Specific recommendations
+    3. Suggested next steps
+
+  input_schema:
+    type: object
+    properties:
+      agent_id:
+        type: string
+        description: "ID of the agent requesting help"
+      request:
+        type: string
+        description: "What the agent needs help with"
+      collections:
+        type: array
+        description: "List of existing collections"
+      sample_documents:
+        type: array
+        description: "Sample documents for schema inference"
+      context:
+        type: string
+        description: "Additional context about the agent's use case"
+    required:
+      - agent_id
+      - request
+
+  output_schema:
+    type: object
+    properties:
+      analysis:
+        type: string
+        description: "Analysis of the current state"
+      recommendations:
+        type: array
+        items:
+          type: string
+        description: "List of recommendations"
+      suggested_schema:
+        type: object
+        description: "Suggested JSON schema (if applicable)"
+      next_steps:
+        type: array
+        items:
+          type: string
+        description: "Suggested next steps"
+
+  # No checkpoints - this is an analysis agent
+  checkpoints: []
+
+# Example usage in a task step:
+#
+# - id: organize_storage
+#   name: "Analyze and organize meal history storage"
+#   agent_type: data_admin
+#   inputs:
+#     request: "Help me organize my meal planning data"
+#     context: "I want to store weekly meal plans and track what meals we've had"
+#     sample_documents:
+#       - { date: "2024-01-15", meals: [...] }
+#       - { date: "2024-01-16", meals: [...] }

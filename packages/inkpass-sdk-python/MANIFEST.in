@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+include requirements.txt
+recursive-include inkpass_sdk *.py
+recursive-exclude tests *
+recursive-exclude examples *

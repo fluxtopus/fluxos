@@ -1,0 +1,52 @@
+# Docker build ignore file
+# Only exclude files we definitely don't want in the build context
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git directory
+.git/
+.gitignore
+
+# Testing/coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Logs
+*.log
+logs/
+
+# Build artifacts (but NOT src/lib directories!)
+build/
+dist/
+*.egg-info/
+
+# Temporary files
+temp/
+.cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Do NOT ignore these - needed for builds:
+# !frontends/*/src/lib/
+# !apps/*/src/

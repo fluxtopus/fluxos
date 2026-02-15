@@ -1,0 +1,70 @@
+agent_type: task_output_retrieval
+name: "Task Output Retrieval"
+domain: task
+task_type: retrieval
+description: |
+  Retrieves step outputs from a previously executed task.
+  Use when the current task needs data produced by another task
+  (files, analysis results, structured data).
+
+  USE THIS when referencing outputs from a previous task by ID.
+  DO NOT USE for workspace objects (use workspace_query),
+  memories (use memory_query), or intra-task references
+  (use {{step_X.outputs.field}} templates).
+
+inputs:
+  task_id:
+    type: string
+    required: true
+    description: "UUID of the task to retrieve outputs from. This is the task ID that produced the data you need."
+  step_id:
+    type: string
+    required: false
+    description: "Specific step ID within the target task. Use when you know the exact step that produced the output."
+  step_name:
+    type: string
+    required: false
+    description: "Specific step name within the target task. Alternative to step_id when you know the step name but not ID."
+
+outputs:
+  task_id:
+    type: string
+    description: "The target task ID"
+  task_status:
+    type: string
+    description: "Current status of the target task (only in all-steps mode)"
+  task_goal:
+    type: string
+    description: "Goal of the target task (only in all-steps mode)"
+  steps:
+    type: array
+    description: "Array of steps with step_id, step_name, agent_type, status, outputs (only in all-steps mode)"
+  step_count:
+    type: integer
+    description: "Number of steps returned (only in all-steps mode)"
+  step_id:
+    type: string
+    description: "The specific step ID (only in single-step mode)"
+  step_name:
+    type: string
+    description: "The specific step name (only in single-step mode)"
+  agent_type:
+    type: string
+    description: "The agent type of the specific step (only in single-step mode)"
+  status:
+    type: string
+    description: "Status of the specific step (only in single-step mode)"
+  outputs:
+    type: object
+    description: "The step outputs containing the actual data (only in single-step mode)"
+
+execution_hints:
+  deterministic: true
+  speed: fast
+  cost: free
+  requires_checkpoint: false
+
+examples:
+  - "Get the PDF output from task e6fc6013"
+  - "Retrieve the analysis results from the previous research task"
+  - "Fetch step outputs from task 442dadf1"

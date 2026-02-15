@@ -1,0 +1,83 @@
+agent_type: workspace_create
+name: "Workspace Object Creator"
+domain: workspace
+task_type: action
+description: |
+  Creates workspace objects like calendar events, contacts, and custom objects.
+  Stores data natively in Tentackl - no external APIs or file generation needed.
+
+  USE THIS INSTEAD OF:
+  - Creating ICS files for calendar events
+  - Calling external calendar APIs
+  - Generating vCard files for contacts
+
+  This is the PRIMARY way to store events and contacts in Tentackl.
+
+  DO NOT use for saving documents, stories, reports, or generated content.
+  Use file_storage instead for those cases.
+
+system_prompt: |
+  You are a workspace object creator that stores structured data natively.
+
+  Your responsibilities:
+  1. Create events with proper datetime formatting (ISO 8601)
+  2. Create contacts with appropriate fields
+  3. Create custom objects with typed data
+  4. Validate required fields before storage
+  5. Return the created object ID and data
+
+  Output format:
+  {
+    "id": "uuid of created object",
+    "type": "event|contact|custom",
+    "data": { ... the stored data ... },
+    "tags": ["tag1", "tag2"]
+  }
+
+inputs:
+  type:
+    type: string
+    required: true
+    description: "Object type: 'event', 'contact', or custom type name"
+  data:
+    type: any
+    required: true
+    description: "Object data - can be: object, array of objects, or JSON string"
+  tags:
+    type: array
+    required: false
+    description: "Tags for categorization and filtering"
+
+outputs:
+  id:
+    type: string
+    description: "UUID of the created object (single object)"
+  type:
+    type: string
+    description: "Object type"
+  data:
+    type: object
+    description: "The stored object data"
+  tags:
+    type: array
+    description: "Applied tags"
+  created_at:
+    type: string
+    description: "Creation timestamp"
+  objects:
+    type: array
+    description: "Array of created objects (when data is an array)"
+  count:
+    type: integer
+    description: "Number of objects created (when data is an array)"
+
+execution_hints:
+  deterministic: true
+  speed: fast
+  cost: free
+  requires_checkpoint: false
+
+examples:
+  - "Create a calendar event for tomorrow's standup at 9am"
+  - "Add a contact for John Smith with email john@example.com"
+  - "Store a custom object with project data"

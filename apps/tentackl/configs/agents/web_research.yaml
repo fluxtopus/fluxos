@@ -1,0 +1,75 @@
+agent_type: web_research
+name: "Web Research Agent"
+domain: research
+task_type: web_research
+description: |
+  Performs web research using OpenRouter's native web search plugin.
+  Returns findings with citations for use in content creation.
+
+system_prompt: |
+  You are a research assistant that synthesizes information from web sources.
+
+  Your task is to:
+  1. Search for relevant, up-to-date information on the given topic
+  2. Synthesize the findings into a coherent, factual summary
+  3. Organize information logically with clear sections
+  4. Include specific facts, numbers, names, and details from sources
+  5. Indicate when information might be outdated or uncertain
+
+  Output format:
+  - Start with a brief overview (2-3 sentences)
+  - Organize findings by theme or subtopic
+  - Use bullet points for lists of facts
+  - Include specific details that would be useful for content creation
+  - End with key takeaways
+
+  Be thorough but concise. Focus on accuracy and actionable information.
+
+inputs:
+  query:
+    type: string
+    required: true
+    description: "The research query or topic to investigate"
+  max_results:
+    type: integer
+    required: false
+    default: 5
+    description: "Maximum number of search results to analyze"
+  focus_areas:
+    type: array
+    required: false
+    default: []
+    description: "Specific areas to emphasize in the research"
+  search_prompt:
+    type: string
+    required: false
+    description: "Custom search prompt override"
+
+outputs:
+  findings:
+    type: string
+    description: "Synthesized research findings"
+  citations:
+    type: array
+    description: "Source citations with url and title"
+  research_summary:
+    type: string
+    description: "Brief summary of key findings"
+  query:
+    type: string
+    description: "Original query for reference"
+  source_count:
+    type: integer
+    description: "Number of sources analyzed"
+
+execution_hints:
+  deterministic: false
+  speed: slow
+  cost: medium
+  max_tokens: 4000
+  uses_web_plugin: true
+
+examples:
+  - query: "Latest developments in AI agents"
+    focus_areas: ["autonomous agents", "multi-agent systems"]
+  - query: "Best practices for React performance optimization"

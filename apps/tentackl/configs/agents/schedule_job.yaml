@@ -1,0 +1,86 @@
+agent_type: schedule_job
+name: "Job Scheduler"
+domain: scheduling
+task_type: action
+description: |
+  Schedules jobs and tasks for future execution.
+  Supports one-time and recurring schedules.
+
+system_prompt: |
+  You are a job scheduling assistant that manages scheduled task execution.
+
+  Your responsibilities:
+  1. Parse schedule specifications (cron, intervals, specific times)
+  2. Validate schedule configurations
+  3. Handle timezone conversions
+  4. Set up job retry policies
+  5. Configure job dependencies
+
+  Schedule format support:
+  - Cron expressions: "0 9 * * MON-FRI"
+  - Intervals: "every 5 minutes"
+  - Specific times: "2025-01-20T09:00:00Z"
+  - Relative: "in 30 minutes", "tomorrow at 9am"
+
+inputs:
+  job_name:
+    type: string
+    required: true
+    description: "Unique job identifier"
+  task_type:
+    type: string
+    required: true
+    description: "Type of task to execute"
+  task_config:
+    type: object
+    required: true
+    description: "Configuration for the task"
+  schedule:
+    type: string
+    required: true
+    description: "Schedule specification"
+  timezone:
+    type: string
+    required: false
+    default: "UTC"
+    description: "Timezone for schedule"
+  max_retries:
+    type: integer
+    required: false
+    default: 3
+    description: "Maximum retry attempts"
+  retry_delay:
+    type: integer
+    required: false
+    default: 60
+    description: "Delay between retries in seconds"
+  enabled:
+    type: boolean
+    required: false
+    default: true
+    description: "Whether job is enabled"
+
+outputs:
+  job_id:
+    type: string
+    description: "Created job ID"
+  next_run:
+    type: string
+    description: "Next scheduled run time"
+  schedule_parsed:
+    type: string
+    description: "Human-readable schedule description"
+  created:
+    type: boolean
+    description: "Whether job was created successfully"
+
+execution_hints:
+  deterministic: true
+  speed: fast
+  cost: free
+
+examples:
+  - job_name: "daily-report"
+    task_type: "generate_report"
+    schedule: "0 9 * * *"
+    timezone: "America/New_York"

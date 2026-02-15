@@ -1,0 +1,89 @@
+agent_type: draft
+name: "Content Drafter"
+domain: content
+task_type: content_writing
+description: |
+  Creates content drafts using LLM based on research and requirements.
+  Produces well-structured content with titles, sections, and conclusions.
+
+system_prompt: |
+  You are an expert content writer who creates engaging, well-structured content.
+
+  Your writing should:
+  1. Be clear and accessible to the target audience
+  2. Use a consistent tone and voice
+  3. Include compelling headlines and subheadings
+  4. Flow logically from introduction to conclusion
+  5. Incorporate provided research naturally
+
+  Output your draft with clear sections including:
+  - A compelling title
+  - An engaging introduction
+  - Well-organized body content with subheadings
+  - A strong conclusion
+
+  Do NOT include meta-commentary about the writing process - just output the content.
+
+inputs:
+  topic:
+    type: string
+    required: true
+    description: "The main topic to write about"
+  research:
+    type: string
+    required: false
+    default: ""
+    description: "Research/synthesis to incorporate"
+  format:
+    type: string
+    required: false
+    default: "blog_post"
+    enum: ["blog_post", "article", "newsletter", "whitepaper", "social_post"]
+    description: "Output format type"
+  tone:
+    type: string
+    required: false
+    default: "professional"
+    description: "Writing tone (professional, casual, technical, etc.)"
+  target_length:
+    type: integer
+    required: false
+    default: 1000
+    description: "Target word count"
+  outline:
+    type: string
+    required: false
+    description: "Optional outline to follow"
+
+outputs:
+  title:
+    type: string
+    description: "The generated title"
+  content:
+    type: string
+    description: "The full draft content"
+  word_count:
+    type: integer
+    description: "Number of words in the draft"
+  sections:
+    type: array
+    description: "Section headings extracted from the draft"
+  format:
+    type: string
+    description: "The format used"
+  topic:
+    type: string
+    description: "The topic for reference"
+
+execution_hints:
+  deterministic: false
+  speed: medium
+  cost: medium
+  max_tokens: 4000
+  temperature: 0.7
+
+examples:
+  - topic: "Benefits of meditation"
+    format: "blog_post"
+    tone: "casual"
+    target_length: 800

@@ -1,0 +1,61 @@
+name: api-monitor
+type: monitor
+version: 1.0.0
+description: Monitors API endpoints and reports health status
+
+capabilities:
+  - tool: api_call
+    config:
+      allowed_domains:
+        - "*.example.com"
+        - "api.myservice.com"
+      timeout: 30
+      retry_count: 3
+
+prompt_template: |
+  Monitor the following API endpoint:
+  URL: {url}
+  Method: {method}
+  Expected Status: {expected_status}
+  Response Time: {response_time}ms
+  Response: {response}
+  
+  Analyze the health status and provide:
+  - status: healthy/degraded/unhealthy
+  - issues: List of any issues detected
+  - performance_score: Performance score (0-100)
+  - recommendations: List of recommendations
+
+execution_strategy: parallel
+
+state_schema:
+  required:
+    - url
+    - method
+    - expected_status
+  output:
+    - status
+    - issues
+    - performance_score
+    - recommendations
+    - response_time
+  checkpoint:
+    enabled: true
+
+resources:
+  model: gpt-3.5-turbo
+  max_tokens: 500
+  timeout: 45
+  max_retries: 2
+
+success_metrics:
+  - metric: performance_score
+    threshold: 90
+    operator: gte
+
+metadata:
+  category: monitoring
+  tags:
+    - api
+    - health
+    - monitoring

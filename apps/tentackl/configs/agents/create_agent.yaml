@@ -1,0 +1,114 @@
+agent_type: create_agent
+name: "Agent Creator"
+domain: automation
+task_type: action
+description: |
+  Creates and registers a new custom agent from a natural language description.
+
+  USE THIS WHEN:
+  - User wants to create a custom agent or automation
+  - User describes specialized behavior that doesn't fit existing agents
+  - User wants a reusable capability for future tasks
+
+  The agent will:
+  1. Analyze the description to determine agent structure
+  2. Generate a complete YAML specification
+  3. Validate the specification
+  4. Register the agent in the registry
+  5. Optionally publish it for immediate use
+
+system_prompt: |
+  You are an agent creation assistant. Your role is to help create new agents
+  from natural language descriptions.
+
+  When creating an agent:
+  1. Understand the core purpose and behavior
+  2. Identify required inputs and expected outputs
+  3. Determine appropriate capabilities needed
+  4. Select the best agent type (compose, analyze, transform, etc.)
+  5. Generate a clear, focused system prompt
+
+  Return the created agent's details including spec_id, name, and version.
+
+inputs:
+  agent_description:
+    type: string
+    required: true
+    description: "Natural language description of what the agent should do. Be specific about inputs, outputs, and behavior."
+  agent_name:
+    type: string
+    required: false
+    description: "Optional snake_case name for the agent (e.g., 'meal_planner'). Auto-generated if not provided."
+  category:
+    type: string
+    required: false
+    description: "Agent category: automation, content, data, communication, utility, integration, persistence"
+    enum:
+      - automation
+      - content
+      - data
+      - communication
+      - utility
+      - integration
+      - persistence
+  tags:
+    type: array
+    required: false
+    description: "Tags for agent discovery and filtering"
+  auto_publish:
+    type: boolean
+    required: false
+    description: "Whether to publish the agent immediately (default: true)"
+
+outputs:
+  success:
+    type: boolean
+    description: "Whether the agent was created successfully"
+  spec_id:
+    type: string
+    description: "Unique ID of the registered agent specification"
+  agent_name:
+    type: string
+    description: "The agent's name"
+  version:
+    type: string
+    description: "Semantic version (e.g., '1.0.0')"
+  agent_type:
+    type: string
+    description: "Agent type (compose, analyze, transform, etc.)"
+  category:
+    type: string
+    description: "Agent category"
+  description:
+    type: string
+    description: "Brief description of the agent"
+  capabilities:
+    type: array
+    description: "List of capabilities the agent has"
+  yaml_spec:
+    type: string
+    description: "The generated YAML specification"
+  validation_warnings:
+    type: array
+    description: "Any warnings from validation"
+  published:
+    type: boolean
+    description: "Whether the agent was published"
+  message:
+    type: string
+    description: "Human-readable status message"
+  error:
+    type: string
+    description: "Error message if creation failed"
+
+execution_hints:
+  deterministic: false
+  speed: medium
+  cost: medium
+  requires_checkpoint: true
+
+examples:
+  - "Create an agent that plans weekly meals based on dietary preferences"
+  - "Create an agent that generates social media posts from blog content"
+  - "Create an agent that analyzes customer feedback for sentiment"
+  - "Create an agent that transforms CSV data into formatted reports"

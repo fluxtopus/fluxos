@@ -1,0 +1,171 @@
+name: weather-monitor-porto
+type: orchestrator
+version: 1.0.0
+description: Weather monitoring orchestrator for Porto football fields
+
+capabilities:
+  - tool: weather_analysis
+    config:
+      thresholds:
+        low: 0.3
+        medium: 0.6
+        high: 0.8
+      analysis_window: 6  # hours
+      update_frequency: 60  # minutes
+  
+  - tool: decision_making
+    config:
+      strategies:
+        - proactive
+        - reactive
+      decision_matrix:
+        0-29: none
+        30-59: monitor
+        60-79: alert
+        80-100: action
+  
+  - tool: agent_coordination
+    config:
+      child_agents:
+        - field_scheduler
+        - communication_coordinator
+      spawn_strategy: conditional
+
+prompt_template: |
+  You are a weather monitoring agent for Porto football fields.
+  Analyze the weather data and determine the appropriate response.
+  
+  Weather Data:
+  - Location: {location}
+  - Precipitation Probability: {precipitation_probability}%
+  - Severity: {severity}
+  - Affected Hours: {affected_hours}
+  - Current Time: {current_time}
+  
+  Decision Thresholds:
+  - 0-29%: No action required
+  - 30-59%: Monitor status, flag at-risk bookings
+  - 60-79%: Alert status, proactive notifications
+  - 80-100%: Action required, automatic rescheduling
+  
+  Based on the precipitation probability and affected hours, determine:
+  1. The action level (none/monitor/alert/action)
+  2. Which bookings are affected
+  3. What actions to take
+  4. Priority of actions
+  
+  Provide your analysis in JSON format with fields:
+  - action_level: string
+  - affected_booking_ids: list of strings
+  - recommended_actions: list of action objects
+  - priority: string (low/medium/high/critical)
+  - reasoning: string
+  - confidence: float (0-1)
+
+execution_strategy: sequential
+
+state_schema:
+  required:
+    - location
+    - precipitation_probability
+    - affected_hours
+    - current_time
+  output:
+    - action_level
+    - affected_booking_ids
+    - recommended_actions
+    - priority
+    - reasoning
+    - confidence
+    - weather_event_id
+    - decision_timestamp
+  checkpoint:
+    enabled: true
+    interval: 1
+  validation_rules:
+    precipitation_probability:
+      type: float
+      min: 0
+      max: 100
+    confidence:
+      type: float
+      min: 0
+      max: 1
+
+resources:
+  model: gpt-4o-mini
+  max_tokens: 1000
+  timeout: 30
+  temperature: 0.3
+  max_retries: 2
+
+success_metrics:
+  - metric: confidence
+    threshold: 0.8
+    operator: gte
+  - metric: decision_time
+    threshold: 5.0
+    operator: lte
+
+event_subscriptions:
+  - id: weather_webhook
+    source:
+      type: webhook
+      endpoint: /webhooks/weather/{agent_id}
+      method: POST
+      authentication:
+        type: bearer_token
+        secret_ref: ${WEATHER_API_SECRET}
+    
+    events:
+      - name: weather.forecast.updated
+        filter:
+          jsonpath: "$.precipitation_probability > 0.3"
+        transform:
+          mapping:
+            probability: "$.precipitation_probability"
+            severity: "$.weather_severity"
+            affected_hours: "$.forecast_window.hours"
+    
+    error_handling:
+      retry_policy:
+        max_attempts: 3
+        backoff: exponential
+        initial_delay: 1s
+      dead_letter:
+        destination: failed_weather_events
+
+callbacks:
+  - id: high_rain_probability
+    trigger:
+      event: weather.forecast.updated
+      condition: "event.probability > 0.6"
+    
+    actions:
+      - type: spawn_agent
+        config:
+          template: field_scheduler
+          parameters:
+            risk_level: high
+            affected_hours: "${event.affected_hours}"
+      
+      - type: spawn_agent
+        config:
+          template: communication_coordinator
+          parameters:
+            alert_type: weather_warning
+            channels: ["sms", "email"]
+    
+    constraints:
+      rate_limit:
+        max_calls: 10
+        window: 1h
+      concurrency:
+        max_parallel: 3
+
+budget:
+  max_cost: 5.00
+  warn_at: 4.00
+  alert_channels:
+    - email
+    - dashboard

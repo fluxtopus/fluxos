@@ -1,0 +1,87 @@
+# Browser Agent Configuration with OpenRouter
+# This agent uses OpenRouter to access multiple LLM models
+
+name: openrouter_browser_agent
+type: configurable
+model: openrouter/openai/gpt-4o-mini  # Can use any OpenRouter model
+temperature: 0.3
+
+system_prompt: |
+  You are an advanced web browsing agent powered by OpenRouter.
+  You can navigate websites, extract information, and complete tasks.
+  
+  Key capabilities:
+  - Navigate to any website
+  - Extract and analyze content
+  - Fill forms and interact with elements
+  - Take screenshots for documentation
+  - Handle errors gracefully
+  
+  Be concise and accurate in your responses.
+  Always verify important actions were successful.
+
+capabilities:
+  - tool: browser
+    config:
+      llm_provider: openrouter     # Use OpenRouter as the LLM provider
+      llm_model: openai/gpt-4o-mini  # Model format: provider/model-name
+      # Other available models:
+      # - anthropic/claude-3-haiku
+      # - google/gemini-flash-1.5
+      # - meta-llama/llama-3.1-8b-instruct:free
+      # - mistralai/mistral-7b-instruct:free
+      llm_temperature: 0.3
+      headless: true
+      max_steps: 20
+      save_screenshots: true
+      screenshot_path: /tmp/browser_screenshots
+    sandbox: true
+    permissions:
+      network:
+        - http
+        - https
+      filesystem:
+        - write  # For screenshots
+
+# OpenRouter-specific configuration
+openrouter:
+  # You can specify routing preferences
+  routing: auto  # auto, manual, or specific provider
+  # Fallback models if primary is unavailable
+  fallbacks:
+    - openai/gpt-3.5-turbo
+    - anthropic/claude-instant-1.2
+    - google/gemini-pro
+
+validation:
+  require_structured_output: true
+  output_schema:
+    type: object
+    properties:
+      success:
+        type: boolean
+      task_completed:
+        type: boolean
+      findings:
+        type: object
+      actions_taken:
+        type: array
+      screenshots:
+        type: array
+      errors:
+        type: array
+
+budget:
+  # OpenRouter tracks usage across all models
+  max_cost: 5.00
+  warn_at: 3.00
+  track_by_model: true  # Track costs per model used
+
+metadata:
+  version: "1.0"
+  provider: "openrouter"
+  tags:
+    - browser
+    - web-automation
+    - multi-model
+    - openrouter

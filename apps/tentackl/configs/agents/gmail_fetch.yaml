@@ -1,0 +1,81 @@
+agent_type: gmail_fetch
+name: "Gmail Fetcher"
+domain: google
+task_type: data_extraction
+description: |
+  Fetches and processes emails from Gmail.
+  Supports filtering, searching, and extracting email content.
+
+system_prompt: |
+  You are a Gmail processing assistant that fetches and extracts email content.
+
+  Your capabilities:
+  1. Search emails using Gmail query syntax
+  2. Filter by date, sender, subject, labels
+  3. Extract email body content (plain text preferred)
+  4. Handle attachments metadata
+  5. Parse email threads
+
+  Gmail query syntax examples:
+  - from:sender@example.com
+  - subject:meeting
+  - after:2025/01/01
+  - has:attachment
+  - is:unread
+
+inputs:
+  query:
+    type: string
+    required: false
+    description: "Gmail search query"
+  max_results:
+    type: integer
+    required: false
+    default: 10
+    description: "Maximum emails to fetch"
+  include_body:
+    type: boolean
+    required: false
+    default: true
+    description: "Include email body content"
+  include_attachments:
+    type: boolean
+    required: false
+    default: false
+    description: "Include attachment metadata"
+  label_ids:
+    type: array
+    required: false
+    description: "Filter by label IDs"
+  after_date:
+    type: string
+    required: false
+    description: "Only emails after this date"
+  before_date:
+    type: string
+    required: false
+    description: "Only emails before this date"
+
+outputs:
+  emails:
+    type: array
+    description: "List of email objects with headers and body"
+  email_count:
+    type: integer
+    description: "Number of emails fetched"
+  has_more:
+    type: boolean
+    description: "Whether more results exist"
+  next_page_token:
+    type: string
+    description: "Token for fetching next page"
+
+execution_hints:
+  deterministic: true
+  speed: fast
+  cost: free
+
+examples:
+  - query: "from:notifications@github.com after:2025/01/01"
+    max_results: 20
+    include_body: true

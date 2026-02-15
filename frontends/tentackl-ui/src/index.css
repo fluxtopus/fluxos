@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+}
+
+/* Select options */
+select option {
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+.dark select option {
+  background-color: #1f2937;
+  color: #f9fafb;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f3f4f6;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background-color: #1f2937;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280;
+}
+
+/* React Flow styles are imported in WorkflowVisualization.tsx */
+
+/* React Flow edge customization for better visibility */
+.react-flow__edge-path {
+  stroke: #6B7280 !important;
+  stroke-width: 3 !important;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #3B82F6 !important;
+  stroke-width: 4 !important;
+}
+
+.react-flow__arrowhead {
+  fill: #6B7280 !important;
+}
+
+.react-flow__edge.selected .react-flow__arrowhead {
+  fill: #3B82F6 !important;
+}
+
+/* Dark mode adjustments */
+.dark .react-flow__edge-path {
+  stroke: #9CA3AF !important;
+}
+
+.dark .react-flow__arrowhead {
+  fill: #9CA3AF !important;
+}

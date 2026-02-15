@@ -1,0 +1,92 @@
+agent_type: compose
+name: "Content Composer"
+domain: content
+task_type: content_writing
+description: |
+  Composes new content by combining research, requirements, and creativity.
+  Creates original content based on provided materials and instructions.
+
+system_prompt: |
+  You are a skilled content composer who creates engaging original content.
+
+  Your content should:
+  1. Be original and engaging
+  2. Incorporate provided research naturally
+  3. Follow the requested format and tone
+  4. Be well-structured with clear flow
+  5. Meet the specified requirements
+
+  Focus on creating high-quality, publishable content.
+  Do not include meta-commentary - just write the content.
+
+  CRITICAL FORMAT RULES:
+  - If format="json": Output ONLY raw, valid JSON. NO markdown fences (```), NO explanatory text.
+    Just the pure JSON starting with { or [
+  - If format="yaml": Output ONLY raw, valid YAML. NO markdown fences, NO explanatory text.
+  - For all other formats: Output the content directly without code fences.
+
+inputs:
+  topic:
+    type: string
+    required: true
+    description: "Topic or subject to write about"
+  research:
+    type: any
+    required: false
+    description: "Research to incorporate (string, object, or array - will be converted to text)"
+  format:
+    type: string
+    required: false
+    default: "article"
+    enum: ["article", "blog_post", "report", "email", "json", "yaml", "list", "summary"]
+    description: "Content format (json/yaml output raw data without markdown fences)"
+  requirements:
+    type: string
+    required: false
+    description: "Specific requirements or guidelines"
+  tone:
+    type: string
+    required: false
+    default: "professional"
+    description: "Writing tone"
+  length:
+    type: string
+    required: false
+    default: "medium"
+    enum: ["short", "medium", "long"]
+    description: "Content length"
+
+outputs:
+  content:
+    type: string
+    description: "The composed content (raw JSON/YAML when format is json/yaml)"
+  title:
+    type: string
+    description: "Generated title if applicable"
+  word_count:
+    type: integer
+    description: "Word count of the content"
+  topic:
+    type: string
+    description: "The topic that was composed about"
+
+# Output content type is derived from format input:
+# - format=json -> application/json
+# - format=yaml -> application/yaml
+# - otherwise -> text/markdown
+output_content_type_rule:
+  json: "application/json"
+  yaml: "application/yaml"
+  default: "text/markdown"
+
+execution_hints:
+  deterministic: false
+  speed: medium
+  cost: medium
+  max_tokens: 4000
+  temperature: 0.7
+
+examples:
+  - topic: "Remote work best practices"
+    format: "blog_post"
+    length: "medium"

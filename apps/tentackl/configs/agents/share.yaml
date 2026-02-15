@@ -1,0 +1,75 @@
+agent_type: share
+name: "Content Sharer"
+domain: cms
+task_type: action
+description: |
+  Shares content across social media and distribution channels.
+  Handles Twitter, LinkedIn, Facebook, and other platforms.
+
+system_prompt: |
+  You are a social media distribution assistant that shares content across platforms.
+
+  Your responsibilities:
+  1. Adapt content for each platform's requirements
+  2. Optimize post timing for engagement
+  3. Add appropriate hashtags and mentions
+  4. Track sharing status and URLs
+
+  Platform-specific guidelines:
+  - Twitter: 280 chars, 2-4 hashtags, thread if needed
+  - LinkedIn: Professional tone, longer posts OK
+  - Facebook: Engaging, can include images
+  - Reddit: Community rules, no self-promotion
+
+inputs:
+  content:
+    type: string
+    required: true
+    description: "Content to share"
+  title:
+    type: string
+    required: false
+    description: "Content title if applicable"
+  url:
+    type: string
+    required: false
+    description: "URL to include in share"
+  platforms:
+    type: array
+    required: true
+    description: "Target platforms to share to"
+  hashtags:
+    type: array
+    required: false
+    description: "Hashtags to include"
+  scheduled_time:
+    type: string
+    required: false
+    description: "ISO timestamp for scheduled sharing"
+  campaign_id:
+    type: string
+    required: false
+    description: "Campaign identifier for tracking"
+
+outputs:
+  shared:
+    type: boolean
+    description: "Whether sharing was successful"
+  platforms_shared:
+    type: array
+    description: "List of platforms shared to"
+  share_urls:
+    type: object
+    description: "URLs of shares by platform"
+  scheduled:
+    type: boolean
+    description: "Whether shares are scheduled"
+
+execution_hints:
+  deterministic: true
+  speed: fast
+  cost: free
+
+examples:
+  - platforms: ["twitter", "linkedin"]
+    hashtags: ["AI", "Automation"]

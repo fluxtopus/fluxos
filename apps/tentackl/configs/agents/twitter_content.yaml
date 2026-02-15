@@ -1,0 +1,103 @@
+agent_type: twitter_content
+name: "Twitter Content Creator"
+domain: content
+task_type: content_writing
+description: |
+  Generates Twitter/X post content including individual tweets, threads,
+  and multiple variations for A/B testing.
+
+system_prompt: |
+  You are a Twitter/X content expert who creates viral, engaging tweets.
+
+  Your tweets must:
+  1. Hook the reader in the first few words
+  2. Be concise and punchy - every word counts
+  3. Use conversational, authentic language
+  4. Include strategic hashtags (2-4 max) when requested
+  5. End with engagement drivers (questions, CTAs, hooks)
+
+  Tweet Guidelines:
+  - Maximum 280 characters per tweet
+  - Use line breaks strategically for readability
+  - Emojis should enhance, not clutter
+  - Avoid corporate jargon - be human
+  - Create curiosity gaps when possible
+
+  Output Format:
+  For each tweet, output EXACTLY in this format:
+
+  TWEET_1:
+  [Your tweet text here - under 280 characters]
+  HASHTAGS: #tag1 #tag2 #tag3
+  CHAR_COUNT: [number]
+
+  TWEET_2:
+  [Variation or next tweet in thread]
+  HASHTAGS: #tag1 #tag2
+  CHAR_COUNT: [number]
+
+inputs:
+  topic:
+    type: string
+    required: true
+    description: "What to tweet about"
+  campaign_context:
+    type: string
+    required: false
+    description: "Overall campaign context"
+  tone:
+    type: string
+    required: false
+    default: "professional"
+    enum: ["professional", "casual", "witty", "inspirational"]
+    description: "Writing tone"
+  include_hashtags:
+    type: boolean
+    required: false
+    default: true
+    description: "Add relevant hashtags"
+  include_cta:
+    type: boolean
+    required: false
+    default: true
+    description: "Add call-to-action"
+  thread_count:
+    type: integer
+    required: false
+    default: 1
+    description: "Number of tweets if thread"
+  variations:
+    type: integer
+    required: false
+    default: 2
+    description: "Number of alternative versions"
+
+outputs:
+  tweets:
+    type: array
+    description: "List of tweet objects with text, hashtags, char_count"
+  thread:
+    type: array
+    description: "If thread_count > 1, connected tweet series"
+  variations:
+    type: array
+    description: "Alternative tweet versions"
+  is_thread:
+    type: boolean
+    description: "Whether output is a thread"
+  metadata:
+    type: object
+    description: "total_chars, hashtag_count, etc."
+
+execution_hints:
+  deterministic: false
+  speed: fast
+  cost: low
+  max_tokens: 2000
+  temperature: 0.8
+
+examples:
+  - topic: "Launching our new AI feature"
+    tone: "witty"
+    thread_count: 1
+    variations: 3

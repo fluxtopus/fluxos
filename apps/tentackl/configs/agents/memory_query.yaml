@@ -1,0 +1,52 @@
+agent_type: memory_query
+name: "Memory Query"
+domain: memory
+task_type: query
+description: |
+  Queries organizational memory to retrieve previously stored knowledge.
+  Use when the user asks to recall, retrieve, or reference past findings.
+  IMPORTANT: Prefer using `text` for search — it performs semantic similarity matching
+  and finds relevant memories even when exact topic or tags are unknown.
+  Only use `topic` if you know the EXACT stored topic string (it is an exact-match filter).
+
+inputs:
+  text:
+    type: string
+    required: false
+    description: "Semantic search text to find relevant memories. This is the PREFERRED search method — it uses embedding similarity and works even when you don't know exact topic/tag values. Use descriptive phrases like 'competitor analysis automation platforms'."
+  topic:
+    type: string
+    required: false
+    description: "EXACT-MATCH filter by stored topic category. Only use if you know the precise topic string that was used when the memory was stored (e.g. 'competitors', 'market-research'). Do NOT guess — omit this field and use `text` instead if unsure."
+  tags:
+    type: array
+    required: false
+    description: "Filter by tags (memories must have ALL specified tags). Only use if you know exact tag values."
+  key:
+    type: string
+    required: false
+    description: "Exact key lookup for a specific memory (e.g. 'competitor-analysis-2025'). Use when you know the precise key."
+  limit:
+    type: integer
+    required: false
+    default: 10
+    description: "Maximum number of memories to return (max 50)"
+
+outputs:
+  memories:
+    type: array
+    description: "Array of matching memories with id, key, title, body, topic, tags, relevance"
+  count:
+    type: integer
+    description: "Number of memories returned"
+
+execution_hints:
+  deterministic: true
+  speed: fast
+  cost: free
+  requires_checkpoint: false
+
+examples:
+  - "What do we know about our competitors?"
+  - "Recall past research findings"
+  - "Check our stored knowledge about market trends"

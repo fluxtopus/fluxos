@@ -1,0 +1,108 @@
+'use client';
+
+import { LinkIcon } from '@heroicons/react/24/outline';
+import type { IntegrationProvider } from '../../types/integration';
+
+interface ProviderIconProps {
+  provider: IntegrationProvider;
+  size?: number;
+  className?: string;
+  /** Use brand colors (true) or inherit current color (false) */
+  colored?: boolean;
+}
+
+// Brand colors from Simple Icons
+const BRAND_COLORS: Record<IntegrationProvider, string> = {
+  discord: '#5865F2',
+  slack: '#4A154B',
+  github: '#181717',
+  stripe: '#635BFF',
+  twitter: '#1DA1F2',
+  custom_webhook: '#6B7280',
+};
+
+// Inline SVG icons from Simple Icons (avoid external package issues with Turbopack)
+function DiscordIcon({ size, color, className }: { size: number; color: string; className: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} className={className}>
+      <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+    </svg>
+  );
+}
+
+function SlackIcon({ size, color, className }: { size: number; color: string; className: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} className={className}>
+      <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/>
+    </svg>
+  );
+}
+
+function GitHubIcon({ size, color, className }: { size: number; color: string; className: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} className={className}>
+      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+    </svg>
+  );
+}
+
+function XIcon({ size, color, className }: { size: number; color: string; className: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} className={className}>
+      <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+    </svg>
+  );
+}
+
+function StripeIcon({ size, color, className }: { size: number; color: string; className: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} className={className}>
+      <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/>
+    </svg>
+  );
+}
+
+/**
+ * ProviderIcon - Renders the appropriate brand icon for an integration provider
+ *
+ * Uses inline SVGs for brand logos (Discord, Slack, GitHub, Stripe)
+ * Falls back to Heroicons LinkIcon for custom webhooks
+ */
+export function ProviderIcon({
+  provider,
+  size = 20,
+  className = '',
+  colored = true,
+}: ProviderIconProps) {
+  const color = colored ? BRAND_COLORS[provider] : 'currentColor';
+
+  switch (provider) {
+    case 'discord':
+      return <DiscordIcon size={size} color={color} className={className} />;
+    case 'slack':
+      return <SlackIcon size={size} color={color} className={className} />;
+    case 'github':
+      return <GitHubIcon size={size} color={color} className={className} />;
+    case 'stripe':
+      return <StripeIcon size={size} color={color} className={className} />;
+    case 'twitter':
+      return <XIcon size={size} color={color} className={className} />;
+    case 'custom_webhook':
+      return (
+        <LinkIcon
+          style={{ width: size, height: size, color }}
+          className={className}
+        />
+      );
+    default:
+      return (
+        <LinkIcon
+          style={{ width: size, height: size, color }}
+          className={className}
+        />
+      );
+  }
+}
+
+// Export brand colors for use elsewhere
+export { BRAND_COLORS };
