@@ -9,12 +9,12 @@ logger = structlog.get_logger()
 
 # Default notification settings when organization has no custom configuration
 DEFAULT_NOTIFICATION_SETTINGS = {
-    "brand_name": "aios",
-    "from_name": "aios",
+    "brand_name": "fluxos",
+    "from_name": "fluxos",
     "from_email": None,  # Falls back to settings.EMAIL_FROM if not set
     "subject_prefix": "",
     "support_email": None,
-    "footer_text": "Powered by aios"
+    "footer_text": "Powered by fluxos"
 }
 
 

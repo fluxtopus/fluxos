@@ -33,7 +33,7 @@ If this is urgent, please reply to this email with "URGENT" in the subject line.
 ---
 
 Best regards,
-The aios Support Team
+The fluxos Support Team
 
 ---
 

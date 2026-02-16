@@ -199,7 +199,7 @@ DISCORD_SETUP_GUIDE = ProviderSetupGuide(
             instructions=[
                 "Click on 'Webhooks'",
                 "Click 'New Webhook' button",
-                "Give your webhook a name (e.g., 'aios Notifications')",
+                "Give your webhook a name (e.g., 'fluxos Notifications')",
                 "Select the channel where messages should be posted",
                 "Optionally upload a custom avatar for the webhook",
             ],
@@ -225,10 +225,10 @@ DISCORD_SETUP_GUIDE = ProviderSetupGuide(
         ),
         SetupStep(
             step_number=5,
-            title="Add to aios",
-            description="Configure the integration in aios with your webhook URL.",
+            title="Add to fluxos",
+            description="Configure the integration in fluxos with your webhook URL.",
             instructions=[
-                "Return to aios and create a new Discord integration",
+                "Return to fluxos and create a new Discord integration",
                 "Paste the webhook URL in the credentials section",
                 "Configure outbound settings (message type, rate limits)",
                 "Save the integration",
@@ -239,7 +239,7 @@ DISCORD_SETUP_GUIDE = ProviderSetupGuide(
         "Manage Webhooks - Required to create and manage webhooks",
     ],
     test_steps=[
-        "Use the 'Test' button in aios to send a test message",
+        "Use the 'Test' button in fluxos to send a test message",
         "Check that the message appears in the selected Discord channel",
         "Verify the message displays with the correct webhook name and avatar",
     ],
@@ -277,7 +277,7 @@ SLACK_SETUP_GUIDE = ProviderSetupGuide(
                 "Go to https://api.slack.com/apps",
                 "Click 'Create New App'",
                 "Choose 'From scratch'",
-                "Enter an app name (e.g., 'aios Integration')",
+                "Enter an app name (e.g., 'fluxos Integration')",
                 "Select your workspace",
                 "Click 'Create App'",
             ],
@@ -337,10 +337,10 @@ SLACK_SETUP_GUIDE = ProviderSetupGuide(
         ),
         SetupStep(
             step_number=6,
-            title="Configure in aios",
-            description="Add your Slack credentials to aios.",
+            title="Configure in fluxos",
+            description="Add your Slack credentials to fluxos.",
             instructions=[
-                "Create a new Slack integration in aios",
+                "Create a new Slack integration in fluxos",
                 "Paste the webhook URL",
                 "If using inbound events, add the signing secret",
                 "Configure message settings and save",
@@ -352,7 +352,7 @@ SLACK_SETUP_GUIDE = ProviderSetupGuide(
         "chat:write - Required if using bot token instead of webhook",
     ],
     test_steps=[
-        "Send a test message using the aios test feature",
+        "Send a test message using the fluxos test feature",
         "Verify the message appears in the selected Slack channel",
         "Check message formatting (text, blocks) displays correctly",
     ],
@@ -393,7 +393,7 @@ GITHUB_SETUP_GUIDE = ProviderSetupGuide(
             instructions=[
                 "Go to GitHub Settings > Developer settings > Personal access tokens",
                 "Click 'Generate new token (classic)' or 'Fine-grained tokens'",
-                "Give it a descriptive name (e.g., 'aios Integration')",
+                "Give it a descriptive name (e.g., 'fluxos Integration')",
                 "Select expiration (90 days recommended)",
                 "Select scopes: 'repo' for full access or specific scopes",
                 "Click 'Generate token'",
@@ -425,8 +425,8 @@ GITHUB_SETUP_GUIDE = ProviderSetupGuide(
             title="Configure Webhook Settings",
             description="Set up the webhook to receive events.",
             instructions=[
-                "Get your webhook URL from aios (create integration first)",
-                "Paste the aios webhook URL in 'Payload URL'",
+                "Get your webhook URL from fluxos (create integration first)",
+                "Paste the fluxos webhook URL in 'Payload URL'",
                 "Set Content type to 'application/json'",
                 "Create a strong secret and enter it in 'Secret'",
                 "Select events to trigger: 'Let me select individual events'",
@@ -439,10 +439,10 @@ GITHUB_SETUP_GUIDE = ProviderSetupGuide(
         ),
         SetupStep(
             step_number=4,
-            title="Configure in aios",
-            description="Add your GitHub credentials to aios.",
+            title="Configure in fluxos",
+            description="Add your GitHub credentials to fluxos.",
             instructions=[
-                "Create a new GitHub integration in aios",
+                "Create a new GitHub integration in fluxos",
                 "Add your Personal Access Token for outbound actions",
                 "Add the webhook secret for inbound events (if configured)",
                 "Set up the inbound webhook path",
@@ -452,9 +452,9 @@ GITHUB_SETUP_GUIDE = ProviderSetupGuide(
         SetupStep(
             step_number=5,
             title="Update GitHub Webhook URL",
-            description="Update GitHub webhook with the aios webhook URL.",
+            description="Update GitHub webhook with the fluxos webhook URL.",
             instructions=[
-                "Copy the webhook URL from your aios integration",
+                "Copy the webhook URL from your fluxos integration",
                 "Go back to GitHub repository Settings > Webhooks",
                 "Edit your webhook and update the Payload URL",
                 "Save the webhook",
@@ -468,10 +468,10 @@ GITHUB_SETUP_GUIDE = ProviderSetupGuide(
         "admin:repo_hook - Manage webhooks (for repository owners)",
     ],
     test_steps=[
-        "For outbound: Use aios to create a test issue in your repository",
+        "For outbound: Use fluxos to create a test issue in your repository",
         "For inbound: Push a commit or create an issue to trigger the webhook",
         "Check GitHub webhook delivery history for success/failure status",
-        "Verify events appear in aios with correct payload",
+        "Verify events appear in fluxos with correct payload",
     ],
     common_issues=[
         {
@@ -480,7 +480,7 @@ GITHUB_SETUP_GUIDE = ProviderSetupGuide(
         },
         {
             "issue": "Webhook signature verification fails",
-            "solution": "Ensure the secret in aios matches exactly what you configured in GitHub.",
+            "solution": "Ensure the secret in fluxos matches exactly what you configured in GitHub.",
         },
         {
             "issue": "Not receiving webhook events",
@@ -516,10 +516,10 @@ STRIPE_SETUP_GUIDE = ProviderSetupGuide(
         ),
         SetupStep(
             step_number=2,
-            title="Create aios Integration First",
-            description="Create the integration in aios to get the webhook URL.",
+            title="Create fluxos Integration First",
+            description="Create the integration in fluxos to get the webhook URL.",
             instructions=[
-                "Open aios and create a new Stripe integration",
+                "Open fluxos and create a new Stripe integration",
                 "Configure the inbound webhook settings",
                 "Copy the generated webhook URL",
             ],
@@ -528,9 +528,9 @@ STRIPE_SETUP_GUIDE = ProviderSetupGuide(
         SetupStep(
             step_number=3,
             title="Configure Stripe Webhook Endpoint",
-            description="Add the aios webhook URL to Stripe.",
+            description="Add the fluxos webhook URL to Stripe.",
             instructions=[
-                "Paste the aios webhook URL in 'Endpoint URL'",
+                "Paste the fluxos webhook URL in 'Endpoint URL'",
                 "Select the events to listen for",
                 "Recommended events: checkout.session.completed, payment_intent.succeeded, payment_intent.payment_failed, customer.subscription.created/updated/deleted",
                 "Click 'Add endpoint'",
@@ -555,10 +555,10 @@ STRIPE_SETUP_GUIDE = ProviderSetupGuide(
         ),
         SetupStep(
             step_number=5,
-            title="Update aios Integration",
-            description="Add the signing secret to your aios integration.",
+            title="Update fluxos Integration",
+            description="Add the signing secret to your fluxos integration.",
             instructions=[
-                "Go back to your aios Stripe integration",
+                "Go back to your fluxos Stripe integration",
                 "Add the webhook signing secret as a credential",
                 "Save the integration",
             ],
@@ -571,7 +571,7 @@ STRIPE_SETUP_GUIDE = ProviderSetupGuide(
                 "Install Stripe CLI: https://stripe.com/docs/stripe-cli",
                 "Run: stripe listen --forward-to localhost:8000/your-webhook-path",
                 "Trigger test events: stripe trigger payment_intent.succeeded",
-                "Verify events are received in aios",
+                "Verify events are received in fluxos",
             ],
             is_optional=True,
             external_link="https://stripe.com/docs/stripe-cli",
@@ -584,7 +584,7 @@ STRIPE_SETUP_GUIDE = ProviderSetupGuide(
     test_steps=[
         "Click 'Send test webhook' in Stripe Dashboard for your endpoint",
         "Select an event type (e.g., payment_intent.succeeded)",
-        "Verify the event appears in aios",
+        "Verify the event appears in fluxos",
         "Check that signature verification passes (no 401 errors)",
     ],
     common_issues=[
@@ -632,7 +632,7 @@ CUSTOM_WEBHOOK_SETUP_GUIDE = ProviderSetupGuide(
         SetupStep(
             step_number=2,
             title="Create Custom Integration",
-            description="Set up the custom webhook integration in aios.",
+            description="Set up the custom webhook integration in fluxos.",
             instructions=[
                 "Create a new integration with 'Custom Webhook' provider",
                 "Set the direction based on your needs (inbound, outbound, or both)",
@@ -670,9 +670,9 @@ CUSTOM_WEBHOOK_SETUP_GUIDE = ProviderSetupGuide(
         SetupStep(
             step_number=5,
             title="Configure External Service",
-            description="Update the external service to use your aios webhook.",
+            description="Update the external service to use your fluxos webhook.",
             instructions=[
-                "Copy the webhook URL from your aios integration",
+                "Copy the webhook URL from your fluxos integration",
                 "Add this URL to the external service's webhook/notification settings",
                 "Configure any required authentication headers",
                 "Select the events you want to receive",
@@ -684,7 +684,7 @@ CUSTOM_WEBHOOK_SETUP_GUIDE = ProviderSetupGuide(
         "Varies by target service - check their documentation",
     ],
     test_steps=[
-        "For outbound: Send a test request using the aios test feature",
+        "For outbound: Send a test request using the fluxos test feature",
         "For inbound: Trigger an event in the external service",
         "Verify the payload format matches expectations",
         "Check authentication is working (no 401/403 errors)",
@@ -715,15 +715,15 @@ TWITTER_SETUP_GUIDE = ProviderSetupGuide(
     estimated_time_minutes=2,
     prerequisites=[
         "A Twitter/X developer account with an OAuth 2.0 app configured",
-        "OAuth 2.0 Client ID and Client Secret set in the aios environment",
+        "OAuth 2.0 Client ID and Client Secret set in the fluxos environment",
     ],
     steps=[
         SetupStep(
             step_number=1,
             title="Create Integration",
-            description="Create a new Twitter/X integration in aios.",
+            description="Create a new Twitter/X integration in fluxos.",
             instructions=[
-                "Go to Settings > Integrations in aios",
+                "Go to Settings > Integrations in fluxos",
                 "Click 'Create' and select 'X (Twitter)' as the provider",
                 "Choose 'Outbound' or 'Both' direction",
                 "Give it a descriptive name (e.g., 'Company X Account')",
@@ -732,12 +732,12 @@ TWITTER_SETUP_GUIDE = ProviderSetupGuide(
         SetupStep(
             step_number=2,
             title="Connect Your X Account",
-            description="Authorize aios to post on your behalf via OAuth 2.0.",
+            description="Authorize fluxos to post on your behalf via OAuth 2.0.",
             instructions=[
                 "On the integration detail page, click 'Connect to X'",
-                "You'll be redirected to X to authorize aios",
+                "You'll be redirected to X to authorize fluxos",
                 "Review the permissions and click 'Authorize app'",
-                "You'll be redirected back to aios automatically",
+                "You'll be redirected back to fluxos automatically",
             ],
             credential_type=CredentialType.oauth_token,
             tips=[
@@ -760,7 +760,7 @@ TWITTER_SETUP_GUIDE = ProviderSetupGuide(
     common_issues=[
         {
             "issue": "OAuth authorization fails",
-            "solution": "Ensure X_OAUTH2_CLIENT_ID and X_OAUTH2_CLIENT_SECRET are configured correctly in the aios environment.",
+            "solution": "Ensure X_OAUTH2_CLIENT_ID and X_OAUTH2_CLIENT_SECRET are configured correctly in the fluxos environment.",
         },
         {
             "issue": "Token expired errors",

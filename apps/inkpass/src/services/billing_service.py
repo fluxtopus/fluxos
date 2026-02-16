@@ -1,7 +1,7 @@
 """
 Billing Service for InkPass.
 
-Handles Stripe billing operations using aios-stripe package.
+Handles Stripe billing operations using fluxos-stripe package.
 Stripe credentials are stored encrypted per organization.
 """
 
@@ -11,7 +11,7 @@ from typing import Any
 import structlog
 from sqlalchemy.orm import Session
 
-from aios_stripe import (
+from fluxos_stripe import (
     StripeClient,
     StripeConfig,
     StripeError,

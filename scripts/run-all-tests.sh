@@ -358,7 +358,7 @@ if [ "$RUN_E2E" = true ]; then
     echo ""
 
     # Docker-only E2E runner (no host Node/npm required).
-    # Match Playwright version pinned by frontends/aios-landing/package-lock.json.
+    # Match Playwright version pinned by frontends/fluxos-landing/package-lock.json.
     PLAYWRIGHT_IMAGE="mcr.microsoft.com/playwright:v1.58.2-jammy"
     PLAYWRIGHT_ARGS=()
     if [ "$QUICK_MODE" = true ]; then
@@ -370,7 +370,7 @@ if [ "$RUN_E2E" = true ]; then
         -e CI=true \
         -e HOME=/tmp \
         -v "$PROJECT_ROOT:/repo" \
-        -w "/repo/frontends/aios-landing" \
+        -w "/repo/frontends/fluxos-landing" \
         "$PLAYWRIGHT_IMAGE" \
         bash -lc "npm ci --silent && npx playwright test ${PLAYWRIGHT_ARGS[*]}"; then
         echo -e "${GREEN}✓ E2E tests passed${NC}"

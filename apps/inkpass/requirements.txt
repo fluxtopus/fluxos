@@ -46,4 +46,4 @@ aiofiles==23.2.1
 # Stripe (for billing)
 stripe==7.0.0
 
-# Note: aios-stripe is installed from the monorepo in Docker builds.
+# Note: fluxos-stripe is installed from the monorepo in Docker builds.

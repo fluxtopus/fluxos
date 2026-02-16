@@ -12,7 +12,7 @@ from fastapi import APIRouter, Depends, HTTPException, Header, Request, status
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
-from aios_stripe import StripeWebhookError
+from fluxos_stripe import StripeWebhookError
 
 from src.database.database import get_db
 from src.middleware.auth_middleware import AuthContext, get_auth_context, require_permission

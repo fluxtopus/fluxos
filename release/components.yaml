@@ -62,17 +62,17 @@ components:
     changelog: packages/flux-agent/CHANGELOG.md
     publish_dir: packages/flux-agent
 
-  - name: pkg-aios-stripe
-    scope: aios-stripe
+  - name: pkg-fluxos-stripe
+    scope: fluxos-stripe
     kind: python-package
     path_globs:
-      - packages/aios-stripe/**
+      - packages/fluxos-stripe/**
     version:
       kind: pyproject
-      file: packages/aios-stripe/pyproject.toml
+      file: packages/fluxos-stripe/pyproject.toml
     runtime_version_files:
-      - packages/aios-stripe/aios_stripe/version.py
-    publish_dir: packages/aios-stripe
+      - packages/fluxos-stripe/fluxos_stripe/version.py
+    publish_dir: packages/fluxos-stripe
 
   - name: pkg-inkpass-sdk-python
     scope: inkpass-sdk

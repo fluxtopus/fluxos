@@ -1,4 +1,0 @@
-interface:
-  display_name: "Flux Agent Packager"
-  short_description: "Track and publish flux-agent updates"
-  default_prompt: "Use $aios-agent-package-maintainer to prepare and publish the next flux-agent release."

@@ -12,7 +12,7 @@ module.exports = {
         "inkpass",
         "mimic",
         "flux-agent",
-        "aios-stripe",
+        "fluxos-stripe",
         "inkpass-sdk",
         "mimic-sdk",
         "mimic-sdk-ts",

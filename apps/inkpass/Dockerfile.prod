@@ -20,9 +20,9 @@ RUN pip install --user --no-cache-dir -r requirements.txt
 COPY packages/mimic-sdk-python /tmp/mimic-sdk-python
 RUN pip install --user --no-cache-dir /tmp/mimic-sdk-python
 
-# Copy and install aios-stripe package
-COPY packages/aios-stripe /tmp/aios-stripe
-RUN pip install --user --no-cache-dir /tmp/aios-stripe
+# Copy and install fluxos-stripe package
+COPY packages/fluxos-stripe /tmp/fluxos-stripe
+RUN pip install --user --no-cache-dir /tmp/fluxos-stripe
 
 # Install gunicorn for production
 RUN pip install --user --no-cache-dir gunicorn

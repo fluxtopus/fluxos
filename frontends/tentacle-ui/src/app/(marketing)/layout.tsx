@@ -22,7 +22,7 @@ export default function MarketingLayout({
           <Link href="/" className="flex items-center gap-3 group">
             <img src="/icon-192.png" alt="" className="h-6 w-6" />
             <span className="font-mono text-lg md:text-xl font-bold tracking-[0.2em] text-[oklch(0.95_0.01_90)] group-hover:text-[oklch(0.65_0.25_180)] transition-colors">
-              AIOS
+              FluxOS
             </span>
           </Link>
 
@@ -55,7 +55,7 @@ export default function MarketingLayout({
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <span className="font-mono text-xs text-[oklch(0.58_0.01_260)] flex items-center gap-1.5">
               <img src="/icon-192.png" alt="" className="h-4 w-4" />
-              AIOS - Multi-Agent Workflow Orchestration
+              FluxOS - Multi-Agent Workflow Orchestration
             </span>
             <div className="flex items-center gap-6">
               <Link

@@ -14,8 +14,8 @@ COPY apps/inkpass/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Optional shared Stripe integration package
-COPY packages/aios-stripe /tmp/aios-stripe
-RUN pip install --no-cache-dir /tmp/aios-stripe && rm -rf /tmp/aios-stripe
+COPY packages/fluxos-stripe /tmp/fluxos-stripe
+RUN pip install --no-cache-dir /tmp/fluxos-stripe && rm -rf /tmp/fluxos-stripe
 
 # Mimic SDK (service-to-service notifications)
 COPY packages/mimic-sdk-python /tmp/mimic-sdk-python

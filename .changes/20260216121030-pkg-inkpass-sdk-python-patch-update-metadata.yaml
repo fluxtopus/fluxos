@@ -1,0 +1,3 @@
+component: pkg-inkpass-sdk-python
+bump: patch
+summary: "Refresh package metadata to reflect FluxOS contributor naming"

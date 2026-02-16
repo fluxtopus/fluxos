@@ -33,7 +33,7 @@ test.describe('Task List Page', () => {
     await nav.expectSidebarVisible();
   });
 
-  test('AIOS branding in navbar', async ({ page }) => {
+  test('FluxOS branding in navbar', async ({ page }) => {
     const tasks = new TaskListPage(page);
     const nav = new NavigationPage(page);
     await tasks.goto();

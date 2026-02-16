@@ -1,4 +1,4 @@
-# aios
+# fluxos
 
 Monorepo for the services and UIs behind `fluxtopus.com`.
 
@@ -39,7 +39,7 @@ docker compose exec inkpass python scripts/seed_dev_users.py
 ### Structure
 
 ```text
-aios/
+fluxos/
 ├── apps/                      # Independent deployable services
 │   ├── tentacle/              # Task orchestration
 │   ├── inkpass/               # Auth service
@@ -47,14 +47,14 @@ aios/
 ├── frontends/                 # UI applications
 │   ├── tentacle-ui/           # Workflow visualization
 │   ├── mimic-ui/              # Notification UI
-│   └── aios-landing/          # Marketing site
+│   └── fluxos-landing/          # Marketing site
 ├── packages/                  # Shared SDKs and utilities
 │   ├── flux-agent/
 │   ├── inkpass-sdk-python/
 │   ├── mimic-sdk-python/
-│   └── aios-stripe/
+│   └── fluxos-stripe/
 ├── skills/                    # Repository-managed Codex skills
-│   └── aios-agent-package-maintainer/
+│   └── fluxos-agent-package-maintainer/
 ├── docker-compose.yml         # Development: all services
 └── docs/
     └── architecture/          # Architecture docs
@@ -106,7 +106,7 @@ docker compose -f docker-compose.yml -f docker-compose.monitoring.yml up -d
 - Tentacle: `apps/tentacle/README.md`
 - InkPass: `apps/inkpass/README.md`
 - Mimic: `apps/mimic/README.md`
-- Package release skill: `skills/aios-agent-package-maintainer/SKILL.md`
+- Package release skill: `skills/fluxos-agent-package-maintainer/SKILL.md`
 
 ## 🔒 Security
 

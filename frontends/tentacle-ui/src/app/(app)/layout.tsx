@@ -155,7 +155,7 @@ export default function DelegationLayout({
             <Link href="/tasks" className="flex items-center gap-2 group">
               <img src="/icon-192.png" alt="" className="h-5 w-5" />
               <span className="font-mono text-base font-bold tracking-[0.15em] text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors">
-                AIOS
+                FluxOS
               </span>
             </Link>
             <button
@@ -302,7 +302,7 @@ export default function DelegationLayout({
           </button>
           <img src="/icon-192.png" alt="" className="ml-3 h-5 w-5" />
           <span className="ml-1.5 font-mono text-sm font-bold tracking-[0.15em] text-[var(--foreground)]">
-            AIOS
+            FluxOS
           </span>
           <div className="ml-auto flex items-center gap-2">
             <button

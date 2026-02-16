@@ -1,0 +1,3 @@
+component: pkg-fluxos-stripe
+bump: major
+summary: "Rename shared Stripe package from aios-stripe/aios_stripe to fluxos-stripe/fluxos_stripe"

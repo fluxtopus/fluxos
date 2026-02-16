@@ -60,7 +60,7 @@ export function Navbar() {
             <Link href="/playground" className="flex items-center gap-2 md:gap-3 group">
               <img src="/icon-192.png" alt="" className="h-5 w-5 md:h-6 md:w-6" />
               <span className="font-mono text-base md:text-lg font-bold tracking-[0.15em] md:tracking-[0.2em] text-[oklch(0.95_0.01_90)] group-hover:text-[oklch(0.65_0.25_180)] transition-colors">
-                AIOS
+                FluxOS
               </span>
             </Link>
 

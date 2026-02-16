@@ -26,10 +26,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'AIOS - Multi-Agent Workflow Orchestration',
+  title: 'FluxOS - Multi-Agent Workflow Orchestration',
   description: 'Describe it. Watch it build. See it run.',
   manifest: '/manifest.json',
-  appleWebApp: { capable: true, statusBarStyle: 'black-translucent', title: 'AIOS' },
+  appleWebApp: { capable: true, statusBarStyle: 'black-translucent', title: 'FluxOS' },
   icons: {
     icon: '/favicon.png',
     apple: '/apple-touch-icon.png',

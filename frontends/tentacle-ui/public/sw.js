@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aios-v1';
+const CACHE_NAME = 'fluxos-v1';
 const STATIC_ASSETS = [
   '/favicon.png',
   '/manifest.json',

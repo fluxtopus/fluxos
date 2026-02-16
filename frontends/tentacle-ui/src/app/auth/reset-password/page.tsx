@@ -69,7 +69,7 @@ function ResetPasswordForm() {
         <div className="flex items-center justify-center gap-2 mb-6">
           <img src="/icon-192.png" alt="" className="h-7 w-7" />
           <span className="font-mono text-xl font-bold tracking-[0.2em] text-[oklch(0.65_0.25_180)]">
-            AIOS
+            FluxOS
           </span>
         </div>
 

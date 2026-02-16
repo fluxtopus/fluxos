@@ -1,0 +1,3 @@
+component: app-mimic
+bump: patch
+summary: "Update Mimic provider setup copy and Stripe integration imports for FluxOS branding"

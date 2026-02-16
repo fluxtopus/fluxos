@@ -28,7 +28,7 @@ from src.monitoring.metrics import router as metrics_router
 logger = structlog.get_logger()
 
 try:
-    from src.api.routes import billing  # Optional (requires aios_stripe dependency)
+    from src.api.routes import billing  # Optional (requires fluxos_stripe dependency)
 except ImportError:  # pragma: no cover
     billing = None
 

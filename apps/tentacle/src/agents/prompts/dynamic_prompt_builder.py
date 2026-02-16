@@ -787,7 +787,7 @@ class DynamicPromptBuilder:
             "",
             "**Example steps for sending a message via an integration:**",
             "```json",
-            '{"id": "send_message", "agent_type": "execute_outbound_action", "inputs": {"integration_id": "<id>", "action_type": "send_message", "content": "Hello from aios!"}}',
+            '{"id": "send_message", "agent_type": "execute_outbound_action", "inputs": {"integration_id": "<id>", "action_type": "send_message", "content": "Hello from fluxos!"}}',
             "```",
             "",
             "**IMPORTANT**: The `user_token` will be injected automatically — do NOT include it in step inputs.",

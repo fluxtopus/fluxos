@@ -14,7 +14,8 @@ import { PullToRefresh } from '@/components/PullToRefresh';
 import type { InboxFilter } from '@/types/inbox';
 import type { FileReference } from '@/services/fileService';
 
-const ONBOARDING_DISMISSED_KEY = 'aios_onboarding_dismissed';
+const ONBOARDING_DISMISSED_KEY = 'fluxos_onboarding_dismissed';
+const LEGACY_ONBOARDING_DISMISSED_KEY = 'aios_onboarding_dismissed';
 
 function InboxPageInner() {
   const router = useRouter();
@@ -24,7 +25,9 @@ function InboxPageInner() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [onboardingDismissed, setOnboardingDismissed] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem(ONBOARDING_DISMISSED_KEY) === 'true';
+      const current = localStorage.getItem(ONBOARDING_DISMISSED_KEY);
+      if (current === 'true') return true;
+      return localStorage.getItem(LEGACY_ONBOARDING_DISMISSED_KEY) === 'true';
     }
     return false;
   });
@@ -53,6 +56,7 @@ function InboxPageInner() {
   const handleOnboardingSend = useCallback(
     async (text: string, fileReferences?: FileReference[]) => {
       localStorage.setItem(ONBOARDING_DISMISSED_KEY, 'true');
+      localStorage.removeItem(LEGACY_ONBOARDING_DISMISSED_KEY);
       setOnboardingDismissed(true);
       const id = await startNewConversationStream(text, true, fileReferences);
       router.replace(`/inbox/${id}`);
@@ -62,6 +66,7 @@ function InboxPageInner() {
 
   const handleOnboardingSkip = useCallback(() => {
     localStorage.setItem(ONBOARDING_DISMISSED_KEY, 'true');
+    localStorage.removeItem(LEGACY_ONBOARDING_DISMISSED_KEY);
     setOnboardingDismissed(true);
     router.push('/inbox/new');
   }, [router]);

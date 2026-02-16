@@ -28,6 +28,6 @@ export class NavigationPage {
   }
 
   async expectBranding() {
-    await expect(this.page.getByText('AIOS').first()).toBeVisible();
+    await expect(this.page.getByText('FluxOS').first()).toBeVisible();
   }
 }

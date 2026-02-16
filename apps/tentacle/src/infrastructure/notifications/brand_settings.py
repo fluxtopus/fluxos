@@ -30,7 +30,7 @@ class BrandSettings:
     These settings control how agents compose communications.
     """
     # Identity
-    brand_name: str = "aios"
+    brand_name: str = "fluxos"
     tagline: str = "AI-powered workflow automation"
 
     # Support contact
@@ -42,8 +42,8 @@ class BrandSettings:
     phone_number: Optional[str] = None  # Phone if include_phone is True
 
     # Email settings
-    footer_text: str = "Sent by aios - AI-powered workflow automation"
-    from_name: str = "aios"
+    footer_text: str = "Sent by fluxos - AI-powered workflow automation"
+    from_name: str = "fluxos"
 
     # Metadata
     organization_id: str = ""
@@ -91,14 +91,14 @@ class BrandSettings:
             updated_at = datetime.utcnow()
 
         return cls(
-            brand_name=data.get("brand_name", "aios"),
+            brand_name=data.get("brand_name", "fluxos"),
             tagline=data.get("tagline", "AI-powered workflow automation"),
             support_email=data.get("support_email", "support@fluxtopus.com"),
             support_url=data.get("support_url", "https://fluxtopus.com/support"),
             include_phone=data.get("include_phone", False),
             phone_number=data.get("phone_number"),
-            footer_text=data.get("footer_text", "Sent by aios - AI-powered workflow automation"),
-            from_name=data.get("from_name", "aios"),
+            footer_text=data.get("footer_text", "Sent by fluxos - AI-powered workflow automation"),
+            from_name=data.get("from_name", "fluxos"),
             organization_id=data.get("organization_id", ""),
             updated_at=updated_at,
         )

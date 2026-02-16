@@ -160,7 +160,7 @@ class Settings(BaseSettings):
     # ==========================================================================
 
     # Brand identity - defaults used for agent-generated communications
-    BRAND_NAME: str = "aios"
+    BRAND_NAME: str = "fluxos"
     BRAND_TAGLINE: str = "AI-powered workflow automation"
 
     # Support contact information
@@ -169,7 +169,7 @@ class Settings(BaseSettings):
 
     # Communication guidelines
     BRAND_INCLUDE_PHONE: bool = False  # Never include phone numbers
-    BRAND_FOOTER_TEXT: str = "Sent by aios - AI-powered workflow automation"
+    BRAND_FOOTER_TEXT: str = "Sent by fluxos - AI-powered workflow automation"
 
     @computed_field
     @property

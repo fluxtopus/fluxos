@@ -65,7 +65,7 @@ async def stripe_webhook(
         )
 
     try:
-        from aios_stripe import StripeClient, StripeConfig, StripeWebhookError
+        from fluxos_stripe import StripeClient, StripeConfig, StripeWebhookError
 
         config = StripeConfig(
             api_key=settings.STRIPE_SECRET_KEY or "",

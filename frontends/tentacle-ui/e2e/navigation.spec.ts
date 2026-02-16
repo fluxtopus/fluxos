@@ -58,7 +58,7 @@ test.describe('Sidebar Navigation', () => {
     await tasks.expectLoaded();
   });
 
-  test('AIOS branding visible throughout', async ({ page }) => {
+  test('FluxOS branding visible throughout', async ({ page }) => {
     const nav = new NavigationPage(page);
     await page.goto('/inbox');
     await nav.expectBranding();

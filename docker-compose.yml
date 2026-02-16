@@ -327,7 +327,7 @@ services:
 
   landing:
     build:
-      context: ./frontends/aios-landing
+      context: ./frontends/fluxos-landing
       dockerfile: Dockerfile.dev
     command: npm run dev
     ports:
@@ -337,7 +337,7 @@ services:
       - TENTACLE_API_URL=http://tentacle:8000
       - TENTACLE_SERVICE_TOKEN=${TENTACLE_API_KEY:-sk_tentacle_dev}
     volumes:
-      - ./frontends/aios-landing:/app
+      - ./frontends/fluxos-landing:/app
       - /app/node_modules
       - /app/.next
     depends_on:

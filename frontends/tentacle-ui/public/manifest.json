@@ -1,6 +1,6 @@
 {
-  "name": "AIOS",
-  "short_name": "aios",
+  "name": "FluxOS",
+  "short_name": "fluxos",
   "start_url": "/inbox",
   "display": "standalone",
   "background_color": "#0d0f18",

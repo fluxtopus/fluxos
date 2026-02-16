@@ -1,0 +1,3 @@
+component: app-inkpass
+bump: patch
+summary: "Update InkPass defaults and Stripe integration references for the FluxOS rebrand"

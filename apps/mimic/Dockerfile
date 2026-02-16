@@ -15,8 +15,8 @@ COPY apps/mimic/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Optional shared Stripe integration package
-COPY packages/aios-stripe /tmp/aios-stripe
-RUN pip install --no-cache-dir /tmp/aios-stripe && rm -rf /tmp/aios-stripe
+COPY packages/fluxos-stripe /tmp/fluxos-stripe
+RUN pip install --no-cache-dir /tmp/fluxos-stripe && rm -rf /tmp/fluxos-stripe
 
 # Copy application code
 COPY apps/mimic/ .
