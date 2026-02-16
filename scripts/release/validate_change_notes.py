@@ -3,10 +3,11 @@ from __future__ import annotations
 
 import argparse
 import subprocess
+from fnmatch import fnmatch
 from pathlib import Path
 from typing import Any
 
-from _common import component_map, load_json, load_yaml, resolve_component_name
+from _common import component_map, load_json, load_yaml, resolve_component_name, version_source_files
 
 VALID_BUMPS = {"patch", "minor", "major"}
 
@@ -38,6 +39,21 @@ def parse_note(note_path: Path) -> dict[str, Any]:
     }
 
 
+def component_requires_release_note(
+    component: dict[str, Any],
+    changed_files: list[str],
+) -> bool:
+    exempt_globs = set(version_source_files(component))
+    if component.get("changelog"):
+        exempt_globs.add(str(component["changelog"]))
+
+    for rel_path in changed_files:
+        if any(fnmatch(rel_path, pattern) for pattern in exempt_globs):
+            continue
+        return True
+    return False
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Validate that changed components have release notes")
     parser.add_argument("--config", required=True)
@@ -53,16 +69,24 @@ def main() -> None:
     changed = load_json(Path(args.changed))
 
     component_names = set(component_map(config).keys())
+    components = component_map(config)
     changed_components = set(changed.get("components", []))
+    changed_component_files: dict[str, list[str]] = changed.get("component_files", {})
 
-    if not changed_components:
+    required_components = {
+        name
+        for name in changed_components
+        if component_requires_release_note(components[name], changed_component_files.get(name, []))
+    }
+
+    if not required_components:
         print("No component changes detected; release notes are not required.")
         return
 
     note_files = git_changed_note_files(args.base, args.head, args.changes_dir)
     if not note_files and not args.allow_empty:
         print("Changed components detected but no release notes were added in .changes/")
-        print(f"Changed components: {', '.join(sorted(changed_components))}")
+        print(f"Changed components: {', '.join(sorted(required_components))}")
         raise SystemExit(1)
 
     noted_components: set[str] = set()
@@ -88,7 +112,7 @@ def main() -> None:
         except Exception as exc:  # noqa: BLE001
             errors.append(f"{rel_path}: {exc}")
 
-    missing = sorted(changed_components - noted_components)
+    missing = sorted(required_components - noted_components)
     if missing:
         errors.append(
             "Missing release notes for changed components: " + ", ".join(missing)
@@ -102,7 +126,7 @@ def main() -> None:
 
     print(
         "Release-note validation passed for components: "
-        + ", ".join(sorted(changed_components))
+        + ", ".join(sorted(required_components))
     )
 
 
