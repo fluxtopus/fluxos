@@ -117,10 +117,7 @@ jobs:
           UV_PUBLISH_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
         shell: bash
         run: |
-          if [[ -z "${UV_PUBLISH_TOKEN:-}" ]]; then
-            echo "PYPI_API_TOKEN is not configured; skipping Python publish."
-            exit 0
-          fi
+          # For PyPI Trusted Publishing, UV_PUBLISH_TOKEN can be empty; uv will use OIDC.
           IFS=',' read -r -a pkgs <<< "${{ steps.plan.outputs.python_package_dirs }}"
           args=()
           for pkg in "${pkgs[@]}"; do
