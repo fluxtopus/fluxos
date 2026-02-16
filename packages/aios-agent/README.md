@@ -86,3 +86,11 @@ Run full suite (unit + e2e scaffolding):
 ```bash
 pytest tests -v
 ```
+
+## Release Tracking
+
+- Keep package changes tracked in `CHANGELOG.md`.
+- For every release:
+  1. Update `pyproject.toml` version.
+  2. Add a new dated section in `CHANGELOG.md`.
+  3. Publish and tag the release.
