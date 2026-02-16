@@ -21,7 +21,6 @@ Usage:
 from __future__ import annotations
 
 import json
-import os
 import uuid
 from pathlib import Path
 from typing import Any, AsyncGenerator, Dict, List, Optional
@@ -29,6 +28,7 @@ from typing import Any, AsyncGenerator, Dict, List, Optional
 import httpx
 import structlog
 
+from src.core.config import settings
 from src.infrastructure.flux_runtime.chat_handler import handle_flux_chat_with_tools
 from src.infrastructure.flux_runtime.tool_executor import ToolExecutor
 from src.infrastructure.flux_runtime.world_state import build_world_state
@@ -40,7 +40,6 @@ from src.database.conversation_store import (
     MessageMetadata,
 )
 from src.database.models import (
-    ConversationStatus,
     InboxPriority,
     MessageDirection,
     MessageType,
@@ -556,9 +555,12 @@ async def _call_openrouter_llm(
     """
     from src.llm.model_selector import ModelSelector
 
-    api_key = os.getenv("OPENROUTER_API_KEY")
+    api_key = settings.OPENROUTER_API_KEY
     if not api_key:
-        raise RuntimeError("OPENROUTER_API_KEY not configured")
+        raise RuntimeError(
+            "OPENROUTER_API_KEY not configured. "
+            "Set OPENROUTER_API_KEY in the tentacle service environment."
+        )
 
     messages = [{"role": "system", "content": system_prompt}]
 

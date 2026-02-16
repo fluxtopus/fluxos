@@ -18,7 +18,12 @@ COPY packages/ /packages/
 
 # Copy and install Python dependencies
 COPY apps/tentacle/requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+RUN awk '!/^-e \.\.\/\.\.\/packages\//' requirements.txt > /tmp/requirements-no-local.txt \
+    && pip install --user --no-cache-dir -r /tmp/requirements-no-local.txt \
+    && pip install --user --no-cache-dir \
+        /packages/inkpass-sdk-python \
+        /packages/mimic-sdk-python \
+        /packages/aios-agent
 
 # Install gunicorn for production
 RUN pip install --user --no-cache-dir gunicorn
@@ -43,19 +48,6 @@ RUN apt-get update && apt-get install -y \
 
 # Copy Python packages from builder
 COPY --from=builder /root/.local /root/.local
-
-# Copy packages directory (for inkpass SDK)
-COPY packages/ /app/packages/
-
-# Install inkpass SDK if available
-RUN if [ -f "/app/packages/inkpass-sdk-python/setup.py" ] || [ -f "/app/packages/inkpass-sdk-python/pyproject.toml" ]; then \
-        pip install -e /app/packages/inkpass-sdk-python; \
-    fi
-
-# Install mimic SDK if available (required for integrations router)
-RUN if [ -f "/app/packages/mimic-sdk-python/setup.py" ] || [ -f "/app/packages/mimic-sdk-python/pyproject.toml" ]; then \
-        pip install -e /app/packages/mimic-sdk-python; \
-    fi
 
 # Copy application code
 COPY apps/tentacle/ .
