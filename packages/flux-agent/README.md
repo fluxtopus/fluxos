@@ -1,8 +1,8 @@
-# aios-agent
+# flux-agent
 
 Python port of `pi-mono/packages/agent` [https://github.com/badlogic/pi-mono/tree/main/packages/agent].
 
-`aios-agent` provides:
+`flux-agent` provides:
 - Stateful agent runtime (`Agent`) with prompt/continue flows
 - Agent loop primitives (`agent_loop`, `agent_loop_continue`)
 - Tool execution with streaming update events
@@ -12,7 +12,7 @@ Python port of `pi-mono/packages/agent` [https://github.com/badlogic/pi-mono/tre
 ## Installation
 
 ```bash
-pip install -e packages/aios-agent
+pip install -e packages/flux-agent
 ```
 
 ## Quick Start
@@ -20,8 +20,8 @@ pip install -e packages/aios-agent
 ```python
 import asyncio
 
-from aios_agent import Agent, AgentOptions
-from aios_agent.types import (
+from flux_agent import Agent, AgentOptions
+from flux_agent.types import (
     AssistantDoneEvent,
     AssistantMessage,
     Context,
@@ -30,7 +30,7 @@ from aios_agent.types import (
     Usage,
     UsageCost,
 )
-from aios_agent.event_stream import EventStream
+from flux_agent.event_stream import EventStream
 
 
 class MockAssistantStream(EventStream):
@@ -76,7 +76,7 @@ asyncio.run(main())
 ## Testing
 
 ```bash
-cd packages/aios-agent
+cd packages/flux-agent
 pip install -e ".[dev]"
 pytest tests/unit -v
 ```

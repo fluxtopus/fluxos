@@ -1,0 +1,3 @@
+component: app-tentacle
+bump: patch
+summary: "Update Tentacle flux runtime integration to import flux_agent instead of aios_agent"

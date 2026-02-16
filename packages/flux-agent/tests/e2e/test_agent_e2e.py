@@ -4,8 +4,8 @@ import asyncio
 
 import pytest
 
-from aios_agent import Agent, AgentOptions
-from aios_agent.types import (
+from flux_agent import Agent, AgentOptions
+from flux_agent.types import (
     AssistantDoneEvent,
     AssistantErrorEvent,
     AssistantMessage,

@@ -6,8 +6,8 @@ import os
 
 import pytest
 
-from aios_agent import Agent, AgentOptions
-from aios_agent.types import AssistantDoneEvent, Model
+from flux_agent import Agent, AgentOptions
+from flux_agent.types import AssistantDoneEvent, Model
 from tests.bedrock_utils import has_bedrock_credentials
 from tests.unit.helpers import MockAssistantStream
 

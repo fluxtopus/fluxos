@@ -6,7 +6,7 @@ from typing import Any, Dict, List
 import pytest
 
 from src.infrastructure.flux_runtime.chat_handler import (
-    _run_with_aios_agent,
+    _run_with_flux_agent,
     handle_flux_chat_with_tools,
 )
 
@@ -42,8 +42,8 @@ class _FakeToolExecutor:
 
 
 @pytest.mark.asyncio
-async def test_run_with_aios_agent_executes_tool_round_trip() -> None:
-    pytest.importorskip("aios_agent")
+async def test_run_with_flux_agent_executes_tool_round_trip() -> None:
+    pytest.importorskip("flux_agent")
 
     tool_executor = _FakeToolExecutor()
 
@@ -84,7 +84,7 @@ async def test_run_with_aios_agent_executes_tool_round_trip() -> None:
             "finish_reason": "stop",
         }
 
-    result = await _run_with_aios_agent(
+    result = await _run_with_flux_agent(
         system_prompt="You are helpful.",
         user_message="Run a tool.",
         conversation_history=[],
@@ -104,12 +104,12 @@ async def test_run_with_aios_agent_executes_tool_round_trip() -> None:
 async def test_handle_flux_chat_with_tools_falls_back_to_legacy_loop(monkeypatch) -> None:
     tool_executor = _FakeToolExecutor()
 
-    async def failing_aios(**_kwargs):
-        raise RuntimeError("aios-agent unavailable")
+    async def failing_flux(**_kwargs):
+        raise RuntimeError("flux-agent unavailable")
 
     monkeypatch.setattr(
-        "src.infrastructure.flux_runtime.chat_handler._run_with_aios_agent",
-        failing_aios,
+        "src.infrastructure.flux_runtime.chat_handler._run_with_flux_agent",
+        failing_flux,
     )
 
     async def call_llm_func(

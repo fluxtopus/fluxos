@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from aios_agent.types import AgentTool, AgentToolResult, TextContent
+from flux_agent.types import AgentTool, AgentToolResult, TextContent
 
 
 @dataclass

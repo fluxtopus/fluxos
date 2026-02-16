@@ -11,7 +11,7 @@ module.exports = {
         "tentacle",
         "inkpass",
         "mimic",
-        "aios-agent",
+        "flux-agent",
         "aios-stripe",
         "inkpass-sdk",
         "mimic-sdk",

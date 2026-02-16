@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import asyncio
 
-from aios_agent import EventStream
-from aios_agent.types import (
+from flux_agent import EventStream
+from flux_agent.types import (
     AssistantDoneEvent,
     AssistantErrorEvent,
     AssistantMessage,

@@ -3,7 +3,7 @@ requires = ["setuptools>=65.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "aios-agent"
+name = "flux-agent"
 version = "0.1.0"
 description = "Stateful agent runtime with tool execution and event streaming"
 readme = "README.md"
@@ -33,12 +33,12 @@ dev = [
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["aios_agent*"]
+include = ["flux_agent*"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
-addopts = "-v --cov=aios_agent --cov-report=term-missing"
+addopts = "-v --cov=flux_agent --cov-report=term-missing"
 markers = [
     "e2e: marks tests as end-to-end",
 ]

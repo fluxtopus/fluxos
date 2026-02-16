@@ -49,18 +49,18 @@ components:
       kind: plain
       file: apps/mimic/VERSION
 
-  - name: pkg-aios-agent
-    scope: aios-agent
+  - name: pkg-flux-agent
+    scope: flux-agent
     kind: python-package
     path_globs:
-      - packages/aios-agent/**
+      - packages/flux-agent/**
     version:
       kind: pyproject
-      file: packages/aios-agent/pyproject.toml
+      file: packages/flux-agent/pyproject.toml
     runtime_version_files:
-      - packages/aios-agent/aios_agent/version.py
-    changelog: packages/aios-agent/CHANGELOG.md
-    publish_dir: packages/aios-agent
+      - packages/flux-agent/flux_agent/version.py
+    changelog: packages/flux-agent/CHANGELOG.md
+    publish_dir: packages/flux-agent
 
   - name: pkg-aios-stripe
     scope: aios-stripe

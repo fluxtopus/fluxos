@@ -1,0 +1,3 @@
+component: pkg-flux-agent
+bump: major
+summary: "Rename the agent package distribution and Python import path from aios-agent/aios_agent to flux-agent/flux_agent"

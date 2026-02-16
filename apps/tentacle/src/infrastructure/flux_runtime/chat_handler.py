@@ -114,7 +114,7 @@ def _convert_history_for_llm(messages: List[Any]) -> List[Dict[str, Any]]:
     return history
 
 
-async def _run_with_aios_agent(
+async def _run_with_flux_agent(
     system_prompt: str,
     user_message: str,
     conversation_history: List[Any],
@@ -122,9 +122,9 @@ async def _run_with_aios_agent(
     call_llm_func: Any,
     workflow_context: Dict[str, Any],
 ) -> Dict[str, Any]:
-    from aios_agent import Agent, AgentOptions
-    from aios_agent.event_stream import EventStream
-    from aios_agent.types import (
+    from flux_agent import Agent, AgentOptions
+    from flux_agent.event_stream import EventStream
+    from flux_agent.types import (
         AgentTool,
         AgentToolResult,
         AssistantDoneEvent,
@@ -382,7 +382,7 @@ async def handle_arrow_chat_with_tools(
         - 'conversation_messages': All messages including tool calls (for saving)
     """
     try:
-        return await _run_with_aios_agent(
+        return await _run_with_flux_agent(
             system_prompt=system_prompt,
             user_message=user_message,
             conversation_history=conversation_history,

@@ -49,7 +49,7 @@ aios/
 │   ├── mimic-ui/              # Notification UI
 │   └── aios-landing/          # Marketing site
 ├── packages/                  # Shared SDKs and utilities
-│   ├── aios-agent/
+│   ├── flux-agent/
 │   ├── inkpass-sdk-python/
 │   ├── mimic-sdk-python/
 │   └── aios-stripe/

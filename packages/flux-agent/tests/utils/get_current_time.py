@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from aios_agent.types import AgentTool, AgentToolResult, TextContent
+from flux_agent.types import AgentTool, AgentToolResult, TextContent
 
 
 async def get_current_time(timezone: str | None = None) -> AgentToolResult:

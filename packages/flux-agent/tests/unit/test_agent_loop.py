@@ -4,8 +4,8 @@ import asyncio
 
 import pytest
 
-from aios_agent import agent_loop, agent_loop_continue
-from aios_agent.types import (
+from flux_agent import agent_loop, agent_loop_continue
+from flux_agent.types import (
     AgentContext,
     AgentLoopConfig,
     AgentTool,

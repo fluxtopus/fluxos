@@ -1,7 +1,7 @@
 schema_version: 2
-generated_at: '2026-02-16T18:39:22Z'
+generated_at: '2026-02-16T19:48:14Z'
 platform_release: platform-2026.02.16.1
-git_sha: 1a257539d3d3af8d40afe2d61f1307458cb7e177
+git_sha: 2bebe6b0ce10a908ac187519b7b807222d962e93
 components:
   app-inkpass:
     scope: inkpass
@@ -30,16 +30,6 @@ components:
     version_sources_digest: 825f49be7762c0e32abd817b1ab58fedbd78c249d288b9d2c890c47c4bd73670
     artifact:
       publish_dir: null
-  pkg-aios-agent:
-    scope: aios-agent
-    kind: python-package
-    version: 0.1.0
-    version_sources:
-    - packages/aios-agent/pyproject.toml
-    - packages/aios-agent/aios_agent/version.py
-    version_sources_digest: 3246dc4dd8eaf4b09ecefe444f21b750813b05c312dea91f492c7fadd6290336
-    artifact:
-      publish_dir: packages/aios-agent
   pkg-aios-stripe:
     scope: aios-stripe
     kind: python-package
@@ -50,6 +40,16 @@ components:
     version_sources_digest: 52e6d8e9b78785611881ec2edebf628002aa8c594f397d5dbe42d78fc108e5b1
     artifact:
       publish_dir: packages/aios-stripe
+  pkg-flux-agent:
+    scope: flux-agent
+    kind: python-package
+    version: 0.1.0
+    version_sources:
+    - packages/flux-agent/pyproject.toml
+    - packages/flux-agent/flux_agent/version.py
+    version_sources_digest: 6c7c3f65deaa45760a943fa9170eba924d118adf17f704a247b86e8e695e40c1
+    artifact:
+      publish_dir: packages/flux-agent
   pkg-inkpass-sdk-python:
     scope: inkpass-sdk
     kind: python-package
