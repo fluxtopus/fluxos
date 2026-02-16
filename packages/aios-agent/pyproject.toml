@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aios-agent"
+version = "0.1.0"
+description = "Stateful agent runtime with tool execution and event streaming"
+readme = "README.md"
+authors = [
+    {name = "aios contributors", email = "dev@fluxtopus.com"}
+]
+license = {text = "MIT"}
+requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "httpx>=0.27.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["aios_agent*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-v --cov=aios_agent --cov-report=term-missing"
+markers = [
+    "e2e: marks tests as end-to-end",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = true

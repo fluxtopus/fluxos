@@ -33,7 +33,11 @@ RUN apt-get update && apt-get install -y \
     && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for better caching
+# Copy local monorepo packages first so editable requirements resolve.
+# requirements.txt references ../../packages/* from /app, which resolves to /packages.
+COPY packages/ /packages/
+
+# Copy requirements for dependency installation
 COPY apps/tentackl/requirements.txt .
 
 # Install Python dependencies
@@ -41,19 +45,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Playwright and its browsers for browser-use
 RUN pip install playwright && playwright install chromium
-
-# Copy packages directory (for inkpass SDK)
-COPY packages/ /app/packages/
-
-# Install inkpass SDK if available in packages
-RUN if [ -f "/app/packages/inkpass-sdk-python/setup.py" ] || [ -f "/app/packages/inkpass-sdk-python/pyproject.toml" ]; then \
-        pip install -e /app/packages/inkpass-sdk-python; \
-    fi
-
-# Install mimic SDK if available in packages (required for integrations router)
-RUN if [ -f "/app/packages/mimic-sdk-python/setup.py" ] || [ -f "/app/packages/mimic-sdk-python/pyproject.toml" ]; then \
-        pip install -e /app/packages/mimic-sdk-python; \
-    fi
 
 # Copy application code
 COPY apps/tentackl/ .
