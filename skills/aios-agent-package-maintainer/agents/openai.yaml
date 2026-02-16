@@ -1,0 +1,4 @@
+interface:
+  display_name: "AIOS Agent Packager"
+  short_description: "Track and publish aios-agent updates"
+  default_prompt: "Use $aios-agent-package-maintainer to prepare and publish the next aios-agent release."

@@ -49,9 +49,12 @@ aios/
 │   ├── mimic-ui/              # Notification UI
 │   └── aios-landing/          # Marketing site
 ├── packages/                  # Shared SDKs and utilities
+│   ├── aios-agent/
 │   ├── inkpass-sdk-python/
 │   ├── mimic-sdk-python/
 │   └── aios-stripe/
+├── skills/                    # Repository-managed Codex skills
+│   └── aios-agent-package-maintainer/
 ├── docker-compose.yml         # Development: all services
 └── docs/
     └── architecture/          # Architecture docs
@@ -88,6 +91,7 @@ docker compose -f docker-compose.yml -f docker-compose.monitoring.yml up -d
 - Tentackl: `apps/tentackl/README.md`
 - InkPass: `apps/inkpass/README.md`
 - Mimic: `apps/mimic/README.md`
+- Package release skill: `skills/aios-agent-package-maintainer/SKILL.md`
 
 ## 🔒 Security
 
