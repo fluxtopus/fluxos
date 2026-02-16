@@ -112,11 +112,15 @@ jobs:
           npm run build
 
       - name: Publish changed Python packages
-        if: steps.plan.outputs.has_python_packages == 'true' && secrets.PYPI_API_TOKEN != ''
+        if: steps.plan.outputs.has_python_packages == 'true'
         env:
           UV_PUBLISH_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
         shell: bash
         run: |
+          if [[ -z "${UV_PUBLISH_TOKEN:-}" ]]; then
+            echo "PYPI_API_TOKEN is not configured; skipping Python publish."
+            exit 0
+          fi
           IFS=',' read -r -a pkgs <<< "${{ steps.plan.outputs.python_package_dirs }}"
           args=()
           for pkg in "${pkgs[@]}"; do
@@ -126,11 +130,15 @@ jobs:
           ./scripts/publish-python-packages.sh --publish --index pypi "${args[@]}"
 
       - name: Publish changed TypeScript package
-        if: steps.plan.outputs.has_typescript_packages == 'true' && secrets.NPM_TOKEN != ''
+        if: steps.plan.outputs.has_typescript_packages == 'true'
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         shell: bash
         run: |
+          if [[ -z "${NPM_TOKEN:-}" ]]; then
+            echo "NPM_TOKEN is not configured; skipping npm publish."
+            exit 0
+          fi
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
           cd packages/mimic-sdk-ts
           npm publish --access public
