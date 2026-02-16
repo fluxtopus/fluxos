@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1200" viewBox="0 0 2000 1200" role="img" aria-labelledby="title desc">
+  <title id="title">AIOS Service Architecture</title>
+  <desc id="desc">Service graph for AIOS showing frontends, core APIs, workers, data stores, external integrations, and optional observability.</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="titleGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#020617" flood-opacity="0.55"/>
+    </filter>
+    <style>
+      text { font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif; }
+      .title { font-size: 56px; font-weight: 700; letter-spacing: 0.5px; fill: url(#titleGrad); }
+      .subtitle { font-size: 24px; fill: #cbd5e1; }
+      .section { font-size: 22px; font-weight: 700; fill: #e2e8f0; letter-spacing: 1.5px; }
+      .node-label { font-size: 28px; font-weight: 700; fill: #f8fafc; }
+      .node-sub { font-size: 19px; fill: #dbeafe; }
+      .ext-label { font-size: 22px; font-weight: 700; fill: #f8fafc; }
+      .ext-sub { font-size: 14px; fill: #dbeafe; }
+      .edge { stroke: #9fb3ce; stroke-width: 3; fill: none; marker-end: url(#arrow); opacity: 0.55; }
+      .edge-soft { stroke: #7a8ca5; stroke-width: 2.5; fill: none; marker-end: url(#arrow); opacity: 0.42; }
+      .hint { font-size: 18px; fill: #94a3b8; }
+      .chip { fill: #0b1220; opacity: 0.6; }
+    </style>
+  </defs>
+
+  <rect width="2000" height="1200" fill="url(#bg)"/>
+
+  <text x="1000" y="88" text-anchor="middle" class="title">AIOS Service Architecture</text>
+  <text x="1000" y="126" text-anchor="middle" class="subtitle">Fluxtopus platform topology for social sharing</text>
+
+  <text x="130" y="196" class="section">CLIENTS</text>
+  <text x="130" y="346" class="section">APPLICATION UIs</text>
+  <text x="130" y="528" class="section">CORE SERVICES</text>
+  <text x="130" y="720" class="section">BACKGROUND WORKERS</text>
+  <text x="130" y="912" class="section">DATA + DEV INFRA</text>
+
+  <!-- Draw edges first so they never overlap text labels on nodes -->
+  <g id="edges" pointer-events="none">
+    <path class="edge" d="M1000 240 L390 284"/>
+    <path class="edge" d="M1000 240 L1000 284"/>
+    <path class="edge" d="M1000 240 L1610 284"/>
+
+    <path class="edge" d="M390 392 L1000 466"/>
+    <path class="edge" d="M390 392 L390 466"/>
+    <path class="edge" d="M1000 392 L1610 466"/>
+    <path class="edge" d="M1610 392 L1000 466"/>
+
+    <path class="edge" d="M1000 600 L390 466"/>
+    <path class="edge" d="M1000 600 L1610 466"/>
+    <path class="edge-soft" d="M390 600 L1610 466"/>
+    <path class="edge-soft" d="M1610 600 L1000 466"/>
+
+    <path class="edge" d="M815 656 L1000 600"/>
+    <path class="edge" d="M1135 656 L815 656"/>
+    <path class="edge" d="M1545 656 L1610 600"/>
+
+    <path class="edge" d="M390 600 L665 852"/>
+    <path class="edge" d="M1000 600 L665 852"/>
+    <path class="edge" d="M1610 600 L665 852"/>
+
+    <path class="edge" d="M390 600 L1155 852"/>
+    <path class="edge" d="M1000 600 L1155 852"/>
+    <path class="edge" d="M1610 600 L1155 852"/>
+    <path class="edge" d="M815 756 L1155 852"/>
+    <path class="edge" d="M1135 756 L1155 852"/>
+    <path class="edge" d="M1545 756 L1155 852"/>
+
+    <path class="edge" d="M1610 600 L1570 852"/>
+    <path class="edge" d="M1840 640 L1610 600"/>
+    <path class="edge" d="M1610 600 L1840 820"/>
+
+    <path class="edge" d="M570 698 L790 530"/>
+
+    <path class="edge-soft" d="M250 1060 C250 940, 390 760, 390 600"/>
+    <path class="edge-soft" d="M480 1060 C480 920, 1000 760, 1000 600"/>
+    <path class="edge-soft" d="M250 1060 C250 960, 1610 760, 1610 600"/>
+    <path class="edge-soft" d="M480 1060 C480 980, 1610 840, 1610 600"/>
+    <path class="edge-soft" d="M360 1097 L600 1097"/>
+    <path class="edge-soft" d="M570 1097 L600 1097"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="820" y="152" width="360" height="88" rx="20" fill="#0284c7"/>
+    <text x="1000" y="205" text-anchor="middle" class="node-label">Users / Browsers</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="180" y="284" width="420" height="108" rx="18" fill="#1d4ed8"/>
+    <text x="390" y="338" text-anchor="middle" class="node-label">Tentackl UI</text>
+    <text x="390" y="367" text-anchor="middle" class="node-sub">localhost:3000</text>
+
+    <rect x="790" y="284" width="420" height="108" rx="18" fill="#1d4ed8"/>
+    <text x="1000" y="338" text-anchor="middle" class="node-label">Mimic UI</text>
+    <text x="1000" y="367" text-anchor="middle" class="node-sub">localhost:3001</text>
+
+    <rect x="1400" y="284" width="420" height="108" rx="18" fill="#1d4ed8"/>
+    <text x="1610" y="338" text-anchor="middle" class="node-label">AIOS Landing</text>
+    <text x="1610" y="367" text-anchor="middle" class="node-sub">localhost:3002</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="180" y="466" width="420" height="134" rx="18" fill="#0f766e"/>
+    <text x="390" y="530" text-anchor="middle" class="node-label">InkPass API</text>
+    <text x="390" y="564" text-anchor="middle" class="node-sub">AuthN/AuthZ • localhost:8004</text>
+
+    <rect x="790" y="466" width="420" height="134" rx="18" fill="#0f766e"/>
+    <text x="1000" y="530" text-anchor="middle" class="node-label">Tentackl API</text>
+    <text x="1000" y="564" text-anchor="middle" class="node-sub">Orchestration • localhost:8005</text>
+
+    <rect x="1400" y="466" width="420" height="134" rx="18" fill="#0f766e"/>
+    <text x="1610" y="530" text-anchor="middle" class="node-label">Mimic API</text>
+    <text x="1610" y="564" text-anchor="middle" class="node-sub">Notifications/Webhooks • localhost:8006</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="670" y="656" width="290" height="100" rx="16" fill="#b45309"/>
+    <text x="815" y="713" text-anchor="middle" class="node-label">Tentackl Worker</text>
+
+    <rect x="990" y="656" width="290" height="100" rx="16" fill="#b45309"/>
+    <text x="1135" y="713" text-anchor="middle" class="node-label">Tentackl Beat</text>
+
+    <rect x="1400" y="656" width="290" height="100" rx="16" fill="#b45309"/>
+    <text x="1545" y="713" text-anchor="middle" class="node-label">Mimic Worker</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="450" y="852" width="430" height="120" rx="18" fill="#334155"/>
+    <text x="665" y="922" text-anchor="middle" class="node-label">PostgreSQL (pgvector)</text>
+    <text x="665" y="952" text-anchor="middle" class="node-sub">aios_inkpass • aios_tentackl • aios_mimic</text>
+
+    <rect x="940" y="852" width="430" height="120" rx="18" fill="#334155"/>
+    <text x="1155" y="922" text-anchor="middle" class="node-label">Redis</text>
+    <text x="1155" y="952" text-anchor="middle" class="node-sub">Cache + Celery broker/result backend</text>
+
+    <rect x="1430" y="852" width="280" height="120" rx="18" fill="#334155"/>
+    <text x="1570" y="922" text-anchor="middle" class="node-label">Mailpit</text>
+    <text x="1570" y="952" text-anchor="middle" class="node-sub">Dev SMTP</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1710" y="640" width="260" height="182" rx="18" fill="#7f1d1d"/>
+    <text x="1840" y="688" text-anchor="middle" class="ext-label">External Channels</text>
+    <text x="1840" y="724" text-anchor="middle" class="ext-sub">Stripe Webhooks → Mimic</text>
+    <text x="1840" y="756" text-anchor="middle" class="ext-sub">Mimic → Slack / Discord / Email</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="150" y="640" width="420" height="116" rx="18" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+    <text x="360" y="700" text-anchor="middle" class="node-label">LLM + MCP Providers</text>
+    <text x="360" y="732" text-anchor="middle" class="node-sub">OpenRouter / Tool Integrations</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="110" y="1000" width="780" height="160" rx="20" fill="#1f2937" stroke="#334155" stroke-width="2"/>
+    <text x="150" y="1042" class="section">OPTIONAL OBSERVABILITY STACK</text>
+
+    <rect x="140" y="1060" width="220" height="74" rx="12" fill="#475569"/>
+    <text x="250" y="1106" text-anchor="middle" class="node-sub">Prometheus</text>
+
+    <rect x="390" y="1060" width="180" height="74" rx="12" fill="#475569"/>
+    <text x="480" y="1106" text-anchor="middle" class="node-sub">Loki</text>
+
+    <rect x="600" y="1060" width="250" height="74" rx="12" fill="#475569"/>
+    <text x="725" y="1106" text-anchor="middle" class="node-sub">Grafana</text>
+  </g>
+
+  <rect x="1360" y="1010" width="520" height="130" rx="14" class="chip"/>
+  <text x="1620" y="1062" text-anchor="middle" class="hint">Generated from /docker-compose.yml + /docker-compose.monitoring.yml</text>
+  <text x="1620" y="1092" text-anchor="middle" class="hint">Profile: full local development stack</text>
+</svg>

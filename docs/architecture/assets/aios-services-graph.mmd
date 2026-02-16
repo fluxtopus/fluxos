@@ -1,0 +1,51 @@
+flowchart TB
+  U[Users / Browsers] --> TUI[Tentackl UI]
+  U --> MUI[Mimic UI]
+  U --> LAND[AIOS Landing]
+
+  TUI --> T[Tentackl API]
+  TUI --> I[InkPass API]
+  MUI --> M[Mimic API]
+  LAND --> T
+
+  T --> I
+  T --> M
+  I --> M
+  M --> T
+  M --> I
+
+  TW[Tentackl Worker] --> T
+  TB[Tentackl Beat] --> TW
+  MW[Mimic Worker] --> M
+
+  T --> PG[(Postgres)]
+  I --> PG
+  M --> PG
+
+  T --> R[(Redis)]
+  I --> R
+  M --> R
+  TW --> R
+  TB --> R
+  MW --> R
+
+  M --> MAIL[Mailpit (Dev SMTP)]
+  STRIPE[Stripe Webhooks] --> M
+  M --> CH[Slack / Discord / Email]
+
+  T --> LLM[OpenRouter / MCP Tools]
+
+  subgraph OBS[Optional Observability]
+    PROM[Prometheus]
+    LOKI[Loki]
+    GRAF[Grafana]
+  end
+
+  PROM --> GRAF
+  LOKI --> GRAF
+  T --> PROM
+  I --> PROM
+  M --> PROM
+  T --> LOKI
+  I --> LOKI
+  M --> LOKI
