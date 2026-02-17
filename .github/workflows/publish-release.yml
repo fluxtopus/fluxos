@@ -143,7 +143,15 @@ jobs:
           cd packages/mimic-sdk-ts
           npm publish --access public
 
+      - name: Configure git identity for tags
+        if: steps.plan.outputs.has_changes == 'true'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Create and push immutable tags
+        if: steps.plan.outputs.has_changes == 'true'
         shell: bash
         run: |
           ./scripts/release/tag-release.sh \
