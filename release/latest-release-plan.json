@@ -1,121 +1,31 @@
 {
-  "generated_at": "2026-02-17T06:06:03.397668+00:00",
-  "platform_release": "platform-2026.02.17.1",
-  "git_sha": "6ad70adb8badec1762aab2e40d3c436605ac5a6d",
+  "generated_at": "2026-02-18T05:35:00.793412+00:00",
+  "platform_release": "platform-2026.02.18.1",
+  "git_sha": "fb9e856b312eef0dcf56798862c34e6505f14884",
   "manifest": "manifest.yaml",
   "components": [
-    {
-      "name": "app-inkpass",
-      "scope": "inkpass",
-      "kind": "app",
-      "bump": "patch",
-      "current_version": "0.1.0",
-      "next_version": "0.1.1",
-      "reasons": [
-        "20260216121000-app-inkpass-patch-fluxos-rebrand.yaml: Update InkPass defaults and Stripe integration references for the FluxOS rebrand"
-      ]
-    },
-    {
-      "name": "app-mimic",
-      "scope": "mimic",
-      "kind": "app",
-      "bump": "patch",
-      "current_version": "0.1.0",
-      "next_version": "0.1.1",
-      "reasons": [
-        "20260216121010-app-mimic-patch-fluxos-rebrand.yaml: Update Mimic provider setup copy and Stripe integration imports for FluxOS branding"
-      ]
-    },
     {
       "name": "app-tentacle",
       "scope": "tentacle",
       "kind": "app",
       "bump": "patch",
-      "current_version": "0.1.0",
-      "next_version": "0.1.1",
+      "current_version": "0.1.1",
+      "next_version": "0.1.2",
       "reasons": [
-        "20260216195510-app-tentacle-patch-update-flux-agent-imports.yaml: Update Tentacle flux runtime integration to import flux_agent instead of aios_agent"
-      ]
-    },
-    {
-      "name": "pkg-flux-agent",
-      "scope": "flux-agent",
-      "kind": "python-package",
-      "bump": "major",
-      "current_version": "0.1.0",
-      "next_version": "1.0.0",
-      "reasons": [
-        "20260216195500-pkg-flux-agent-major-rename-package.yaml: Rename the agent package distribution and Python import path from aios-agent/aios_agent to flux-agent/flux_agent"
-      ]
-    },
-    {
-      "name": "pkg-fluxos-stripe",
-      "scope": "fluxos-stripe",
-      "kind": "python-package",
-      "bump": "major",
-      "current_version": "0.1.0",
-      "next_version": "1.0.0",
-      "reasons": [
-        "20260216121020-pkg-fluxos-stripe-major-rename-package.yaml: Rename shared Stripe package from aios-stripe/aios_stripe to fluxos-stripe/fluxos_stripe"
-      ]
-    },
-    {
-      "name": "pkg-inkpass-sdk-python",
-      "scope": "inkpass-sdk",
-      "kind": "python-package",
-      "bump": "patch",
-      "current_version": "0.1.0",
-      "next_version": "0.1.1",
-      "reasons": [
-        "20260216121030-pkg-inkpass-sdk-python-patch-update-metadata.yaml: Refresh package metadata to reflect FluxOS contributor naming"
+        "20260218061000-app-tentacle-patch-use-flux-agent-and-flux-image-metadata.yaml: Use flux-agent in Tentacle production images and align app image metadata to flux-* repositories"
       ]
     }
   ],
   "notes": [
     {
-      "file": "20260216121000-app-inkpass-patch-fluxos-rebrand.yaml",
-      "component": "app-inkpass",
-      "bump": "patch",
-      "summary": "Update InkPass defaults and Stripe integration references for the FluxOS rebrand"
-    },
-    {
-      "file": "20260216121010-app-mimic-patch-fluxos-rebrand.yaml",
-      "component": "app-mimic",
-      "bump": "patch",
-      "summary": "Update Mimic provider setup copy and Stripe integration imports for FluxOS branding"
-    },
-    {
-      "file": "20260216121020-pkg-fluxos-stripe-major-rename-package.yaml",
-      "component": "pkg-fluxos-stripe",
-      "bump": "major",
-      "summary": "Rename shared Stripe package from aios-stripe/aios_stripe to fluxos-stripe/fluxos_stripe"
-    },
-    {
-      "file": "20260216121030-pkg-inkpass-sdk-python-patch-update-metadata.yaml",
-      "component": "pkg-inkpass-sdk-python",
-      "bump": "patch",
-      "summary": "Refresh package metadata to reflect FluxOS contributor naming"
-    },
-    {
-      "file": "20260216195500-pkg-flux-agent-major-rename-package.yaml",
-      "component": "pkg-flux-agent",
-      "bump": "major",
-      "summary": "Rename the agent package distribution and Python import path from aios-agent/aios_agent to flux-agent/flux_agent"
-    },
-    {
-      "file": "20260216195510-app-tentacle-patch-update-flux-agent-imports.yaml",
+      "file": "20260218061000-app-tentacle-patch-use-flux-agent-and-flux-image-metadata.yaml",
       "component": "app-tentacle",
       "bump": "patch",
-      "summary": "Update Tentacle flux runtime integration to import flux_agent instead of aios_agent"
+      "summary": "Use flux-agent in Tentacle production images and align app image metadata to flux-* repositories"
     }
   ],
   "archived_notes": [
-    "releases/notes/platform-2026.02.17.1/20260216121000-app-inkpass-patch-fluxos-rebrand.yaml",
-    "releases/notes/platform-2026.02.17.1/20260216121010-app-mimic-patch-fluxos-rebrand.yaml",
-    "releases/notes/platform-2026.02.17.1/20260216121020-pkg-fluxos-stripe-major-rename-package.yaml",
-    "releases/notes/platform-2026.02.17.1/20260216121030-pkg-inkpass-sdk-python-patch-update-metadata.yaml",
-    "releases/notes/platform-2026.02.17.1/20260216195500-pkg-flux-agent-major-rename-package.yaml",
-    "releases/notes/platform-2026.02.17.1/20260216195510-app-tentacle-patch-update-flux-agent-imports.yaml"
+    "releases/notes/platform-2026.02.18.1/20260218061000-app-tentacle-patch-use-flux-agent-and-flux-image-metadata.yaml"
   ],
   "changelog": "releases/CHANGELOG.md"
 }

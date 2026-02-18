@@ -1,7 +1,7 @@
 schema_version: 2
-generated_at: '2026-02-17T06:06:03Z'
-platform_release: platform-2026.02.17.1
-git_sha: 6ad70adb8badec1762aab2e40d3c436605ac5a6d
+generated_at: '2026-02-18T05:35:00Z'
+platform_release: platform-2026.02.18.1
+git_sha: fb9e856b312eef0dcf56798862c34e6505f14884
 components:
   app-inkpass:
     scope: inkpass
@@ -11,7 +11,8 @@ components:
     - apps/inkpass/VERSION
     version_sources_digest: 3157652a1a7ac142e26ef2a4c7746aa9d8611c4ac1c7344b45f32273cfad3775
     artifact:
-      publish_dir: null
+      image_repository: ghcr.io/fluxtopus/flux-inkpass
+      dockerfile: apps/inkpass/Dockerfile.prod
   app-mimic:
     scope: mimic
     kind: app
@@ -20,16 +21,18 @@ components:
     - apps/mimic/VERSION
     version_sources_digest: 9a8fb2cf1a321b18a6bd9c5bfa049962e536e911b5bbe5aaacf39ce7061f1525
     artifact:
-      publish_dir: null
+      image_repository: ghcr.io/fluxtopus/flux-mimic
+      dockerfile: apps/mimic/Dockerfile.prod
   app-tentacle:
     scope: tentacle
     kind: app
-    version: 0.1.1
+    version: 0.1.2
     version_sources:
     - apps/tentacle/VERSION
-    version_sources_digest: afd14a707e7b1493c8d3cc7dca302a0009cddd24905bad0836a24ae7be4c01c5
+    version_sources_digest: bb8b39b7b58c91b57aadcf80c0f3e3f4f5c4fe74ea61229b98d786fe37879f54
     artifact:
-      publish_dir: null
+      image_repository: ghcr.io/fluxtopus/flux-tentacle
+      dockerfile: apps/tentacle/Dockerfile.prod
   pkg-flux-agent:
     scope: flux-agent
     kind: python-package

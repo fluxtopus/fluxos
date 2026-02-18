@@ -1,5 +1,15 @@
 # Platform Changelog
 
+## platform-2026.02.18.1 (2026-02-18)
+
+### Version bumps
+
+- `app-tentacle`: `0.1.1` -> `0.1.2` (patch)
+
+### Included changes
+
+- `app-tentacle` (patch): Use flux-agent in Tentacle production images and align app image metadata to flux-* repositories [`20260218061000-app-tentacle-patch-use-flux-agent-and-flux-image-metadata.yaml`]
+
 ## platform-2026.02.17.1 (2026-02-17)
 
 ### Version bumps
