@@ -1,5 +1,19 @@
 # Platform Changelog
 
+## platform-2026.02.21.3 (2026-02-21)
+
+### Version bumps
+
+- `pkg-fluxos-stripe`: `1.0.0` -> `1.0.1` (patch)
+- `pkg-inkpass-sdk-python`: `0.1.1` -> `0.1.2` (patch)
+- `pkg-mimic-sdk-python`: `0.1.0` -> `0.1.1` (patch)
+
+### Included changes
+
+- `pkg-fluxos-stripe` (patch): Publish fluxos-stripe to PyPI for uv installation. [`20260221173500-pkg-fluxos-stripe-patch-publish-to-pypi.yaml`]
+- `pkg-inkpass-sdk-python` (patch): Publish inkpass-sdk Python package to PyPI for uv installation. [`20260221173510-pkg-inkpass-sdk-python-patch-publish-to-pypi.yaml`]
+- `pkg-mimic-sdk-python` (patch): Publish mimic-sdk Python package to PyPI for uv installation. [`20260221173520-pkg-mimic-sdk-python-patch-publish-to-pypi.yaml`]
+
 ## platform-2026.02.21.2 (2026-02-21)
 
 ### Version bumps

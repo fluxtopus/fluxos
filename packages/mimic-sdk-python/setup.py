@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="mimic-sdk",
-    version="0.1.0",
+    version="0.1.1",
     description="Python SDK for Mimic Notification Service",
     author="Mimic Team",
     packages=find_packages(),

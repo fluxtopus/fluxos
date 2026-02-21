@@ -1,7 +1,7 @@
 schema_version: 2
-generated_at: '2026-02-21T17:29:21Z'
-platform_release: platform-2026.02.21.2
-git_sha: 5b2f051486158b073618fd0886b6c066b1de72bf
+generated_at: '2026-02-21T17:31:57Z'
+platform_release: platform-2026.02.21.3
+git_sha: 1aee5b542d83e88f99576977d01664431132d6da
 components:
   app-inkpass:
     scope: inkpass
@@ -46,31 +46,31 @@ components:
   pkg-fluxos-stripe:
     scope: fluxos-stripe
     kind: python-package
-    version: 1.0.0
+    version: 1.0.1
     version_sources:
     - packages/fluxos-stripe/pyproject.toml
     - packages/fluxos-stripe/fluxos_stripe/version.py
-    version_sources_digest: f823a9317c56b5ac4bea1ec14b5f6569a0daaa9404cf2939362ad503f33c71a9
+    version_sources_digest: a9a9567d81665041af6202c3a86c1d466bee8b33ac6d39f17aa04f5b616131ed
     artifact:
       publish_dir: packages/fluxos-stripe
   pkg-inkpass-sdk-python:
     scope: inkpass-sdk
     kind: python-package
-    version: 0.1.1
+    version: 0.1.2
     version_sources:
     - packages/inkpass-sdk-python/pyproject.toml
     - packages/inkpass-sdk-python/inkpass_sdk/version.py
-    version_sources_digest: e18e0f9cbb6309b999a7a5e24796d500a44ea54a15ead0065ff0a38965266e24
+    version_sources_digest: 5f51805b53f5a55017b1365d9901be506398ee2aa59bb727f2bad8d610ff822c
     artifact:
       publish_dir: packages/inkpass-sdk-python
   pkg-mimic-sdk-python:
     scope: mimic-sdk
     kind: python-package
-    version: 0.1.0
+    version: 0.1.1
     version_sources:
     - packages/mimic-sdk-python/setup.py
     - packages/mimic-sdk-python/mimic/__init__.py
-    version_sources_digest: 3a0165532f967b51ff666576bf52edce65276c68ce694ac96fc2e47e84a2ba9b
+    version_sources_digest: bb1aa1bfcd6be11aa32a3e26ea99c001d6692dd27878a36b9d08109b6a2843a4
     artifact:
       publish_dir: packages/mimic-sdk-python
   pkg-mimic-sdk-ts:
