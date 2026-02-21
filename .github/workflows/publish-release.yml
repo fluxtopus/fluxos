@@ -59,29 +59,67 @@ jobs:
           plan_file = Path('release/latest-release-plan.json')
           if not plan_file.exists():
               print('has_changes=false')
+              print('has_apps=false')
               print('has_python_packages=false')
               print('has_typescript_packages=false')
+              print('app_images_json=[]')
               print('python_package_dirs=')
+              print('platform_release=')
               raise SystemExit(0)
 
           plan = json.loads(plan_file.read_text(encoding='utf-8'))
           components = yaml.safe_load(Path('release/components.yaml').read_text(encoding='utf-8'))['components']
+          manifest = yaml.safe_load(Path('manifest.yaml').read_text(encoding='utf-8'))
           by_name = {c['name']: c for c in components}
+          manifest_components = manifest.get('components', {})
 
           changed = [c['name'] for c in plan.get('components', [])]
           python_dirs = []
+          app_images = []
           has_ts_pkg = False
           for name in changed:
               comp = by_name[name]
-              if comp.get('kind') == 'python-package':
+              kind = comp.get('kind')
+
+              if kind == 'python-package':
                   python_dirs.append(Path(comp['publish_dir']).name)
-              if comp.get('kind') == 'typescript-package':
+              if kind == 'typescript-package':
                   has_ts_pkg = True
+              if kind == 'app':
+                  manifest_component = manifest_components.get(name, {})
+                  artifact = manifest_component.get('artifact', {})
+                  image_repository = artifact.get('image_repository') or comp.get('image_repository')
+                  dockerfile = artifact.get('dockerfile') or comp.get('dockerfile')
+                  version = manifest_component.get('version')
+                  missing = []
+                  if not image_repository:
+                      missing.append('image_repository')
+                  if not dockerfile:
+                      missing.append('dockerfile')
+                  if not version:
+                      missing.append('version')
+                  if missing:
+                      raise SystemExit(
+                          f"Missing app publish metadata for {name}: {', '.join(missing)}"
+                      )
+                  app_images.append(
+                      {
+                          'name': name,
+                          'image_repository': image_repository,
+                          'dockerfile': dockerfile,
+                          'version': version,
+                      }
+                  )
 
           print(f"has_changes={'true' if changed else 'false'}")
+          print(f"has_apps={'true' if app_images else 'false'}")
           print(f"has_python_packages={'true' if python_dirs else 'false'}")
           print(f"has_typescript_packages={'true' if has_ts_pkg else 'false'}")
           print(f"python_package_dirs={','.join(python_dirs)}")
+          print(f"platform_release={manifest.get('platform_release', '')}")
+          print("app_images_json<<EOF")
+          print(json.dumps(app_images))
+          print("EOF")
           PY
 
       - name: Stop when no release plan components exist
@@ -110,6 +148,64 @@ jobs:
           cd packages/mimic-sdk-ts
           npm ci
           npm run build
+
+      - name: Set up Docker Buildx
+        if: steps.plan.outputs.has_apps == 'true'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        if: steps.plan.outputs.has_apps == 'true'
+        shell: bash
+        env:
+          GHCR_TOKEN: ${{ github.token }}
+        run: |
+          echo "${GHCR_TOKEN}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      - name: Publish changed app images
+        if: steps.plan.outputs.has_apps == 'true'
+        shell: bash
+        env:
+          APP_IMAGES_JSON: ${{ steps.plan.outputs.app_images_json }}
+          PLATFORM_RELEASE: ${{ steps.plan.outputs.platform_release }}
+          GIT_SHA: ${{ github.sha }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import subprocess
+
+          app_images = json.loads(os.environ["APP_IMAGES_JSON"])
+          platform_release = os.environ["PLATFORM_RELEASE"]
+          short_sha = os.environ["GIT_SHA"][:12]
+          if not platform_release:
+              raise SystemExit("platform_release is required to tag published app images")
+
+          for app in app_images:
+              repository = app["image_repository"]
+              version = app["version"]
+              dockerfile = app["dockerfile"]
+              tags = [
+                  f"{repository}:{version}",
+                  f"{repository}:{platform_release}",
+                  f"{repository}:sha-{short_sha}",
+              ]
+              cmd = [
+                  "docker",
+                  "buildx",
+                  "build",
+                  "--platform",
+                  "linux/amd64",
+                  "--push",
+                  "--file",
+                  dockerfile,
+              ]
+              for tag in tags:
+                  cmd.extend(["--tag", tag])
+              cmd.append(".")
+
+              print(f"Publishing {app['name']} image with tags: {', '.join(tags)}")
+              subprocess.run(cmd, check=True)
+          PY
 
       - name: Publish changed Python packages
         if: steps.plan.outputs.has_python_packages == 'true'

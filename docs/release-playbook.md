@@ -80,7 +80,10 @@ Main workflows:
 2. `publish-release.yml`
    - Runs after release PR merge commit
    - Requires environment approval (`release`)
-   - Builds/publishes changed artifacts
+   - Builds/publishes changed artifacts:
+     - app container images to GHCR (`ghcr.io/fluxtopus/flux-*`)
+     - Python packages to PyPI
+     - TypeScript packages to npm
    - Creates immutable tags
    - Uploads `manifest.yaml` and release metadata artifact
 
