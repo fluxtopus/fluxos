@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fluxos-agent"
-version = "1.0.0"
+version = "2.0.0"
 description = "Stateful agent runtime with tool execution and event streaming"
 readme = "README.md"
 authors = [

@@ -1,5 +1,18 @@
 # Platform Changelog
 
+## platform-2026.02.21.2 (2026-02-21)
+
+### Version bumps
+
+- `app-tentacle`: `0.1.2` -> `0.1.3` (patch)
+- `pkg-fluxos-agent`: `1.0.0` -> `2.0.0` (major)
+
+### Included changes
+
+- `app-tentacle` (patch): Stabilize inbox task tool orchestration: wait/poll behavior, get_task_status fallback wiring, and task observe streaming fix. [`20260221000000-app-tentacle-inbox-async-task-tooling.yaml`]
+- `pkg-fluxos-agent` (major): Rename agent package folder and distribution from flux-agent to fluxos-agent while keeping flux_agent import path stable. [`20260221091000-pkg-fluxos-agent-major-rename-folder-and-dist.yaml`]
+- `app-tentacle` (patch): Update Tentacle local package references and production image builds to use packages/fluxos-agent. [`20260221091010-app-tentacle-patch-use-fluxos-agent-package-path.yaml`]
+
 ## platform-2026.02.18.1 (2026-02-18)
 
 ### Version bumps

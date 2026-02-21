@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-02-18T05:35:00.793412+00:00",
-  "platform_release": "platform-2026.02.18.1",
-  "git_sha": "fb9e856b312eef0dcf56798862c34e6505f14884",
+  "generated_at": "2026-02-21T17:29:21.738414+00:00",
+  "platform_release": "platform-2026.02.21.2",
+  "git_sha": "5b2f051486158b073618fd0886b6c066b1de72bf",
   "manifest": "manifest.yaml",
   "components": [
     {
@@ -9,23 +9,49 @@
       "scope": "tentacle",
       "kind": "app",
       "bump": "patch",
-      "current_version": "0.1.1",
-      "next_version": "0.1.2",
+      "current_version": "0.1.2",
+      "next_version": "0.1.3",
       "reasons": [
-        "20260218061000-app-tentacle-patch-use-flux-agent-and-flux-image-metadata.yaml: Use flux-agent in Tentacle production images and align app image metadata to flux-* repositories"
+        "20260221000000-app-tentacle-inbox-async-task-tooling.yaml: Stabilize inbox task tool orchestration: wait/poll behavior, get_task_status fallback wiring, and task observe streaming fix.",
+        "20260221091010-app-tentacle-patch-use-fluxos-agent-package-path.yaml: Update Tentacle local package references and production image builds to use packages/fluxos-agent."
+      ]
+    },
+    {
+      "name": "pkg-fluxos-agent",
+      "scope": "fluxos-agent",
+      "kind": "python-package",
+      "bump": "major",
+      "current_version": "1.0.0",
+      "next_version": "2.0.0",
+      "reasons": [
+        "20260221091000-pkg-fluxos-agent-major-rename-folder-and-dist.yaml: Rename agent package folder and distribution from flux-agent to fluxos-agent while keeping flux_agent import path stable."
       ]
     }
   ],
   "notes": [
     {
-      "file": "20260218061000-app-tentacle-patch-use-flux-agent-and-flux-image-metadata.yaml",
+      "file": "20260221000000-app-tentacle-inbox-async-task-tooling.yaml",
       "component": "app-tentacle",
       "bump": "patch",
-      "summary": "Use flux-agent in Tentacle production images and align app image metadata to flux-* repositories"
+      "summary": "Stabilize inbox task tool orchestration: wait/poll behavior, get_task_status fallback wiring, and task observe streaming fix."
+    },
+    {
+      "file": "20260221091000-pkg-fluxos-agent-major-rename-folder-and-dist.yaml",
+      "component": "pkg-fluxos-agent",
+      "bump": "major",
+      "summary": "Rename agent package folder and distribution from flux-agent to fluxos-agent while keeping flux_agent import path stable."
+    },
+    {
+      "file": "20260221091010-app-tentacle-patch-use-fluxos-agent-package-path.yaml",
+      "component": "app-tentacle",
+      "bump": "patch",
+      "summary": "Update Tentacle local package references and production image builds to use packages/fluxos-agent."
     }
   ],
   "archived_notes": [
-    "releases/notes/platform-2026.02.18.1/20260218061000-app-tentacle-patch-use-flux-agent-and-flux-image-metadata.yaml"
+    "releases/notes/platform-2026.02.21.2/20260221000000-app-tentacle-inbox-async-task-tooling.yaml",
+    "releases/notes/platform-2026.02.21.2/20260221091000-pkg-fluxos-agent-major-rename-folder-and-dist.yaml",
+    "releases/notes/platform-2026.02.21.2/20260221091010-app-tentacle-patch-use-fluxos-agent-package-path.yaml"
   ],
   "changelog": "releases/CHANGELOG.md"
 }

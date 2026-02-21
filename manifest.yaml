@@ -1,7 +1,7 @@
 schema_version: 2
-generated_at: '2026-02-21T16:59:35Z'
-platform_release: platform-2026.02.21.1
-git_sha: 380f3b5b8c773838b02899d1746898445f9a474f
+generated_at: '2026-02-21T17:29:21Z'
+platform_release: platform-2026.02.21.2
+git_sha: 5b2f051486158b073618fd0886b6c066b1de72bf
 components:
   app-inkpass:
     scope: inkpass
@@ -26,21 +26,21 @@ components:
   app-tentacle:
     scope: tentacle
     kind: app
-    version: 0.1.2
+    version: 0.1.3
     version_sources:
     - apps/tentacle/VERSION
-    version_sources_digest: bb8b39b7b58c91b57aadcf80c0f3e3f4f5c4fe74ea61229b98d786fe37879f54
+    version_sources_digest: 2017d29b79d311befccaad5f9a517f7e0c8d18c637be2a3fc1f3e808bc8c64c6
     artifact:
       image_repository: ghcr.io/fluxtopus/flux-tentacle
       dockerfile: apps/tentacle/Dockerfile.prod
   pkg-fluxos-agent:
     scope: fluxos-agent
     kind: python-package
-    version: 1.0.0
+    version: 2.0.0
     version_sources:
     - packages/fluxos-agent/pyproject.toml
     - packages/fluxos-agent/flux_agent/version.py
-    version_sources_digest: 679b100f500aa0fff4413b5f8dc32f519602dce20b3df7d92e0fba7ac3f7904e
+    version_sources_digest: 803144ff23f87ab0b524cfd7f39a41a4ad2a41da0637c998a3fa28c4ebf3e85b
     artifact:
       publish_dir: packages/fluxos-agent
   pkg-fluxos-stripe:
