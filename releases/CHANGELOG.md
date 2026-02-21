@@ -1,5 +1,21 @@
 # Platform Changelog
 
+## platform-2026.02.21.4 (2026-02-21)
+
+### Version bumps
+
+- `pkg-fluxos-agent`: `2.0.0` -> `2.0.1` (patch)
+- `pkg-fluxos-stripe`: `1.0.1` -> `1.0.2` (patch)
+- `pkg-inkpass-sdk-python`: `0.1.2` -> `0.1.3` (patch)
+- `pkg-mimic-sdk-python`: `0.1.1` -> `0.1.2` (patch)
+
+### Included changes
+
+- `pkg-fluxos-agent` (patch): Clarify published PyPI installation flow with uv for agent consumers. [`20260221131610-pkg-fluxos-agent-docs-install-guide.yaml`]
+- `pkg-fluxos-stripe` (patch): Clarify published PyPI installation flow with uv for agent consumers. [`20260221131611-pkg-fluxos-stripe-docs-install-guide.yaml`]
+- `pkg-inkpass-sdk-python` (patch): Clarify published PyPI installation flow with uv for agent consumers. [`20260221131612-pkg-inkpass-sdk-python-docs-install-guide.yaml`]
+- `pkg-mimic-sdk-python` (patch): Clarify published PyPI installation flow with uv for agent consumers. [`20260221131613-pkg-mimic-sdk-python-docs-install-guide.yaml`]
+
 ## platform-2026.02.21.3 (2026-02-21)
 
 ### Version bumps

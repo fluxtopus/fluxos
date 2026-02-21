@@ -1,18 +1,29 @@
 {
-  "generated_at": "2026-02-21T17:31:57.645004+00:00",
-  "platform_release": "platform-2026.02.21.3",
-  "git_sha": "1aee5b542d83e88f99576977d01664431132d6da",
+  "generated_at": "2026-02-21T19:01:23.259546+00:00",
+  "platform_release": "platform-2026.02.21.4",
+  "git_sha": "b9dbff4c9a1054fff4ff9035d6e4383b33675663",
   "manifest": "manifest.yaml",
   "components": [
+    {
+      "name": "pkg-fluxos-agent",
+      "scope": "fluxos-agent",
+      "kind": "python-package",
+      "bump": "patch",
+      "current_version": "2.0.0",
+      "next_version": "2.0.1",
+      "reasons": [
+        "20260221131610-pkg-fluxos-agent-docs-install-guide.yaml: Clarify published PyPI installation flow with uv for agent consumers."
+      ]
+    },
     {
       "name": "pkg-fluxos-stripe",
       "scope": "fluxos-stripe",
       "kind": "python-package",
       "bump": "patch",
-      "current_version": "1.0.0",
-      "next_version": "1.0.1",
+      "current_version": "1.0.1",
+      "next_version": "1.0.2",
       "reasons": [
-        "20260221173500-pkg-fluxos-stripe-patch-publish-to-pypi.yaml: Publish fluxos-stripe to PyPI for uv installation."
+        "20260221131611-pkg-fluxos-stripe-docs-install-guide.yaml: Clarify published PyPI installation flow with uv for agent consumers."
       ]
     },
     {
@@ -20,10 +31,10 @@
       "scope": "inkpass-sdk",
       "kind": "python-package",
       "bump": "patch",
-      "current_version": "0.1.1",
-      "next_version": "0.1.2",
+      "current_version": "0.1.2",
+      "next_version": "0.1.3",
       "reasons": [
-        "20260221173510-pkg-inkpass-sdk-python-patch-publish-to-pypi.yaml: Publish inkpass-sdk Python package to PyPI for uv installation."
+        "20260221131612-pkg-inkpass-sdk-python-docs-install-guide.yaml: Clarify published PyPI installation flow with uv for agent consumers."
       ]
     },
     {
@@ -31,37 +42,44 @@
       "scope": "mimic-sdk",
       "kind": "python-package",
       "bump": "patch",
-      "current_version": "0.1.0",
-      "next_version": "0.1.1",
+      "current_version": "0.1.1",
+      "next_version": "0.1.2",
       "reasons": [
-        "20260221173520-pkg-mimic-sdk-python-patch-publish-to-pypi.yaml: Publish mimic-sdk Python package to PyPI for uv installation."
+        "20260221131613-pkg-mimic-sdk-python-docs-install-guide.yaml: Clarify published PyPI installation flow with uv for agent consumers."
       ]
     }
   ],
   "notes": [
     {
-      "file": "20260221173500-pkg-fluxos-stripe-patch-publish-to-pypi.yaml",
+      "file": "20260221131610-pkg-fluxos-agent-docs-install-guide.yaml",
+      "component": "pkg-fluxos-agent",
+      "bump": "patch",
+      "summary": "Clarify published PyPI installation flow with uv for agent consumers."
+    },
+    {
+      "file": "20260221131611-pkg-fluxos-stripe-docs-install-guide.yaml",
       "component": "pkg-fluxos-stripe",
       "bump": "patch",
-      "summary": "Publish fluxos-stripe to PyPI for uv installation."
+      "summary": "Clarify published PyPI installation flow with uv for agent consumers."
     },
     {
-      "file": "20260221173510-pkg-inkpass-sdk-python-patch-publish-to-pypi.yaml",
+      "file": "20260221131612-pkg-inkpass-sdk-python-docs-install-guide.yaml",
       "component": "pkg-inkpass-sdk-python",
       "bump": "patch",
-      "summary": "Publish inkpass-sdk Python package to PyPI for uv installation."
+      "summary": "Clarify published PyPI installation flow with uv for agent consumers."
     },
     {
-      "file": "20260221173520-pkg-mimic-sdk-python-patch-publish-to-pypi.yaml",
+      "file": "20260221131613-pkg-mimic-sdk-python-docs-install-guide.yaml",
       "component": "pkg-mimic-sdk-python",
       "bump": "patch",
-      "summary": "Publish mimic-sdk Python package to PyPI for uv installation."
+      "summary": "Clarify published PyPI installation flow with uv for agent consumers."
     }
   ],
   "archived_notes": [
-    "releases/notes/platform-2026.02.21.3/20260221173500-pkg-fluxos-stripe-patch-publish-to-pypi.yaml",
-    "releases/notes/platform-2026.02.21.3/20260221173510-pkg-inkpass-sdk-python-patch-publish-to-pypi.yaml",
-    "releases/notes/platform-2026.02.21.3/20260221173520-pkg-mimic-sdk-python-patch-publish-to-pypi.yaml"
+    "releases/notes/platform-2026.02.21.4/20260221131610-pkg-fluxos-agent-docs-install-guide.yaml",
+    "releases/notes/platform-2026.02.21.4/20260221131611-pkg-fluxos-stripe-docs-install-guide.yaml",
+    "releases/notes/platform-2026.02.21.4/20260221131612-pkg-inkpass-sdk-python-docs-install-guide.yaml",
+    "releases/notes/platform-2026.02.21.4/20260221131613-pkg-mimic-sdk-python-docs-install-guide.yaml"
   ],
   "changelog": "releases/CHANGELOG.md"
 }

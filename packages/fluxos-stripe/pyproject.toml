@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fluxos-stripe"
-version = "1.0.1"
+version = "1.0.2"
 description = "Shared Stripe integration package used by services in this repo"
 readme = "README.md"
 authors = [

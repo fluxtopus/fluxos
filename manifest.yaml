@@ -1,7 +1,7 @@
 schema_version: 2
-generated_at: '2026-02-21T17:31:57Z'
-platform_release: platform-2026.02.21.3
-git_sha: 1aee5b542d83e88f99576977d01664431132d6da
+generated_at: '2026-02-21T19:01:23Z'
+platform_release: platform-2026.02.21.4
+git_sha: b9dbff4c9a1054fff4ff9035d6e4383b33675663
 components:
   app-inkpass:
     scope: inkpass
@@ -36,41 +36,41 @@ components:
   pkg-fluxos-agent:
     scope: fluxos-agent
     kind: python-package
-    version: 2.0.0
+    version: 2.0.1
     version_sources:
     - packages/fluxos-agent/pyproject.toml
     - packages/fluxos-agent/flux_agent/version.py
-    version_sources_digest: 803144ff23f87ab0b524cfd7f39a41a4ad2a41da0637c998a3fa28c4ebf3e85b
+    version_sources_digest: 90153f2717abff656164ad48d181973a534071400cb399701cb6509b6c27383e
     artifact:
       publish_dir: packages/fluxos-agent
   pkg-fluxos-stripe:
     scope: fluxos-stripe
     kind: python-package
-    version: 1.0.1
+    version: 1.0.2
     version_sources:
     - packages/fluxos-stripe/pyproject.toml
     - packages/fluxos-stripe/fluxos_stripe/version.py
-    version_sources_digest: a9a9567d81665041af6202c3a86c1d466bee8b33ac6d39f17aa04f5b616131ed
+    version_sources_digest: da5ce02f682e75f640b258ac45fa3b5cd3b840e2234f3cc0ba88317b1516b3eb
     artifact:
       publish_dir: packages/fluxos-stripe
   pkg-inkpass-sdk-python:
     scope: inkpass-sdk
     kind: python-package
-    version: 0.1.2
+    version: 0.1.3
     version_sources:
     - packages/inkpass-sdk-python/pyproject.toml
     - packages/inkpass-sdk-python/inkpass_sdk/version.py
-    version_sources_digest: 5f51805b53f5a55017b1365d9901be506398ee2aa59bb727f2bad8d610ff822c
+    version_sources_digest: 44302659ccd975492cd562c6b77741452c22b3d6aab76e2c89960db909c8587a
     artifact:
       publish_dir: packages/inkpass-sdk-python
   pkg-mimic-sdk-python:
     scope: mimic-sdk
     kind: python-package
-    version: 0.1.1
+    version: 0.1.2
     version_sources:
     - packages/mimic-sdk-python/setup.py
     - packages/mimic-sdk-python/mimic/__init__.py
-    version_sources_digest: bb1aa1bfcd6be11aa32a3e26ea99c001d6692dd27878a36b9d08109b6a2843a4
+    version_sources_digest: 43d1f8ef413446d45ba984d331a5190168fd7a4be7854e4e72e540264c074d4c
     artifact:
       publish_dir: packages/mimic-sdk-python
   pkg-mimic-sdk-ts:
