@@ -1,5 +1,19 @@
 # Platform Changelog
 
+## platform-2026.02.21.5 (2026-02-21)
+
+### Version bumps
+
+- `app-inkpass`: `0.1.1` -> `0.1.2` (patch)
+- `app-mimic`: `0.1.1` -> `0.1.2` (patch)
+- `app-tentacle`: `0.1.3` -> `0.1.4` (patch)
+
+### Included changes
+
+- `app-tentacle` (patch): Force a patch release to publish Tentacle container image to GHCR. [`20260221191010-app-tentacle-force-ghcr-bootstrap.yaml`]
+- `app-inkpass` (patch): Force a patch release to publish InkPass container image to GHCR. [`20260221191011-app-inkpass-force-ghcr-bootstrap.yaml`]
+- `app-mimic` (patch): Force a patch release to publish Mimic container image to GHCR. [`20260221191012-app-mimic-force-ghcr-bootstrap.yaml`]
+
 ## platform-2026.02.21.4 (2026-02-21)
 
 ### Version bumps
