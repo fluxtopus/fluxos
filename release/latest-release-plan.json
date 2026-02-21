@@ -1,85 +1,67 @@
 {
-  "generated_at": "2026-02-21T19:01:23.259546+00:00",
-  "platform_release": "platform-2026.02.21.4",
-  "git_sha": "b9dbff4c9a1054fff4ff9035d6e4383b33675663",
+  "generated_at": "2026-02-21T19:18:33.107511+00:00",
+  "platform_release": "platform-2026.02.21.5",
+  "git_sha": "83e50058aa2722ac68c92036968364f45187ee80",
   "manifest": "manifest.yaml",
   "components": [
     {
-      "name": "pkg-fluxos-agent",
-      "scope": "fluxos-agent",
-      "kind": "python-package",
-      "bump": "patch",
-      "current_version": "2.0.0",
-      "next_version": "2.0.1",
-      "reasons": [
-        "20260221131610-pkg-fluxos-agent-docs-install-guide.yaml: Clarify published PyPI installation flow with uv for agent consumers."
-      ]
-    },
-    {
-      "name": "pkg-fluxos-stripe",
-      "scope": "fluxos-stripe",
-      "kind": "python-package",
-      "bump": "patch",
-      "current_version": "1.0.1",
-      "next_version": "1.0.2",
-      "reasons": [
-        "20260221131611-pkg-fluxos-stripe-docs-install-guide.yaml: Clarify published PyPI installation flow with uv for agent consumers."
-      ]
-    },
-    {
-      "name": "pkg-inkpass-sdk-python",
-      "scope": "inkpass-sdk",
-      "kind": "python-package",
-      "bump": "patch",
-      "current_version": "0.1.2",
-      "next_version": "0.1.3",
-      "reasons": [
-        "20260221131612-pkg-inkpass-sdk-python-docs-install-guide.yaml: Clarify published PyPI installation flow with uv for agent consumers."
-      ]
-    },
-    {
-      "name": "pkg-mimic-sdk-python",
-      "scope": "mimic-sdk",
-      "kind": "python-package",
+      "name": "app-inkpass",
+      "scope": "inkpass",
+      "kind": "app",
       "bump": "patch",
       "current_version": "0.1.1",
       "next_version": "0.1.2",
       "reasons": [
-        "20260221131613-pkg-mimic-sdk-python-docs-install-guide.yaml: Clarify published PyPI installation flow with uv for agent consumers."
+        "20260221191011-app-inkpass-force-ghcr-bootstrap.yaml: Force a patch release to publish InkPass container image to GHCR."
+      ]
+    },
+    {
+      "name": "app-mimic",
+      "scope": "mimic",
+      "kind": "app",
+      "bump": "patch",
+      "current_version": "0.1.1",
+      "next_version": "0.1.2",
+      "reasons": [
+        "20260221191012-app-mimic-force-ghcr-bootstrap.yaml: Force a patch release to publish Mimic container image to GHCR."
+      ]
+    },
+    {
+      "name": "app-tentacle",
+      "scope": "tentacle",
+      "kind": "app",
+      "bump": "patch",
+      "current_version": "0.1.3",
+      "next_version": "0.1.4",
+      "reasons": [
+        "20260221191010-app-tentacle-force-ghcr-bootstrap.yaml: Force a patch release to publish Tentacle container image to GHCR."
       ]
     }
   ],
   "notes": [
     {
-      "file": "20260221131610-pkg-fluxos-agent-docs-install-guide.yaml",
-      "component": "pkg-fluxos-agent",
+      "file": "20260221191010-app-tentacle-force-ghcr-bootstrap.yaml",
+      "component": "app-tentacle",
       "bump": "patch",
-      "summary": "Clarify published PyPI installation flow with uv for agent consumers."
+      "summary": "Force a patch release to publish Tentacle container image to GHCR."
     },
     {
-      "file": "20260221131611-pkg-fluxos-stripe-docs-install-guide.yaml",
-      "component": "pkg-fluxos-stripe",
+      "file": "20260221191011-app-inkpass-force-ghcr-bootstrap.yaml",
+      "component": "app-inkpass",
       "bump": "patch",
-      "summary": "Clarify published PyPI installation flow with uv for agent consumers."
+      "summary": "Force a patch release to publish InkPass container image to GHCR."
     },
     {
-      "file": "20260221131612-pkg-inkpass-sdk-python-docs-install-guide.yaml",
-      "component": "pkg-inkpass-sdk-python",
+      "file": "20260221191012-app-mimic-force-ghcr-bootstrap.yaml",
+      "component": "app-mimic",
       "bump": "patch",
-      "summary": "Clarify published PyPI installation flow with uv for agent consumers."
-    },
-    {
-      "file": "20260221131613-pkg-mimic-sdk-python-docs-install-guide.yaml",
-      "component": "pkg-mimic-sdk-python",
-      "bump": "patch",
-      "summary": "Clarify published PyPI installation flow with uv for agent consumers."
+      "summary": "Force a patch release to publish Mimic container image to GHCR."
     }
   ],
   "archived_notes": [
-    "releases/notes/platform-2026.02.21.4/20260221131610-pkg-fluxos-agent-docs-install-guide.yaml",
-    "releases/notes/platform-2026.02.21.4/20260221131611-pkg-fluxos-stripe-docs-install-guide.yaml",
-    "releases/notes/platform-2026.02.21.4/20260221131612-pkg-inkpass-sdk-python-docs-install-guide.yaml",
-    "releases/notes/platform-2026.02.21.4/20260221131613-pkg-mimic-sdk-python-docs-install-guide.yaml"
+    "releases/notes/platform-2026.02.21.5/20260221191010-app-tentacle-force-ghcr-bootstrap.yaml",
+    "releases/notes/platform-2026.02.21.5/20260221191011-app-inkpass-force-ghcr-bootstrap.yaml",
+    "releases/notes/platform-2026.02.21.5/20260221191012-app-mimic-force-ghcr-bootstrap.yaml"
   ],
   "changelog": "releases/CHANGELOG.md"
 }
