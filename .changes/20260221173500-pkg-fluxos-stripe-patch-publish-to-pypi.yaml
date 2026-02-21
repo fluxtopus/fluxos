@@ -1,0 +1,3 @@
+component: pkg-fluxos-stripe
+bump: patch
+summary: "Publish fluxos-stripe to PyPI for uv installation."
