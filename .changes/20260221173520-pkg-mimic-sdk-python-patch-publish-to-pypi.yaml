@@ -1,0 +1,3 @@
+component: pkg-mimic-sdk-python
+bump: patch
+summary: "Publish mimic-sdk Python package to PyPI for uv installation."
