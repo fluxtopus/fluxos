@@ -44,3 +44,40 @@ Frontend examples:
 - Use `.github/pull_request_template.md`: include **What**, **Why**, **How to test**, and complete checklist items.
 - PR messaging rule: do not include links or references to Claude, Codex, or any other AI provider/harness in PR titles, descriptions, or comments.
 - Never commit secrets (`.env`, API keys, private keys). Update docs when behavior or setup changes.
+
+## Cursor Cloud specific instructions
+
+### Environment overview
+Everything runs in Docker. The VM update script starts `dockerd`, copies `.env.example` to `.env` (if missing), and runs `docker compose up -d --build`. After startup, all 12 containers should be running (check with `sg docker -c "docker compose ps"`).
+
+### Service ports (development)
+| Service | URL |
+|---|---|
+| InkPass API | http://localhost:8004 |
+| Tentacle API | http://localhost:8005 |
+| Mimic API | http://localhost:8006 |
+| Tentacle UI | http://localhost:3000 |
+| Mimic UI | http://localhost:3001 |
+| Landing page | http://localhost:3002 |
+| Mailpit (email) | http://localhost:8025 |
+
+### Docker group caveat
+The `ubuntu` user is added to the `docker` group but the session may not pick it up. Use `sg docker -c "<command>"` to run Docker commands in the current shell without re-login.
+
+### Seeding dev users
+After a fresh database (first start or after `docker compose down -v`), seed users with:
+```
+sg docker -c "docker compose exec inkpass python scripts/seed_dev_users.py"
+```
+Test accounts: `admin@fluxtopus.com` / `AiosAdmin123!`, `free@example.com` / `FreeUser123!`, `plus@example.com` / `PlusUser123!`.
+
+### Running tests
+- All backend unit tests: `sg docker -c "./scripts/run-all-tests.sh --unit"` (runs in disposable Docker containers, ~3 min).
+- E2E tests: `sg docker -c "./scripts/run-all-tests.sh --e2e"` (Playwright in Docker).
+- Frontend tests (Tentacle UI): `sg docker -c "docker compose exec tentacle-ui npm run test -- --run"`.
+- Python lint (Tentacle only has `ruff` in its image): `sg docker -c "docker compose exec tentacle ruff check src/"`.
+
+### Known quirks
+- `next lint` does not work inside frontend containers because there is no `.eslintrc` config file.
+- The Tentacle UI vitest suite has 1 pre-existing test failure in `RecoveryCard.test.tsx`.
+- InkPass and Mimic Docker images do not include `ruff`; linting for those services is done in CI.
