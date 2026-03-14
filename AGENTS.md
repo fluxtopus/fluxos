@@ -44,3 +44,47 @@ Frontend examples:
 - Use `.github/pull_request_template.md`: include **What**, **Why**, **How to test**, and complete checklist items.
 - PR messaging rule: do not include links or references to Claude, Codex, or any other AI provider/harness in PR titles, descriptions, or comments.
 - Never commit secrets (`.env`, API keys, private keys). Update docs when behavior or setup changes.
+
+## Cursor Cloud specific instructions
+
+### Services overview
+
+The entire dev stack (12 containers) is Docker-based. See `docker-compose.yml` for the full service graph. Key services and ports:
+
+| Service | Port | Health endpoint |
+|---|---|---|
+| InkPass API | 8004 | `GET /health` |
+| Tentacle API | 8005 | `GET /api/health` |
+| Mimic API | 8006 | `GET /health` |
+| Tentacle UI | 3000 | — |
+| Mimic UI | 3001 | — |
+| Landing page | 3002 | — |
+| Mailpit (email) | 8025 (UI), 1025 (SMTP) | — |
+
+### Starting the stack
+
+```bash
+cp .env.example .env   # only needed once
+make dev               # docker compose up -d --build
+```
+
+After services are healthy, seed dev users:
+
+```bash
+docker compose exec inkpass python scripts/seed_dev_users.py
+```
+
+Test accounts (seeded): `admin@fluxtopus.com` / `AiosAdmin123!`, `free@example.com` / `FreeUser123!`, `plus@example.com` / `PlusUser123!`.
+
+### Running tests
+
+- **Unit tests**: `./scripts/run-all-tests.sh --unit` — runs Tentacle, InkPass, and Mimic unit tests in ephemeral Docker containers.
+- **E2E tests**: `./scripts/run-all-tests.sh --e2e` — runs Playwright tests for `fluxos-landing` in Docker.
+- **All tests**: `make test-all` (or `./scripts/run-all-tests.sh`).
+
+### Gotchas
+
+- Docker Compose creates `node_modules` and `.next` directories owned by root inside frontend volume mounts. If running Playwright E2E tests outside Docker (i.e., the test script's Docker container), you may need to `sudo chown -R $(id -u):$(id -g)` those directories first.
+- The `run-all-tests.sh --e2e` script runs the Playwright container with `-u "$(id -u):$(id -g)"`, so host directory permissions must allow the mapped user to write.
+- Frontend linting: each frontend has `npm run lint` (uses ESLint / `next lint`).
+- Backend linting is handled per-service via `ruff` (check configs in each `apps/*/` directory).
